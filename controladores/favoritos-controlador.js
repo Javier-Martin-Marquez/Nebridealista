@@ -1,0 +1,1 @@
+// Sirve para controlar las queries que tengan que ver con los favoritos

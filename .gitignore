@@ -1,0 +1,12 @@
+# Dependencias de Node
+/node_modules/
+
+# Archivos de configuración y seguridad
+.env
+
+# Archivos generados por MySQL
+*.sql
+*.log
+
+# Archivos de tu IDE (VS Code)
+.vscode/

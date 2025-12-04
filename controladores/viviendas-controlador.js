@@ -1,0 +1,1 @@
+// Archivo que controla las queries relacionadas con las viviendas, los filtrados y todo eso
