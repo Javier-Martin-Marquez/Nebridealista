@@ -7,7 +7,7 @@ const router = express.Router();
 // --- Importar Controladores ---
 const authController = require('../controladores/autentificacion-controlador');
 const viviendasController = require('../controladores/viviendas-controlador');
-// NOTA: Recuerda que necesitas crear el archivo 'viviendas-controlador.js'
+const favoritosController = require('../controladores/favoritos-controlador');
 
 // --- RUTAS PÚBLICAS ---
 
@@ -18,22 +18,28 @@ router.get('/', (req, res) => {
 
 // 1. AUTENTICACIÓN (Login y Registro)
 // POST /registro
-router.post('/registro', authController.registro); 
+router.post('/registro', authController.registro);
 // POST /login
-router.post('/login', authController.login); 
+router.post('/login', authController.login);
 
 // --- RUTAS DE VIVIENDAS (Mapeo Específico) ---
 
 // 1. /viviendas (Listado General)
-router.get('/viviendas', viviendasController.getViviendasGeneral); 
+router.get('/viviendas', viviendasController.getViviendasGeneral);
 
 // 2. /viviendas/alquiler (Tu solicitud de listado #1)
-router.get('/viviendas/alquiler', viviendasController.getViviendasAlquiler); 
+router.get('/viviendas/alquiler', viviendasController.getViviendasAlquiler);
 
 // 3. /viviendas/compra (Tu solicitud de listado #2)
-router.get('/viviendas/compra', viviendasController.getViviendasCompra); 
+router.get('/viviendas/compra', viviendasController.getViviendasCompra);
 
 // 4. /viviendas/:transaccion/:ciudad (Tu solicitud de doble filtro)
 router.get('/viviendas/:transaccion/:ciudad', viviendasController.getViviendasDobleFiltro); // <-- NUEVA RUTA
+
+// POST /favoritos (Query #7: Añadir a favoritos)
+router.post('/favoritos', favoritosController.addFavorite);
+
+// POST /favoritos/lista (Query #8: Ver Mis Favoritos)
+router.post('/favoritos/lista', favoritosController.getFavorites);
 
 module.exports = router;
