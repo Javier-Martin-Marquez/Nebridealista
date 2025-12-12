@@ -43,10 +43,10 @@ router.get('/viviendas/alquiler/:ciudad', viviendasController.getViviendasAlquil
 router.get('/viviendas/compra/:ciudad', viviendasController.getViviendasCompraPorCiudad);
 
 // 5. /viviendas/compra/:ciudad/:barrio
-router.get('/viviendas/venta/:ciudad/:barrio', viviendaController.getViviendasCompraPorBarrio);
+router.get('/viviendas/compra/:ciudad/:barrio', viviendasController.getViviendasCompraPorBarrio);
 
-//5. /vivienda/compra/:cuidad/:barrio
-router.get('/viviendas/alquiler/:ciudad/:barrio', viviendaController.getViviendasAlquilerPorBarrio);
+//5. /vivienda/alquiler/:cuidad/:barrio
+router.get('/viviendas/alquiler/:ciudad/:barrio', viviendasController.getViviendasAlquilerPorBarrio);
 
 // POST /favoritos
 router.post('/favoritos', favoritosController.addFavorite);
