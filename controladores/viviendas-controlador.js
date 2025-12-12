@@ -95,3 +95,57 @@ exports.getViviendasAlquilerPorCiudad = async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
+
+// --- LISTADO: Comprar (Venta) por Ciudad y Barrio ---
+exports.getViviendasCompraPorBarrio = async (req, res) => {
+  const { ciudad, barrio } = req.params; 
+
+  const sql = `
+        SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
+               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
+        FROM Vivienda
+        WHERE tipo_transaccion = 'venta' 
+          AND ciudad = ? 
+          AND barrio = ?
+        ORDER BY fecha_publicacion DESC`;
+
+  try {
+    const [viviendas] = await db.query(sql, [ciudad, barrio]);
+    
+    if (viviendas.length === 0) {
+        return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
+    }
+
+    res.status(200).json(viviendas);
+  } catch (error) {
+    console.error("Error al obtener listado de compra por barrio:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
+
+// --- LISTADO: Alquiler por Ciudad y Barrio ---
+exports.getViviendasAlquilerPorBarrio = async (req, res) => {
+  const { ciudad, barrio } = req.params;
+
+  const sql = `
+        SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
+               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
+        FROM Vivienda
+        WHERE tipo_transaccion = 'alquiler' 
+          AND ciudad = ? 
+          AND barrio = ?
+        ORDER BY fecha_publicacion DESC`;
+
+  try {
+    const [viviendas] = await db.query(sql, [ciudad, barrio]);
+
+    if (viviendas.length === 0) {
+        return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
+    }
+
+    res.status(200).json(viviendas);
+  } catch (error) {
+    console.error("Error al obtener listado de alquiler por barrio:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
