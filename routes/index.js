@@ -9,6 +9,9 @@ const authController = require('../controladores/autentificacion-controlador');
 const viviendasController = require('../controladores/viviendas-controlador');
 const favoritosController = require('../controladores/favoritos-controlador');
 
+ 
+
+
 // RUTAS PÚBLICAS 
 
 // RUTA BASE DE PRUEBA
@@ -38,6 +41,12 @@ router.get('/viviendas/alquiler/:ciudad', viviendasController.getViviendasAlquil
 
 // 4. /viviendas/compra/:ciudad 
 router.get('/viviendas/compra/:ciudad', viviendasController.getViviendasCompraPorCiudad);
+
+// 5. /viviendas/compra/:ciudad/:barrio
+router.get('/viviendas/venta/:ciudad/:barrio', viviendaController.getViviendasCompraPorBarrio);
+
+//5. /vivienda/compra/:cuidad/:barrio
+router.get('/viviendas/alquiler/:ciudad/:barrio', viviendaController.getViviendasAlquilerPorBarrio);
 
 // POST /favoritos
 router.post('/favoritos', favoritosController.addFavorite);
