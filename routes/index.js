@@ -8,8 +8,7 @@ const router = express.Router();
 const authController = require('../controladores/autentificacion-controlador');
 const viviendasController = require('../controladores/viviendas-controlador');
 const favoritosController = require('../controladores/favoritos-controlador');
-
- 
+const anunciosController = require('../controladores/anuncios-controlador');
 
 
 // RUTAS PÚBLICAS 
@@ -25,7 +24,7 @@ router.post('/registro', authController.registro);
 // POST /login
 router.post('/login', authController.login);
 
-// --- RUTAS DE VIVIENDAS (Mapeo Específico) ---
+// RUTAS DE VIVIENDAS
 
 // 1. /viviendas
 router.get('/viviendas', viviendasController.getViviendasGeneral);
@@ -48,11 +47,32 @@ router.get('/viviendas/compra/:ciudad/:barrio', viviendasController.getViviendas
 //5. /vivienda/alquiler/:cuidad/:barrio
 router.get('/viviendas/alquiler/:ciudad/:barrio', viviendasController.getViviendasAlquilerPorBarrio);
 
-//id.casa
-router.get('/viviendas/compra/:ciudad/:barrio/:id', viviendaController.getViviendaCompraPorId);
+//6. /vivienda/compra/:ciudad/:barrio/:id.casa
+router.get('/viviendas/compra/:ciudad/:barrio/:id', viviendasController.getViviendaCompraPorId);
 
-//id casa
-router.get('/viviendas/alquiler/:ciudad/:barrio/:id', viviendaController.getViviendaAlquilerPorId);
+//6. /vivienda/alquiler/:ciudad/:barrio/:id.casa
+router.get('/viviendas/alquiler/:ciudad/:barrio/:id', viviendasController.getViviendaAlquilerPorId);
+
+
+// RUTAS PARA PUBLICAR UN ANUNCIO, SUBIR UNA VIVIENDA
+
+// RUTA INFORMATIVA 
+router.get('/vender', (req, res) => {
+    res.json({ message: "¡Bienvenido! En esta página podrás iniciar el proceso para publicar tu anuncio." });
+});
+
+// Crea el anuncio base
+router.post('/vender/anuncio', anunciosController.iniciarPublicacion); 
+
+// Actualiza todos los datos
+router.put('/vender/anuncio/:id/info', anunciosController.editarDatosCompletos); 
+
+// Borrar un anuncio
+router.delete('/anuncios/:id', anunciosController.borrarAnuncio); 
+
+// Listar anuncios propios del vendedor
+router.get('/vendedor/:id/lista-anuncios', anunciosController.listarAnunciosVendedor);
+
 
 // POST /favoritos
 router.post('/favoritos', favoritosController.addFavorite);

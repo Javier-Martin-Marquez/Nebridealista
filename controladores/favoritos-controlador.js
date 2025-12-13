@@ -3,7 +3,7 @@
 // controladores/favoritos-controlador.js
 const db = require('../config/database');
 
-// Query #7: Añadir una vivienda a favoritos (INSERT)
+// Añadir una vivienda a favoritos
 exports.addFavorite = async (req, res) => {
   // El ID de usuario y vivienda vienen del cuerpo de la petición (POST body)
   const { id_vivienda, id_usuario } = req.body;
@@ -13,14 +13,12 @@ exports.addFavorite = async (req, res) => {
   }
 
   try {
-    // La consulta SQL inserta la relación usuario-vivienda
     const sql = `INSERT INTO Favoritos (id_usuario, id_vivienda) VALUES (?, ?)`;
     await db.query(sql, [id_usuario, id_vivienda]);
 
     res.status(201).json({ message: 'Vivienda añadida a favoritos.' });
 
   } catch (error) {
-    // Capturar Error 1062 (Entrada Duplicada: Si el usuario ya la tiene en favoritos)
     if (error.code === 'ER_DUP_ENTRY') {
       return res.status(409).json({ message: 'Esta vivienda ya está en tus favoritos.' });
     }
@@ -29,7 +27,7 @@ exports.addFavorite = async (req, res) => {
   }
 };
 
-// Query #8: Listar los favoritos del usuario (SELECT con JOIN)
+// Listar los favoritos del usuario
 exports.getFavorites = async (req, res) => {
   // El ID de usuario viene del cuerpo de la petición (POST body)
   const { id_usuario } = req.body;
@@ -38,7 +36,6 @@ exports.getFavorites = async (req, res) => {
     return res.status(400).json({ message: 'Se requiere el ID de usuario.' });
   }
 
-  // La consulta usa JOIN para obtener los datos de la vivienda que está en la tabla Favoritos
   const sql = `
         SELECT v.id_vivienda, v.titulo, v.ciudad, v.precio, v.tipo_transaccion
         FROM Favoritos f
