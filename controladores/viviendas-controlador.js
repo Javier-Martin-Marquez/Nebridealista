@@ -151,34 +151,58 @@ exports.getViviendasAlquilerPorCiudad = async (req, res) => {
   };
 
 
-  // --- DETALLE: Ver una vivienda específica por ID (validando barrio y ciudad) ---
-exports.getViviendaPorId = async (req, res) => {
-  // Recogemos los 3 datos de la URL. 
-  // NOTA: Asegúrate de que en tu ruta usas :id (o cambia 'id' aquí por el nombre que uses)
+  // --- DETALLE: Ver vivienda en VENTA por ID (con ciudad y barrio) ---
+exports.getViviendaCompraPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params; 
 
   const sql = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
-               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda,
-               descripcion, fecha_publicacion 
+               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda, descripcion
         FROM Vivienda
         WHERE id_vivienda = ? 
           AND ciudad = ? 
-          AND barrio = ?`;
+          AND barrio = ?
+          AND tipo_transaccion = 'venta'`;
 
   try {
-    // Pasamos los parámetros en el orden exacto de los '?'
+    // El orden de los interrogantes (?) importa: id, ciudad, barrio
     const [result] = await db.query(sql, [id, ciudad, barrio]);
     
-    // Si el array está vacío, es que no existe esa casa en ese barrio
     if (result.length === 0) {
-        return res.status(404).json({ message: "No se encontró la vivienda especificada." });
+        return res.status(404).json({ message: "No se encontró esta vivienda en venta." });
     }
 
-    // EXITO: Devolvemos result[0] porque al buscar por ID solo queremos UN objeto, no un array
+    // Devolvemos solo el primer elemento porque el ID es único
     res.status(200).json(result[0]);
   } catch (error) {
-    console.error("Error al obtener el detalle de la vivienda:", error);
+    console.error("Error al obtener el detalle de venta:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
+
+// --- DETALLE: Ver vivienda en ALQUILER por ID (con ciudad y barrio) ---
+exports.getViviendaAlquilerPorId = async (req, res) => {
+  const { ciudad, barrio, id } = req.params;
+
+  const sql = `
+        SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
+               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda, descripcion
+        FROM Vivienda
+        WHERE id_vivienda = ? 
+          AND ciudad = ? 
+          AND barrio = ?
+          AND tipo_transaccion = 'alquiler'`;
+
+  try {
+    const [result] = await db.query(sql, [id, ciudad, barrio]);
+    
+    if (result.length === 0) {
+        return res.status(404).json({ message: "No se encontró esta vivienda en alquiler." });
+    }
+
+    res.status(200).json(result[0]);
+  } catch (error) {
+    console.error("Error al obtener el detalle de alquiler:", error);
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
