@@ -48,6 +48,12 @@ router.get('/viviendas/compra/:ciudad/:barrio', viviendasController.getViviendas
 //5. /vivienda/alquiler/:cuidad/:barrio
 router.get('/viviendas/alquiler/:ciudad/:barrio', viviendasController.getViviendasAlquilerPorBarrio);
 
+//id.casa
+router.get('/viviendas/compra/:ciudad/:barrio/:id', viviendaController.getViviendaCompraPorId);
+
+//id casa
+router.get('/viviendas/alquiler/:ciudad/:barrio/:id', viviendaController.getViviendaAlquilerPorId);
+
 // POST /favoritos
 router.post('/favoritos', favoritosController.addFavorite);
 
