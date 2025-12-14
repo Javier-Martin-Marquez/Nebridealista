@@ -9,7 +9,7 @@ const authController = require('../controladores/autentificacion-controlador');
 const viviendasController = require('../controladores/viviendas-controlador');
 const favoritosController = require('../controladores/favoritos-controlador');
 const anunciosController = require('../controladores/anuncios-controlador');
-
+const historialController = require('../controladores/historial-controlador');
 
 // RUTAS PÚBLICAS 
 
@@ -73,6 +73,13 @@ router.delete('/anuncios/:id', anunciosController.borrarAnuncio);
 // Listar anuncios propios del vendedor
 router.get('/vendedor/:id/lista-anuncios', anunciosController.listarAnunciosVendedor);
 
+
+// RUTAS AGREGADAS: HISTORIAL DE BÚSQUEDA
+// POST /historial/busqueda (Guarda la búsqueda realizada por el usuario)
+router.post('/historial/busqueda', historialController.guardarBusqueda);
+
+// POST /historial/lista (Recupera el historial de búsquedas del usuario)
+router.post('/historial/lista', historialController.getHistorial);
 
 // POST /favoritos
 router.post('/favoritos', favoritosController.addFavorite);
