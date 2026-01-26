@@ -3,9 +3,8 @@
 // controladores/autentificacion-controlador.js
 const db = require('../config/database'); // Conexión a la BDD
 
-// Lógica de Registro (Query #1: INSERT de contraseña en texto plano)
+// Lógica de Registro
 exports.registro = async (req, res) => {
-  // Nota: El tipo_usuario debe ser 'comprador' o 'vendedor', etc.
   const { nombre, email, telefono, contraseña, tipo_usuario } = req.body;
 
   if (!email || !contraseña || !nombre || !tipo_usuario) {
@@ -13,11 +12,9 @@ exports.registro = async (req, res) => {
   }
 
   try {
-    // 1. Ejecutar la Query #1 (INSERT en la BDD)
     const sql = `INSERT INTO Usuarios (nombre, email, telefono, contraseña, tipo_usuario) 
                      VALUES (?, ?, ?, ?, ?)`;
 
-    // La contraseña se inserta como texto plano.
     await db.query(sql, [nombre, email, telefono, contraseña, tipo_usuario]);
 
     res.status(201).json({ message: 'Usuario registrado exitosamente.' });
@@ -31,12 +28,10 @@ exports.registro = async (req, res) => {
   }
 };
 
-// Lógica de Login (Query #2: SELECT y comparación directa)
+// Lógica de Login
 exports.login = async (req, res) => {
   const { email, contraseña } = req.body;
 
-  // 1. Ejecutar Query #2 (Recuperar la contraseña en texto plano guardada en la BDD)
-  // Se selecciona la columna 'contraseña' tal cual.
   const sql = `SELECT id_usuario, nombre, tipo_usuario, contraseña 
                  FROM Usuarios WHERE email = ?`;
 
@@ -48,14 +43,12 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Credenciales inválidas.' });
     }
 
-    // 2. Comparación directa (MUY INSEGURO, pero funcional para la prueba)
     const isMatch = (user.contraseña === contraseña);
 
     if (!isMatch) {
       return res.status(401).json({ message: 'Credenciales inválidas.' });
     }
 
-    // 3. Ya que no usamos JWT, simplemente devolvemos los datos del usuario.
     res.json({
       message: "Login exitoso (sin token de sesión)",
       user: { id: user.id_usuario, nombre: user.nombre, rol: user.tipo_usuario }
