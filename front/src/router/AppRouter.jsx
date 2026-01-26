@@ -1,18 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import Home from "../pages/Home";
+import Home from "../pages/Home/Home";
 
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
 import Buy from "../pages/Buy/Buy";
-import Rent from "../pages/Rent";
-import Sell from "../pages/Sell";
-import Favourite from "../pages/Favourite";
-import SaveSearch from "../pages/SaveSearch";
+import Rent from "../pages/Rent/Rent";
+import Sell from "../pages/Sell/Sell";
+import Favourite from "../pages/Favourite/Favourite";
+import SaveSearch from "../pages/SaveSearch/SaveSearch";
 
 
 
-import NotFound from "../pages/NotFound";
+import NotFound from "../pages/NotFound/NotFound";
 
 function AppRouter() {
   return (
