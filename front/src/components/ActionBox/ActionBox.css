@@ -1,0 +1,56 @@
+/* ESTILOS ACTION BOX */
+
+/* Contenedor de las 3 cajas */
+.actions-container {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  padding: 40px 0;
+  flex-wrap: wrap;
+  /* Para que sea responsive */
+  margin: auto;
+}
+
+/* La caja individual */
+.action-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+
+  /* Ajusta según necesites */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.action-box:hover {
+  transform: translateY(-5px);
+}
+
+/* El contenedor de la imagen para que todas midan lo mismo */
+.action-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 4px;
+  /* Opcional, según diseño */
+  background-color: #e4c4a1;
+}
+
+.action-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Esto hace que la imagen no se deforme */
+}
+
+/* El título debajo */
+.action-title {
+  margin-top: 15px;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  font-family: Arial, sans-serif;
+}
