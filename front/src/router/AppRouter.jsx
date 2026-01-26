@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Buy from "../pages/Buy";
+import Buy from "../pages/Buy/Buy";
 import Rent from "../pages/Rent";
 import Sell from "../pages/Sell";
 import Favourite from "../pages/Favourite";
