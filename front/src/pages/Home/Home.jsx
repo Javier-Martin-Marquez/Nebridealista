@@ -1,6 +1,6 @@
-import Header from '../components/Header'
-import '../App.css';
-import ActionBox from '../components/ActionBox';
+import Header from '../../components/Header/Header'
+import '../../App.css';
+import ActionBox from '../../components/ActionBox/ActionBox';
 
 function Home() {
   const actions = [
