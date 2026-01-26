@@ -4,6 +4,13 @@ import Home from "../pages/Home";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Buy from "../pages/Buy";
+import Rent from "../pages/Rent";
+import Sell from "../pages/Sell";
+import Favourite from "../pages/Favourite";
+import SaveSearch from "../pages/SaveSearch";
+
+
 
 import NotFound from "../pages/NotFound";
 
@@ -14,7 +21,14 @@ function AppRouter() {
         <Route path='/' element={<Home />}/>
 
         <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
+        <Route path='/registro' element={<Register/>}/>
+        <Route path="/comprar" element={<Buy/>}/>
+        <Route path="/alquilar" element={<Rent/>}/>
+        <Route path="/busquedas" element={<SaveSearch/>}/>
+        <Route path="/favoritos" element={<Favourite/>}/>
+        <Route path="/vender" element={<Sell/>}/>
+
+
 
         <Route path='*' element={<NotFound/>}/>
       </Routes>
