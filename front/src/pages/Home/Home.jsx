@@ -1,33 +1,61 @@
-import Header from '../../components/Header/Header'
-import '../../App.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header';
 import ActionBox from '../../components/ActionBox/ActionBox';
+import './Home.css';
 
 function Home() {
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
+
+  // Comprobamos si hay un usuario en LocalStorage al cargar la página
+  useEffect(() => {
+    // El nombre se debe guardar en el Login/Registro mediante localStorage.setItem("userName", valor)
+    const savedUser = localStorage.getItem("userName");
+    if (savedUser) {
+      setUserName(savedUser);
+    }
+  }, []);
+
+  // Configuramos las rutas exactas de tu AppRouter
   const actions = [
-    { id: 1, title: 'Comprar', img: '/images/home/comprar.png' },
-    { id: 2, title: 'Alquilar', img: '/images/home/alquilar.png' },
-    { id: 3, title: 'Vender', img: '/images/home/vender.png' },
+    { id: 1, title: 'Comprar', img: '/images/home/comprar.png', path: '/comprar' },
+    { id: 2, title: 'Alquilar', img: '/images/home/alquilar.png', path: '/alquilar' },
+    { id: 3, title: 'Vender', img: '/images/home/vender.png', path: '/vender' },
   ];
 
   return (
-    <div>
+    <div className="home-page">
       <Header />
+      
+      {/* Banner de bienvenida dinámico */}
+      {userName && (
+        <div className="welcome-banner">
+          <h3>Hola, {userName}. ¡Qué bueno verte de nuevo!</h3>
+        </div>
+      )}
+
+      {/* Sección Hero */}
       <div className='imgHero'>
         <img
           src="/images/home/imgHero.png"
           alt="Portada Nebridealista"
         />
       </div>
+
+      {/* Contenedor de Acciones con Navegación */}
       <section className="actions-container">
         {actions.map((action) => (
           <ActionBox
             key={action.id}
             title={action.title}
             image={action.img}
+            onClick={() => navigate(action.path)}
           />
         ))}
       </section>
-      {/* SECCIÓN QUIENES SOMOS */}
+
+      {/* Sección Quiénes Somos */}
       <section className="about-section">
         <div className="about-container">
           <h2 className="about-title">Quienes somos - Nebridealista: Tu Hogar, Nuestra Prioridad</h2>
@@ -59,9 +87,7 @@ function Home() {
         </div>
       </section>
     </div>
-
-
-  )
+  );
 }
 
-export default Home
+export default Home;
