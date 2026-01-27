@@ -37,7 +37,7 @@ exports.getFavorites = async (req, res) => {
   }
 
   const sql = `
-        SELECT v.id_vivienda, v.titulo, v.ciudad, v.precio, v.tipo_transaccion
+        SELECT *
         FROM Favoritos f
         INNER JOIN Vivienda v ON f.id_vivienda = v.id_vivienda
         WHERE f.id_usuario = ?
