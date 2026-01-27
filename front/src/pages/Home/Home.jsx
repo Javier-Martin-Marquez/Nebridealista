@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import ActionBox from '../../components/ActionBox/ActionBox';
@@ -6,18 +6,8 @@ import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState("");
 
-  // Comprobamos si hay un usuario en LocalStorage al cargar la página
-  useEffect(() => {
-    // El nombre se debe guardar en el Login/Registro mediante localStorage.setItem("userName", valor)
-    const savedUser = localStorage.getItem("userName");
-    if (savedUser) {
-      setUserName(savedUser);
-    }
-  }, []);
-
-  // Configuramos las rutas exactas de tu AppRouter
+  // Array de acciones con las rutas que coinciden con tu AppRouter
   const actions = [
     { id: 1, title: 'Comprar', img: '/images/home/comprar.png', path: '/comprar' },
     { id: 2, title: 'Alquilar', img: '/images/home/alquilar.png', path: '/alquilar' },
@@ -26,15 +16,9 @@ function Home() {
 
   return (
     <div className="home-page">
+      {/* El Header ya gestiona internamente el fetch del nombre si quieres */}
       <Header />
       
-      {/* Banner de bienvenida dinámico */}
-      {userName && (
-        <div className="welcome-banner">
-          <h3>Hola, {userName}. ¡Qué bueno verte de nuevo!</h3>
-        </div>
-      )}
-
       {/* Sección Hero */}
       <div className='imgHero'>
         <img
@@ -43,7 +27,7 @@ function Home() {
         />
       </div>
 
-      {/* Contenedor de Acciones con Navegación */}
+      {/* Contenedor de Acciones con Navegación Directa */}
       <section className="actions-container">
         {actions.map((action) => (
           <ActionBox
@@ -81,7 +65,7 @@ function Home() {
             </div>
 
             <p className="about-text">
-              Nuestra plataforma combina algoritmos de búsqueda avanzada con un equipo humano altamente cualificado, facilitando una conexión real y eficiente entre compradores, vendedores y arrendatarios. Entendemos que una casa es mucho más que cuatro paredes y un techo; es el escenario de tus futuros recuerdos. Por eso, ya sea que busques tu primera vivienda, un alquiler temporal o quieras rentabilizar tus activos inmobiliarios, en Nebridealista estamos contigo en cada paso del camino, garantizando seguridad jurídica y asesoramiento constante.
+              Nuestra plataforma combina algoritmos de búsqueda avanzada con un equipo humano altamente cualificado, facilitando una conexión real y eficiente entre compradores, vendedores y arrendatarios. Entendemos que una casa es mucho más que cuatro paredes y un techo; es el escenario de tus futuros recuerdos.
             </p>
           </div>
         </div>
