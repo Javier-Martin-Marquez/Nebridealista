@@ -1,4 +1,4 @@
-import '../App.css';
+import './ActionBox.css';
 
 function ActionBox({ image, title, onClick }) {
   return (

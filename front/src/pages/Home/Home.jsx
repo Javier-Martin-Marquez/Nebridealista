@@ -1,33 +1,45 @@
-import Header from '../components/Header'
-import '../App.css';
-import ActionBox from '../components/ActionBox';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header';
+import ActionBox from '../../components/ActionBox/ActionBox';
+import './Home.css';
 
 function Home() {
+  const navigate = useNavigate();
+
+  // Array de acciones con las rutas que coinciden con tu AppRouter
   const actions = [
-    { id: 1, title: 'Comprar', img: '/images/home/comprar.png' },
-    { id: 2, title: 'Alquilar', img: '/images/home/alquilar.png' },
-    { id: 3, title: 'Vender', img: '/images/home/vender.png' },
+    { id: 1, title: 'Comprar', img: '/images/home/comprar.png', path: '/comprar' },
+    { id: 2, title: 'Alquilar', img: '/images/home/alquilar.png', path: '/alquilar' },
+    { id: 3, title: 'Vender', img: '/images/home/vender.png', path: '/vender' },
   ];
 
   return (
-    <div>
+    <div className="home-page">
+      {/* El Header ya gestiona internamente el fetch del nombre si quieres */}
       <Header />
+      
+      {/* Sección Hero */}
       <div className='imgHero'>
         <img
           src="/images/home/imgHero.png"
           alt="Portada Nebridealista"
         />
       </div>
+
+      {/* Contenedor de Acciones con Navegación Directa */}
       <section className="actions-container">
         {actions.map((action) => (
           <ActionBox
             key={action.id}
             title={action.title}
             image={action.img}
+            onClick={() => navigate(action.path)}
           />
         ))}
       </section>
-      {/* SECCIÓN QUIENES SOMOS */}
+
+      {/* Sección Quiénes Somos */}
       <section className="about-section">
         <div className="about-container">
           <h2 className="about-title">Quienes somos - Nebridealista: Tu Hogar, Nuestra Prioridad</h2>
@@ -53,15 +65,13 @@ function Home() {
             </div>
 
             <p className="about-text">
-              Nuestra plataforma combina algoritmos de búsqueda avanzada con un equipo humano altamente cualificado, facilitando una conexión real y eficiente entre compradores, vendedores y arrendatarios. Entendemos que una casa es mucho más que cuatro paredes y un techo; es el escenario de tus futuros recuerdos. Por eso, ya sea que busques tu primera vivienda, un alquiler temporal o quieras rentabilizar tus activos inmobiliarios, en Nebridealista estamos contigo en cada paso del camino, garantizando seguridad jurídica y asesoramiento constante.
+              Nuestra plataforma combina algoritmos de búsqueda avanzada con un equipo humano altamente cualificado, facilitando una conexión real y eficiente entre compradores, vendedores y arrendatarios. Entendemos que una casa es mucho más que cuatro paredes y un techo; es el escenario de tus futuros recuerdos.
             </p>
           </div>
         </div>
       </section>
     </div>
-
-
-  )
+  );
 }
 
-export default Home
+export default Home;
