@@ -1,7 +1,7 @@
 .house-card {
   display: flex;
-  background-color: #e4c4a1; 
-  border: 2px solid #3498db; 
+  background-color: rgba(226, 189, 154, 0.47); 
+  border: 2px solid #000000; 
   border-radius: 12px;
   margin: 15px auto;
   width: 95%;
