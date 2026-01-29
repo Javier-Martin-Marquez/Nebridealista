@@ -1,7 +1,7 @@
 .main-footer {
-  background-color: #e4c4a1; /* Tu color beige de fondo */
+  background-color: #e4c4a1;
   padding: 60px 20px 20px 20px;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .footer-container {
@@ -21,8 +21,14 @@
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   margin-bottom: 15px;
+}
+
+.footer-logo-img {
+  width: 80px;  /* Ajusta el tamaño a tu gusto */
+  height: auto;
+  object-fit: contain;
 }
 
 .footer-brand-name { 
@@ -45,7 +51,6 @@
 
 .social-icon {
   color: #333;
-  transition: transform 0.3s, color 0.3s;
   display: flex;
   align-items: center;
 }
@@ -71,7 +76,7 @@
 .footer-bottom {
   margin-top: 40px;
   padding-top: 20px;
-  border-top: 1px solid #bc9c7a; /* Un tono más oscuro del beige para la línea */
+  border-top: 1px solid #bc9c7a;
   text-align: center;
   font-size: 0.85rem;
 }
