@@ -1,107 +1,117 @@
 /* 1. Centrado de la caja en la pantalla */
-.login-screen-bg {
+.log-viewport-wrapper {
     display: flex;
     align-items: center;      
     justify-content: center;  
-    min-height: 100vh;       
+    min-height: 100vh;        
     width: 100%;
-    margin:auto;
 }
 
-/* 2. El lienzo exterior (Aumentado para que quepa todo el aire nuevo) */
-.login-canvas {
-    width: 600px;                  
+/* 2. El lienzo exterior */
+.log-frame-outer {
+    width: 600px;                    
     display: flex;
     align-items: center;      
     justify-content: center;
     border-radius: 30px;
 }
 
-/* 3. La caja naranja (Espaciosa y alineada a la izquierda) */
-.login-box-container {
+/* 3. La caja naranja principal */
+.log-main-panel {
     background-color: #e9cfb6; 
     border: 4px solid #DA8E35; 
     border-radius: 40px;
-    padding: 50px;             /* Más relleno para que no se vea apretado */
+    padding: 50px;               
     width: 88%;
     height: auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;  /* Alineación con la casa */
-    gap: 25px;                /* Separación general aumentada */
+    align-items: flex-start;  
+    gap: 25px;                 
 }
 
-/* 4. Cabecera en línea */
-.login-header-triple {
+/* 4. Cabecera Triple (Logo - Título - Usuario) */
+.log-identity-bar {
     display: flex;
     flex-direction: row;      
     align-items: center;      
-    gap: 15px;
+    justify-content: space-between; 
     width: 100%;
-    margin-bottom: 40px;      /* Gran separación bajo el logo */
+    margin-bottom: 40px;  
 }
 
-.brand-name {
-    font-size: 2.2rem;
-    font-weight: 900;
-    color: #4a3a2a;
-    text-transform: uppercase;
-    letter-spacing: -1px;
+/* NEBRIDEALISTA */
+.log-brand-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #000;
+    margin: 0;
 }
 
-.logo-icon {
-    font-size: 2.2rem;
+/* Contenedores laterales para equilibrio de centrado */
+.log-symbol-box {
+    width: 100px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* 5. Título Iniciar Sesión */
-.login-box-container h2 {
+.log-logo-img {
+    width: 100px; 
+    height: auto;
+    object-fit: contain;
+}
+
+/* Icono SVG de usuario */
+.log-icon-user {
+    width: 55px;
+    height: 55px;
+    color: #000; 
+}
+
+/* 5. Título de sección */
+.log-section-label {
     margin: 0 0 15px 0;
     font-size: 1.6rem;
     color: #4a3a2a;
     font-weight: bold;
 }
 
-/* 6. Inputs MUCHO MÁS LARGOS */
-.login-box-container input {
+/* 6. Inputs y Stack de campos */
+.log-fields-stack {
     width: 100%;
-    max-width: 460px;         /* De 400px a 460px */
-    padding: 18px 25px;       /* Más altos y cómodos */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.log-input-field {
+    width: 100%;
+    max-width: 460px;           
+    padding: 18px 25px;       
     border-radius: 50px;
     border: 2px solid #DA8E35;
     background-color: #fdfaf5;
     text-align: left;
     font-size: 16px;
-    margin-bottom: 10px;      /* Aire entre email y contraseña */
+    box-sizing: border-box;
 }
 
-/* 7. Botones de acción (Continuar/Registrar) */
-.login-box-container button:not(.login-btn-contacto) {
-    width: 200px;             /* Un poco más largos para equilibrio */
+/* 7. Botones de acción principales */
+.log-btn-submit {
+    width: 200px;               
     padding: 14px;
     border-radius: 50px;
     border: 2px solid #DA8E35;
+    background-color: #f2efe9;
     color: #DA8E35;
     font-weight: bold;
-    margin-bottom: 12px;      /* Separación entre botones */
     cursor: pointer;
     transition: 0.3s;
 }
 
-.login-box-container button:not(.login-btn-contacto):hover {
+.log-btn-submit:hover {
     background-color: #DA8E35;
     color: white;
 }
-
-/* 8. Botón Contacto: LARGO Y BIEN SEPARADO */
-.login-btn-contacto {
-    width: 100%;
-    max-width: 460px !important; 
-    background-color: white !important;
-    color: #DA8E35 !important;
-    border: 2px solid #DA8E35 !important;
-    margin-top: 45px;         /* ESPACIO EXTRA para diferenciarlo */
-    padding: 18px;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-} 
