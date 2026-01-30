@@ -1,0 +1,83 @@
+.main-header {
+  background-color: #E2BD9A;
+  padding: 15px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+}
+
+.brand-name-home {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #000;
+  margin: 0;
+}
+
+.header-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #000;
+  font-size: 18px;
+  font-weight: 400;
+  transition: opacity 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.access-text {
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+}
+
+/* Ajustes para el icono del logo */
+.logo-icon {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Estilos para el boton de cerrar sesion */
+.logout-btn {
+  margin-left: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #E3680F;
+}
+
+.logout-btn:hover {
+  background-color: #793e13;
+}

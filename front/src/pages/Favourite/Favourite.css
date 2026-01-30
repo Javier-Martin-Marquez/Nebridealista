@@ -1,0 +1,32 @@
+.favourite-page {
+  min-height: 100vh;
+  background-color: #f9f9f9; /* Un gris muy clarito para que resalten las tarjetas beige */
+}
+
+.favourite-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 20px 50px 20px; /* Padding superior para no quedar bajo el Header */
+  text-align: center;
+}
+
+.favourite-title {
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  border-bottom: 3px solid #e4c4a1; /* Subrayado beige */
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.favourite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre las tarjetas */
+}
+
+.loading-text, .empty-text {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 50px;
+}

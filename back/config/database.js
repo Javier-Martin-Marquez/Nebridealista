@@ -1,7 +1,7 @@
 // Archivo para conectarnos a la base de datos
 const mysql = require('mysql2/promise'); 
 
-// Configuración de la conexión (Hardcodeada, según tu petición)
+// Configuración de la conexión
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root', 
@@ -12,20 +12,18 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-// Mensaje de prueba de conexión (Usando async/await)
+// Mensaje de prueba de conexión
 async function testConnection() {
     try {
-        const connection = await pool.getConnection(); // Obtener una conexión
+        const connection = await pool.getConnection(); 
         console.log('>>> BD conectada correctamente');
         connection.release(); // Liberar la conexión
     } catch (error) {
-        // Manejar errores de conexión de forma centralizada
-        console.error('❌ ERROR CRÍTICO DE CONEXIÓN A LA BASE DE DATOS:', error.message);
+        // Manejar errores de conexión
+        console.error('ERROR CRÍTICO DE CONEXIÓN A LA BASE DE DATOS:', error.message);
     }
 }
 
 testConnection();
 
-// Exportamos el pool directamente. En los controladores, usaremos:
-// const [rows] = await pool.query(sql, values);
 module.exports = pool;
