@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import ActionBox from '../../components/ActionBox/ActionBox';
@@ -8,7 +7,6 @@ import Footer from '../../components/Footer/Footer';
 function Home() {
   const navigate = useNavigate();
 
-  // Array de acciones con las rutas que coinciden con tu AppRouter
   const actions = [
     { id: 1, title: 'Comprar', img: '/images/home/comprar.png', path: '/comprar' },
     { id: 2, title: 'Alquilar', img: '/images/home/alquilar.png', path: '/alquilar' },
@@ -17,7 +15,6 @@ function Home() {
 
   return (
     <div className="home-page">
-      {/* El Header ya gestiona internamente el fetch del nombre si quieres */}
       <Header />
       
       {/* Sección Hero */}

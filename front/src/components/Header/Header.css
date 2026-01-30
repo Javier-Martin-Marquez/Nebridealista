@@ -1,7 +1,5 @@
 .main-header {
-
   background-color: #E2BD9A;
-  /* El tono arena de la imagen */
   padding: 15px 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin: auto;
@@ -12,17 +10,18 @@
   justify-content: space-between;
   align-items: center;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 .header-logo {
   display: flex;
   align-items: center;
   gap: 15px;
+  text-decoration: none;
 }
 
-.brand-name {
-  font-size: 22px;
+.brand-name-home {
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: 1px;
   color: #000;
@@ -56,6 +55,7 @@
 .access-text {
   font-size: 18px;
   color: #000;
+  text-decoration: none;
 }
 
 /* Ajustes para el icono del logo */
@@ -63,4 +63,21 @@
   font-size: 30px;
   display: flex;
   align-items: center;
+}
+
+.logo-icon img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Estilos para el boton de cerrar sesion */
+.logout-btn {
+  margin-left: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #E3680F;
+}
+
+.logout-btn:hover {
+  background-color: #793e13;
 }
