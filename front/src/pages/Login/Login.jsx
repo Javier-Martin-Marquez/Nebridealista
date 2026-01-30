@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../Login/Login.css';
+import './Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -9,35 +9,43 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulación de acceso exitoso
     console.log("Iniciando sesión con:", email);
-    navigate('/home'); 
+    navigate('/'); 
   };
 
   return (
-    <div className="login-screen-bg">
-      {/* El lienzo beige exterior */}
-      <div className="login-canvas">
-        
-        {/* LA CAJA: Encapsulamiento total con borde naranja */}
-        <div className="login-box-container">
+    <div className="log-viewport-wrapper">
+      <div className="log-frame-outer">
+        <div className="log-main-panel">
           
-          {/* ENCABEZADO TRIPLE: Casa | Nombre | Persona */}
-          <div className="login-header-triple">
-            <div className="logo-icon">🏠</div>
-            <h1 className="brand-name">NEBRIDEALISTA</h1>
-            <div className="logo-icon">👤</div>
+          {/* Cabecera de Identidad: Logo - Título - Usuario */}
+          <div className="log-identity-bar">
+            <div className="log-symbol-box">
+              <img 
+                src="/images/logo/imgLogo.png" 
+                alt="Logo Nebridealista" 
+                className="log-logo-img" 
+              />
+            </div>
+
+            <h1 className="log-brand-title">NEBRIDEALISTA</h1>
+
+            <div className="log-symbol-box">
+              <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="log-icon-user">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
           </div>
 
-          <h2 className="login-section-title">INICIAR SESIÓN</h2>
+          <h2 className="log-section-label">INICIAR SESIÓN</h2>
 
-          {/* Formulario funcional */}
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="log-fields-stack">
             
             <input 
               type="email" 
               placeholder="Introduzca su E-mail" 
-              className="login-input"
+              className="log-input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -46,26 +54,27 @@ function Login() {
             <input 
               type="password" 
               placeholder="Introduzca la contraseña" 
-              className="login-input"
+              className="log-input-field"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
 
-            {/* BOTONES: Redondeado suave y alineado a la izquierda */}
-            <button type="submit" className="login-btn">
+            <button type="submit" className="log-btn-submit">
               Continuar
             </button>
 
             <button 
               type="button" 
-              className="login-btn"
-              onClick={() => navigate('/register')}
+              className="log-btn-submit"
+              onClick={() => navigate('/registro')}
+              style={{ backgroundColor: '#fff', marginTop: '5px' }}
             >
               Registrarse
             </button>
             
           </form>
+
         </div>
       </div>
     </div>
