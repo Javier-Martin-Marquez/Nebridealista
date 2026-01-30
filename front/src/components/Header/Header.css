@@ -75,9 +75,10 @@
 .logout-btn {
   margin-left: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #E3680F;
+  background-color: #E09135;
+  padding: 5px;
 }
 
 .logout-btn:hover {
-  background-color: #793e13;
+  background-color: #fad25c7f;
 }

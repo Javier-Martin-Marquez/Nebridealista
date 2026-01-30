@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import HouseCard from '../../components/HouseCard/HouseCard';
 import './Favourite.css';
+import Footer from '../../components/Footer/Footer';
 
 function Favourite() {
   const [casasFavoritas, setCasasFavoritas] = useState([]);
@@ -32,7 +33,7 @@ function Favourite() {
     <div className="favourite-page">
       <Header />
 
-      <main className="favourite-container">
+      <div className="favourite-container">
         <h1 className="favourite-title">Mis Favoritos</h1>
 
         {cargando ? (
@@ -50,7 +51,8 @@ function Favourite() {
         ) : (
           <p className="empty-text">Aún no tienes ninguna casa guardada en favoritos.</p>
         )}
-      </main>
+      </div>
+      <Footer/>
     </div>
   );
 }
