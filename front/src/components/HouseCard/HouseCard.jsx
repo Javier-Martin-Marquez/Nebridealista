@@ -1,9 +1,6 @@
-import React from 'react';
 import './HouseCard.css';
 
 function HouseCard({ vivienda, isFavouritePage = false }) {
-  // Debug para que veas en la consola qué datos están llegando realmente
-  console.log("Datos de la vivienda:", vivienda);
 
   return (
     <div className="house-card">
@@ -20,7 +17,6 @@ function HouseCard({ vivienda, isFavouritePage = false }) {
         <div className="house-info">
           <h2 className="house-title">{vivienda.titulo}</h2>
           
-          {/* Datos técnicos con nombres reales de tu tabla */}
           <p className="house-specs">
             <span className="price">{vivienda.precio}€</span> · 
             <span>{vivienda.num_habitaciones} hab.</span> · 
@@ -28,13 +24,11 @@ function HouseCard({ vivienda, isFavouritePage = false }) {
             <span>{vivienda.barrio}</span>
           </p>
 
-          {/* Descripción debajo */}
           <p className="house-description">
             {vivienda.descripcion}
           </p>
         </div>
 
-        {/* Corazón abajo a la derecha */}
         <div className="house-actions">
           <button className="favorite-btn">
             {/* Si isFavouritePage es true, aplicamos la clase del corazón rojo */}
