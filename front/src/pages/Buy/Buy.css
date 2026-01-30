@@ -1,0 +1,114 @@
+/* Aplicamos box-sizing solo a esta página para no afectar al Header global */
+.buy-page, .buy-page * {
+  box-sizing: border-box;
+}
+
+.buy-page {
+  background-color: #f7f3ee;
+  min-height: 100vh;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.buy-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra todo horizontalmente */
+  padding: 30px 0;
+  gap: 25px;
+}
+
+/* --- ANCHOS UNIFICADOS AL 80% --- */
+.search-section, 
+.map-section, 
+.featured-section {
+  width: 80%;
+}
+
+/* --- ESTILOS BUSCADOR --- */
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 50px 15px 15px;
+  border: 1.5px solid #d4a373;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #777;
+}
+
+/* --- ESTILOS MAPA --- */
+.map-iframe {
+  width: 100%;
+  height: 450px;
+  border: 1.5px solid #d4a373;
+  border-radius: 4px;
+}
+
+/* --- CÁPSULA BEIGE --- */
+.featured-capsule {
+  background-color: #e9d5c1;
+  border-radius: 40px;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+/* --- ESTILOS NEWBOX INTERNOS --- */
+.new-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.new-box-label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.new-box-image-container {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background-color: #fff;
+}
+
+.new-box-display-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.new-box-action {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #333;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 600;
+}
