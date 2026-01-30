@@ -36,11 +36,12 @@ exports.getHistorial = async (req, res) => {
   }
 
   const sql = `
-        SELECT termino_busqueda, fecha_busqueda 
-        FROM Busquedas 
-        WHERE id_usuario = ? 
-        ORDER BY fecha_busqueda DESC
-        LIMIT 10`;
+    SELECT v.*, b.fecha_busqueda 
+    FROM Vivienda v
+    INNER JOIN Busquedas b ON v.id_vivienda = b.id_vivienda
+    WHERE b.id_usuario = ?
+    ORDER BY b.fecha_busqueda DESC
+    LIMIT 10`;
 
   try {
     const [historial] = await db.query(sql, [id_usuario]);
