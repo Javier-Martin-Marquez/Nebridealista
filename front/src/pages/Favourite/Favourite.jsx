@@ -9,7 +9,6 @@ function Favourite() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    // Hacemos el fetch POST para obtener la lista de favoritos del usuario 1
     fetch("http://localhost:3000/favoritos/lista", {
       method: "POST",
       headers: {
