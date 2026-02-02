@@ -10,12 +10,69 @@
 .imgHero img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  display: block;    
+  object-fit: cover;
+  display: block;
 }
 
-.imgHero img{
-  width: '100%';
-  height: '100%'; 
-  object-fit: 'cover';
+
+/* SECCIÓN QUIENES SOMOS */
+.about-section {
+  background-color: #fdfaf6;
+  padding: 80px 0;
+  border-top: 1px solid #eee;
+}
+
+.about-container {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.about-title {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.about-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about-text {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  margin-bottom: 30px;
+}
+
+/* Sistema de columnas para Misión y Visión */
+.about-grid {
+  display: flex;
+  gap: 40px;
+  margin: 40px 0;
+}
+
+.about-column {
+  flex: 1;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.about-column h3 {
+  color: #DA8E35;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.about-column p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Responsive para las columnas */
+@media (max-width: 768px) {
+  .about-grid {
+    flex-direction: column;
+  }
 }

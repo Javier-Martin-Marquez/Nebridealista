@@ -9,18 +9,15 @@ function SaveSearch() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    // Usamos el endpoint que configuramos para el historial
     fetch("http://localhost:3000/historial/lista", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id_usuario: 1 }), // Usuario de prueba
+      body: JSON.stringify({ id_usuario: 1 }),
     })
       .then((res) => res.json())
       .then((data) => {
-        // Al haber cambiado la BDD y el controlador para hacer el JOIN,
-        // ahora 'data' contiene objetos de viviendas completos
         setHistorialBusquedas(data);
         setCargando(false);
       })
@@ -45,7 +42,7 @@ function SaveSearch() {
               <HouseCard
                 key={casa.id_vivienda}
                 vivienda={casa}
-                isFavouritePage={false} // En historial el corazón sale vacío
+                isFavouritePage={false}
               />
             ))}
           </div>

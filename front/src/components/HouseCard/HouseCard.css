@@ -4,9 +4,9 @@
   border: 2px solid #000000; 
   border-radius: 12px;
   margin: 15px auto;
-  width: 95%;
+  width: 100%;
   max-width: 850px;
-  height: 220px; /* Un poco más alto para la descripción */
+  height: 220px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
@@ -49,10 +49,6 @@
 .house-description {
   font-size: 0.95rem;
   color: #444;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .house-actions {

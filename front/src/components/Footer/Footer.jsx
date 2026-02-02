@@ -16,7 +16,7 @@ function Footer() {
             />
             <h2 className="footer-brand-name">NEBRIDEALISTA</h2>
           </div>
-          <p className="footer-tagline">Tu hogar, nuestra prioridad.</p>
+          <p className="footer-slogan">Tu hogar, nuestra prioridad.</p>
           <div className="footer-socials">
             <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-icon">
               <FacebookIcon />
