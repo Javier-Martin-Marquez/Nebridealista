@@ -4,7 +4,6 @@ function HouseCard({ vivienda, isFavouritePage = false }) {
 
   return (
     <div className="house-card">
-      {/* Imagen lateral */}
       <div className="house-card-img">
         <img 
           src={vivienda.imagen_url || "/images/home/comprar.png"} 
@@ -12,15 +11,14 @@ function HouseCard({ vivienda, isFavouritePage = false }) {
         />
       </div>
 
-      {/* Contenido derecho */}
       <div className="house-card-content">
         <div className="house-info">
           <h2 className="house-title">{vivienda.titulo}</h2>
           
           <p className="house-specs">
-            <span className="price">{vivienda.precio}€</span> · 
-            <span>{vivienda.num_habitaciones} hab.</span> · 
-            <span>{vivienda.metros_cuadrados} m²</span> · 
+            <span className="price">{vivienda.precio}€</span>  
+            <span>{vivienda.num_habitaciones} hab.</span>  
+            <span>{vivienda.metros_cuadrados} m²</span> 
             <span>{vivienda.barrio}</span>
           </p>
 

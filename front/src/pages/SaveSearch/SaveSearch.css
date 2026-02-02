@@ -1,12 +1,12 @@
 .save-search-page {
   min-height: 100vh;
-  background-color: #f9f9f9; /* Un gris muy clarito para que resalten las tarjetas beige */
+  background-color: #f9f9f9;
 }
 
 .save-search-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 20px 50px 20px; /* Padding superior para no quedar bajo el Header */
+  padding: 20px 20px 50px 20px;
   text-align: center;
 }
 
@@ -14,7 +14,7 @@
   font-size: 2.5rem;
   color: #1a1a1a;
   margin-bottom: 40px;
-  border-bottom: 3px solid #e4c4a1; /* Subrayado beige */
+  border-bottom: 3px solid #e4c4a1;
   display: inline-block;
   padding-bottom: 10px;
 }
@@ -22,7 +22,7 @@
 .save-search-list {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Espacio entre las tarjetas */
+  gap: 10px; 
 }
 
 .loading-text, .empty-text {
