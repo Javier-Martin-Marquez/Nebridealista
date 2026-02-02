@@ -1,8 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './Register.css';
 
-const UserRegistration = () => {
+const Register = () => {
   const navigate = useNavigate();
 
   const handleRegister = (e) => {
@@ -57,4 +56,4 @@ const UserRegistration = () => {
   );
 };
 
-export default UserRegistration;
+export default Register;

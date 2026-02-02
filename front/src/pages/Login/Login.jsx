@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -18,7 +18,6 @@ function Login() {
       <div className="log-frame-outer">
         <div className="log-main-panel">
           
-          {/* Cabecera de Identidad: Logo - Título - Usuario */}
           <div className="log-identity-bar">
             <div className="log-symbol-box">
               <img 
@@ -68,7 +67,7 @@ function Login() {
               type="button" 
               className="log-btn-submit"
               onClick={() => navigate('/registro')}
-              style={{ backgroundColor: '#fff', marginTop: '5px' }}
+              
             >
               Registrarse
             </button>
