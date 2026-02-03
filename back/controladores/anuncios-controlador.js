@@ -3,69 +3,44 @@
 // controladores/anuncios-controlador.js
 const db = require('../config/database');
 
-// POST /vender/anuncio
+// POST /vender/anuncio - Versión Unificada (Un solo paso)
 exports.iniciarPublicacion = async (req, res) => {
-  const { id_anunciante, tipo_transaccion } = req.body;
+    const { 
+        id_anunciante, titulo, descripcion, direccion, barrio, 
+        ciudad, provincia, precio, tipo_transaccion, 
+        metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
+    } = req.body;
 
-  if (!id_anunciante || !tipo_transaccion) {
-    return res.status(400).json({ message: 'Se requiere el ID del anunciante y el tipo de transacción.' });
-  }
-
-  try {
-    // Creamos un registro base con valores mínimos para obtener el ID de la vivienda.
-    const sql = `
-            INSERT INTO Vivienda (id_anunciante, tipo_transaccion, titulo, ciudad, provincia, precio, direccion, barrio, tipo_vivienda)
-            VALUES (?, ?, 'Nuevo Anuncio', 'Pendiente', 'Pendiente', 0.00, 'Pendiente', 'Pendiente', 'piso')
-        `;
-
-    const [result] = await db.query(sql, [id_anunciante, tipo_transaccion]);
-
-    res.status(201).json({
-      message: 'Anuncio inicial creado. Procede a la edición.',
-      id_vivienda: result.insertId
-    });
-
-  } catch (error) {
-    console.error("Error al iniciar publicación:", error);
-    res.status(500).json({ message: 'Error interno del servidor al crear anuncio inicial.' });
-  }
-};
-
-
-// PUT /vender/anuncio/:id/info
-exports.editarDatosCompletos = async (req, res) => {
-  const { id } = req.params;
-
-  const {
-    titulo, descripcion, precio, metros_cuadrados, num_habitaciones,
-    num_baños, tipo_vivienda, direccion, barrio, ciudad, provincia
-  } = req.body;
-
-  const sql = `
-        UPDATE Vivienda SET
-            titulo = ?, descripcion = ?, precio = ?, metros_cuadrados = ?,
-            num_habitaciones = ?, num_baños = ?, tipo_vivienda = ?,
-            direccion = ?, barrio = ?, ciudad = ?, provincia = ?
-        WHERE id_vivienda = ?
-    `;
-
-  const params = [
-    titulo, descripcion, precio, metros_cuadrados, num_habitaciones,
-    num_baños, tipo_vivienda, direccion, barrio, ciudad, provincia, id
-  ];
-
-  try {
-    const [result] = await db.query(sql, params);
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Vivienda no encontrada.' });
+    // Validación de campos obligatorios según tu SQL
+    if (!id_anunciante || !titulo || !direccion || !precio || !tipo_transaccion || !tipo_vivienda) {
+        return res.status(400).json({ message: 'Faltan campos obligatorios para publicar el anuncio.' });
     }
 
-    res.status(200).json({ message: 'Datos de la vivienda actualizados con éxito.' });
-  } catch (error) {
-    console.error("Error al editar datos completos:", error);
-    res.status(500).json({ message: 'Error interno del servidor.' });
-  }
+    try {
+        const sql = `
+            INSERT INTO Vivienda (
+                id_anunciante, titulo, descripcion, direccion, barrio, 
+                ciudad, provincia, precio, tipo_transaccion, 
+                metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const [result] = await db.query(sql, [
+            id_anunciante, titulo, descripcion, direccion, barrio, 
+            ciudad, provincia, precio, tipo_transaccion, 
+            metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda
+        ]);
+
+        res.status(201).json({
+            message: '¡Anuncio publicado con éxito!',
+            id_vivienda: result.insertId
+        });
+
+    } catch (error) {
+        console.error("Error al publicar vivienda:", error);
+        res.status(500).json({ message: 'Error interno del servidor al guardar la vivienda.' });
+    }
 };
 
 
