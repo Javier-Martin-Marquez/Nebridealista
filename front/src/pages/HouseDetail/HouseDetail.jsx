@@ -21,17 +21,15 @@ La zona de descanso se distribuye en 7 dormitorios polivalentes, ideales tanto p
 La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los servicios: colegios de prestigio, centros de salud, y una oferta gastronómica y cultural de primer nivel. Una oportunidad inmejorable para aquellos que buscan exclusividad y confort en el centro de Madrid.`
   };
 
-  const mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.946356616262!2d-3.7088487!3d40.4321722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42285e67e550a5%3A0xc0fa71b1969a8161!2sCalle%20de%20Rodr%C3%ADguez%20San%20Pedro%2C%2020%2C%2028015%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses";
+  const mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.9733!2d-3.7087!3d40.4316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42285e683707a5%3A0x86799b6ad9910161!2sC.%20de%20Rodr%C3%ADguez%20San%20Pedro%2C%2020%2C%20Chamber%C3%AD%2C%2028015%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000";
 
   return (
     <>
-      {/* El Header fuera de todo para que no se descuadre */}
       <Header />
-      
       <div className="house-detail-page">
         <div className="detail-content">
 
-          {/* BLOQUE SUPERIOR */}
+          {/* BLOQUE SUPERIOR: 50/50 */}
           <div className="top-row-final">
             <div className="image-box">
               <img
@@ -55,7 +53,7 @@ La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los s
             </div>
           </div>
 
-          {/* BLOQUE CENTRAL */}
+          {/* BLOQUE CENTRAL: Descripción */}
           <div className="description-section-spaced">
             <div className="description-card-highlight">
               {casa.descripcion.split('\n').map((paragraph, index) => (
@@ -64,29 +62,55 @@ La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los s
             </div>
           </div>
 
-          {/* BLOQUE INFERIOR */}
-          <div className="bottom-row-final">
-            <div className="map-container">
+          {/* BLOQUE INFERIOR: Mapa y Contacto con MISMAS MEDIDAS */}
+          <div className="bottom-row-equal">
+            <div className="map-container-equal">
               <iframe
                 title="Mapa de ubicación"
                 src={mapSrc}
                 width="100%"
-                height="400"
-                style={{ border: 0, borderRadius: '20px' }}
+                height="100%" 
+                style={{ border: 0, display: 'block' }}
                 allowFullScreen=""
                 loading="lazy"
               ></iframe>
             </div>
 
-            <div className="contact-card-white">
-              <h4>Contáctanos</h4>
-              <p className="contact-number">980 987 987</p>
-              <button className="msg-btn">Envíanos un mensaje</button>
+            <div className="contact-card-premium-equal">
+              <div className="agent-info">
+                <div className="agent-avatar">N</div>
+                <div>
+                  <h4>Nebridealista Real Estate</h4>
+                  <p className="agent-subtitle">Agente especializado</p>
+                </div>
+              </div>
+              
+              <div className="contact-methods">
+                <div className="method">
+                  <span className="icon">📞</span>
+                  <div>
+                    <p className="method-label">Teléfono gratuito</p>
+                    <p className="method-value">980 987 987</p>
+                  </div>
+                </div>
+                
+                <div className="method">
+                  <span className="icon">✉️</span>
+                  <div>
+                    <p className="method-label">Email de contacto</p>
+                    <p className="method-value">info@nebridealista.com</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="contact-actions">
+                <button className="primary-btn">Enviar mensaje</button>
+                <button className="secondary-btn">Llamar ahora</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      
       <Footer />
     </>
   );
