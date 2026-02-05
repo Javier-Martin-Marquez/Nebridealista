@@ -1,4 +1,3 @@
-/* Contenedor de la página con fondo crema */
 .house-detail-page {
   background-color: #f5f2eb;
   width: 100%;
@@ -11,12 +10,12 @@
   padding: 60px 20px;
 }
 
-/* Fila Superior: Imagen y Ficha */
+/* Fila Superior */
 .top-row-final {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  margin-bottom: 80px; /* Separación amplia */
+  margin-bottom: 80px;
   align-items: stretch;
 }
 
@@ -25,14 +24,13 @@
   height: 500px;
   object-fit: cover;
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .info-card-white {
   background: white;
   padding: 45px;
   border-radius: 25px;
-  /* Borde finito con el color crema/dorado del header */
   border: 1.5px solid #e4c4a1; 
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   display: flex;
@@ -40,96 +38,122 @@
   justify-content: center;
 }
 
-.info-card-white h2 {
-  margin-top: 0;
-  margin-bottom: 30px;
-  font-size: 1.8rem;
-  color: #1a1a1a;
-}
-
-.data-grid p {
-  font-size: 1.15rem;
-  margin: 12px 0;
-  color: #333;
-}
-
 /* Bloque Descripción */
 .description-section-spaced {
-  margin-bottom: 80px; /* Separación amplia */
+  margin-bottom: 80px;
 }
 
 .description-card-highlight {
   background-color: white;
-  padding: 60px;
+  padding: 50px;
   border-radius: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  box-shadow: 5px 10px 30px rgba(0,0,0,0.5);
   font-size: 1.15rem;
   line-height: 1.8;
   color: #333;
-  text-align: justify;
 }
 
-.description-card-highlight p {
-  margin-bottom: 20px;
-}
-
-/* Fila Inferior: Mapa y Contacto */
-.bottom-row-final {
+/* --- BLOQUE INFERIOR SIMÉTRICO (MAPA Y CONTACTO) --- */
+.bottom-row-equal {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr 1fr; /* Mismas medidas: 50/50 */
   gap: 40px;
+  align-items: stretch; /* Ambos crecen igual */
 }
 
-.map-container {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.contact-card-white {
-  background: white;
-  padding: 40px;
+.map-container-equal {
   border-radius: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  height: 500px; /* Misma altura que la imagen de arriba para coherencia */
+}
+
+.contact-card-premium-equal {
+  background: white;
+  padding: 45px;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  border: 1px solid rgba(228, 196, 161, 0.3);
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Distribuye el contenido uniformemente */
+}
+
+.agent-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.agent-avatar {
+  width: 55px;
+  height: 55px;
+  background-color: #e4c4a1;
+  color: white;
+  display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-}
-
-.contact-number {
-  color: #3b59ff;
+  border-radius: 50%;
+  font-size: 1.4rem;
   font-weight: bold;
-  font-size: 1.8rem;
-  margin: 20px 0;
 }
 
-.msg-btn {
-  background-color: #d9d9d9;
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.method {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.method .icon { font-size: 1.5rem; }
+.method-label { font-size: 0.85rem; color: #999; margin: 0; }
+.method-value { font-size: 1.1rem; font-weight: 600; color: #333; margin: 0; }
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.primary-btn {
+  background-color: #1a1a1a;
+  color: white;
   border: none;
-  padding: 15px 30px;
-  width: 90%;
-  cursor: pointer;
+  padding: 16px;
+  border-radius: 12px;
   font-weight: bold;
-  border-radius: 10px;
-  font-size: 1rem;
-  transition: background 0.3s ease;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.msg-btn:hover {
-  background-color: #c0c0c0;
+.secondary-btn {
+  background-color: transparent;
+  color: #1a1a1a;
+  border: 2px solid #1a1a1a;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-/* Ajustes para móviles */
-@media (max-width: 850px) {
-  .top-row-final, .bottom-row-final {
+.secondary-btn:hover, .primary-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .top-row-final, .bottom-row-equal {
     grid-template-columns: 1fr;
   }
-  .image-box img {
-    height: 350px;
-  }
-  .detail-content {
-    padding: 30px 20px;
-  }
+  .map-container-equal { height: 350px; }
 }
