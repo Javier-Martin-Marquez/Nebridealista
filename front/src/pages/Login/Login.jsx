@@ -1,16 +1,37 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserStore } from '../../stores/userStore';
 import './Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  
+  const loginGlobal = useUserStore(state => state.login);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Iniciando sesión con:", email);
-    navigate('/'); 
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, contraseña: password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Guardamos en Zustand
+        loginGlobal(data.user.nombre, data.user.id);
+        alert(`¡Hola ${data.user.nombre}!`);
+        navigate('/'); 
+      } else {
+        alert(data.message || "Error al entrar");
+      }
+    } catch (error) {
+      console.error("Error conectando:", error);
+    }
   };
 
   return (
