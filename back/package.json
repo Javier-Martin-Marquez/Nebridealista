@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Javier-Martin-Marquez/Nebridealista#readme",
   "dependencies": {
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mysql": "^2.18.1",
