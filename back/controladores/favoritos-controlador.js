@@ -37,9 +37,10 @@ exports.getFavorites = async (req, res) => {
   }
 
   const sql = `
-        SELECT *
+        SELECT v.*, f.fecha_guardado, fotos.url_imagen
         FROM Favoritos f
         INNER JOIN Vivienda v ON f.id_vivienda = v.id_vivienda
+        LEFT JOIN fotos ON v.id_vivienda = fotos.id_vivienda AND fotos.orden = 1
         WHERE f.id_usuario = ?
         ORDER BY f.fecha_guardado DESC`;
 
