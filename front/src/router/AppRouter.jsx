@@ -9,7 +9,7 @@ import Rent from "../pages/Rent/Rent";
 import Sell from "../pages/Sell/Sell";
 import Favourite from "../pages/Favourite/Favourite";
 import SaveSearch from "../pages/SaveSearch/SaveSearch";
-
+import HouseDetail from "../pages/HouseDetail/HouseDetail";
 
 
 import NotFound from "../pages/NotFound/NotFound";
@@ -27,6 +27,7 @@ function AppRouter() {
         <Route path="/busquedas" element={<SaveSearch/>}/>
         <Route path="/favoritos" element={<Favourite/>}/>
         <Route path="/vender" element={<Sell/>}/>
+        <Route path="/detalle" element={<HouseDetail/>}/>
 
 
 
