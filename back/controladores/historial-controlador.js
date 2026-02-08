@@ -5,25 +5,20 @@ const db = require('../config/database');
 
 // GUARDAR UNA BÚSQUEDA (POST /historial/busqueda) 
 exports.guardarBusqueda = async (req, res) => {
-  const { id_usuario, termino_busqueda } = req.body;
-
-  if (!id_usuario || !termino_busqueda) {
-    return res.status(400).json({ message: 'Faltan el ID de usuario o el término de búsqueda.' });
-  }
+  const { id_usuario, id_vivienda } = req.body;
 
   try {
-    const sql = `INSERT INTO Busquedas (id_usuario, termino_busqueda) VALUES (?, ?)`;
+    const [exist] = await db.query('SELECT * FROM Busquedas WHERE id_usuario = ? AND id_vivienda = ?', [id_usuario, id_vivienda]);
 
-    await db.query(sql, [id_usuario, termino_busqueda]);
-
-    res.status(201).json({
-      message: 'Búsqueda registrada correctamente en el historial.',
-      id_usuario: id_usuario,
-      termino: termino_busqueda
-    });
+    if (exist.length > 0) {
+      await db.query('DELETE FROM Busquedas WHERE id_usuario = ? AND id_vivienda = ?', [id_usuario, id_vivienda]);
+      return res.status(200).json({ message: 'Vivienda desmarcada', action: 'deleted' });
+    } else {
+      await db.query('INSERT INTO Busquedas (id_usuario, id_vivienda) VALUES (?, ?)', [id_usuario, id_vivienda]);
+      return res.status(201).json({ message: 'Vivienda guardada', action: 'added' });
+    }
   } catch (error) {
-    console.error("Error al guardar búsqueda:", error);
-    res.status(500).json({ message: 'Error interno del servidor al guardar la búsqueda.' });
+    res.status(500).json({ message: 'Error al gestionar guardados' });
   }
 };
 

@@ -5,25 +5,20 @@ const db = require('../config/database');
 
 // Añadir una vivienda a favoritos
 exports.addFavorite = async (req, res) => {
-  // El ID de usuario y vivienda vienen del cuerpo de la petición (POST body)
   const { id_vivienda, id_usuario } = req.body;
 
-  if (!id_vivienda || !id_usuario) {
-    return res.status(400).json({ message: 'Se requiere el ID de vivienda y el ID de usuario.' });
-  }
-
   try {
-    const sql = `INSERT INTO Favoritos (id_usuario, id_vivienda) VALUES (?, ?)`;
-    await db.query(sql, [id_usuario, id_vivienda]);
+    const [exist] = await db.query('SELECT * FROM Favoritos WHERE id_usuario = ? AND id_vivienda = ?', [id_usuario, id_vivienda]);
 
-    res.status(201).json({ message: 'Vivienda añadida a favoritos.' });
-
-  } catch (error) {
-    if (error.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ message: 'Esta vivienda ya está en tus favoritos.' });
+    if (exist.length > 0) {
+      await db.query('DELETE FROM Favoritos WHERE id_usuario = ? AND id_vivienda = ?', [id_usuario, id_vivienda]);
+      return res.status(200).json({ message: 'Eliminado de favoritos', action: 'deleted' });
+    } else {
+      await db.query('INSERT INTO Favoritos (id_usuario, id_vivienda) VALUES (?, ?)', [id_usuario, id_vivienda]);
+      return res.status(201).json({ message: 'Añadido a favoritos', action: 'added' });
     }
-    console.error("Error al añadir favorito:", error);
-    res.status(500).json({ message: 'Error interno del servidor.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error en el servidor' });
   }
 };
 
