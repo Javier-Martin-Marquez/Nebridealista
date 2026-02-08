@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header';
 import HouseCard from '../../components/HouseCard/HouseCard';
 import Footer from '../../components/Footer/Footer';
 import { useUserStore } from '../../stores/userStore';
+import { useHouseStore } from '../../stores/houseStore'; // Importamos el nuevo store
 import './SaveSearch.css';
 
 function SaveSearch() {
@@ -10,6 +11,9 @@ function SaveSearch() {
   const [cargando, setCargando] = useState(true);
 
   const idUsuario = useUserStore(state => state.idUsuario);
+  
+  const toggleFavorite = useHouseStore(state => state.toggleFavorite);
+  const toggleSave = useHouseStore(state => state.toggleSave);
 
   useEffect(() => {
     if (!idUsuario) {
@@ -35,6 +39,17 @@ function SaveSearch() {
       });
   }, [idUsuario]);
 
+  const handleSaveClick = async (id_vivienda) => {
+    const result = await toggleSave(id_vivienda, idUsuario);
+    if (result.action === 'deleted') {
+      setHistorialBusquedas(prev => prev.filter(casa => casa.id_vivienda !== id_vivienda));
+    }
+  };
+
+  const handleFavoriteClick = async (id_vivienda) => {
+    await toggleFavorite(id_vivienda, idUsuario);
+  };
+
   return (
     <div className="save-search-page">
       <Header />
@@ -53,7 +68,9 @@ function SaveSearch() {
               <HouseCard
                 key={casa.id_vivienda}
                 vivienda={casa}
-                isFavouritePage={false}
+                isSavedPage={true}
+                onSaveClick={handleSaveClick}
+                onFavoriteClick={handleFavoriteClick}
               />
             ))}
           </div>

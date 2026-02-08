@@ -1,6 +1,7 @@
+import { Heart, Bookmark } from 'lucide-react'; // Importamos los iconos
 import './HouseCard.css';
 
-function HouseCard({ vivienda, isFavouritePage = false }) {
+function HouseCard({ vivienda, isFavouritePage = false, isSavedPage = false, onFavoriteClick, onSaveClick }) {
 
   return (
     <div className="house-card">
@@ -32,11 +33,28 @@ function HouseCard({ vivienda, isFavouritePage = false }) {
         </div>
 
         <div className="house-actions">
-          <button className="favorite-btn">
-            {/* Si isFavouritePage es true, aplicamos la clase del corazón rojo */}
-            <svg viewBox="0 0 24 24" className={isFavouritePage ? "heart-red" : "heart-empty"}>
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
+          {/* BOTÓN GUARDAR BÚSQUEDA */}
+          <button 
+            className="action-btn" 
+            onClick={() => onSaveClick(vivienda.id_vivienda)}
+          >
+            <Bookmark 
+              size={24} 
+              color="black" 
+              fill={isSavedPage ? "black" : "none"} 
+            />
+          </button>
+
+          {/* BOTÓN FAVORITOS */}
+          <button 
+            className="action-btn" 
+            onClick={() => onFavoriteClick(vivienda.id_vivienda)}
+          >
+            <Heart 
+              size={24} 
+              color={isFavouritePage ? "red" : "black"} 
+              fill={isFavouritePage ? "red" : "none"} 
+            />
           </button>
         </div>
       </div>
