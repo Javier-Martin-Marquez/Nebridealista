@@ -51,30 +51,28 @@
   color: #444;
 }
 
+/* Contenedor de los botones de acción */
 .house-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 12px; /* Espacio entre el marcador y el corazón */
 }
 
-.favorite-btn {
+/* Clase única para ambos botones de iconos (Lucide) */
+.action-btn {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
 }
 
-.favorite-btn svg {
-  width: 30px;
-  height: 30px;
+.action-btn:hover {
+  transform: scale(1.15); /* Efecto visual al pasar el ratón */
 }
 
-/* Clases para el corazón */
-.heart-red {
-  fill: #ff4b4b;
-  stroke: #ff4b4b;
-}
-
-.heart-empty {
-  fill: none;
-  stroke: black;
-  stroke-width: 2;
+.action-btn:active {
+  transform: scale(0.95); /* Efecto de "click" */
 }
