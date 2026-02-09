@@ -31,9 +31,10 @@ exports.getHistorial = async (req, res) => {
   }
 
   const sql = `
-    SELECT v.*, b.fecha_busqueda 
+    SELECT v.*, b.fecha_busqueda, fotos.url_imagen
     FROM Vivienda v
     INNER JOIN Busquedas b ON v.id_vivienda = b.id_vivienda
+    LEFT JOIN fotos ON v.id_vivienda = fotos.id_vivienda AND fotos.orden = 1
     WHERE b.id_usuario = ?
     ORDER BY b.fecha_busqueda DESC
     LIMIT 10`;
