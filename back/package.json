@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Javier-Martin-Marquez/Nebridealista#readme",
   "dependencies": {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     "cors": "^2.8.6",
 =======
@@ -28,6 +29,11 @@
 >>>>>>> javier
 =======
     "cors": "^2.8.6",
+>>>>>>> Stashed changes
+=======
+    "cloudinary": "^2.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.4",
 >>>>>>> Stashed changes
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
