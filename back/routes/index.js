@@ -56,16 +56,8 @@ router.get('/viviendas/alquiler/:ciudad/:barrio/:id', viviendasController.getViv
 
 // RUTAS PARA PUBLICAR UN ANUNCIO, SUBIR UNA VIVIENDA
 
-// RUTA INFORMATIVA 
-router.get('/vender', (req, res) => {
-    res.json({ message: "¡Bienvenido! En esta página podrás iniciar el proceso para publicar tu anuncio." });
-});
-
-// Crea el anuncio base
-router.post('/vender/anuncio', anunciosController.iniciarPublicacion); 
-
-// Actualiza todos los datos
-router.put('/vender/anuncio/:id/info', anunciosController.editarDatosCompletos); 
+// Esta es la única que necesitas para crear la casa ahora:
+router.post('/vender/anuncio', anunciosController.iniciarPublicacion);
 
 // Borrar un anuncio
 router.delete('/anuncios/:id', anunciosController.borrarAnuncio); 

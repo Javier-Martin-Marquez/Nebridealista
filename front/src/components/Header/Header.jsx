@@ -1,42 +1,24 @@
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUserStore } from '../../stores/userStore';
 import './Header.css';
 
 function Header() {
-  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Hacemos un POST para pedir los datos del usuario 1 al Back
-    fetch("http://localhost:3000/favoritos/lista", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id_usuario: 1 }), 
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setUserName("Usuario 1");
-        }
-      })
-      .catch((err) => {
-        console.error("Error conectando con el back para el usuario:", err);
-        setUserName(""); // Si falla, que salga "Acceder"
-      });
-  }, []);
+  // Extraemos los datos que necesitamos de la store
+  const userName = useUserStore(state => state.userName);
+  const logout = useUserStore(state => state.logout);
 
-  // Función para "Cerrar sesión" (Limpia el estado)
+  // Función para cerrar sesión
   const handleLogout = () => {
-    setUserName("");
-    navigate("/"); 
+    logout();
+    navigate('/'); 
   };
 
   return (
     <header className="main-header">
       <div className="header-container">
-        
+
         {/* Logo y Nombre */}
         <Link to="/" className="header-logo">
           <div className="logo-icon">

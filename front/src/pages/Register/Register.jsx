@@ -1,13 +1,46 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './Register.css';
 
-const Register = () => {
+function Register () {
+  const [nombre, setNombre] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [tipoUsuario, setTipoUsuario] = useState('');
+  
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("Registro exitoso, redirigiendo...");
-    navigate('/');
+
+    const datosRegistro = {
+      nombre: nombre,
+      email: email,
+      telefono: telefono,
+      contraseña: password,
+      tipo_usuario: tipoUsuario
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/registro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datosRegistro),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("¡Usuario registrado con éxito! Ahora puedes iniciar sesión.");
+        navigate('/login');
+      } else {
+        alert(data.message || "Error al registrar usuario");
+      }
+    } catch (error) {
+      console.error("Error en la conexión:", error);
+      alert("No se pudo conectar con el servidor.");
+    }
   };
 
   return (
@@ -37,15 +70,47 @@ const Register = () => {
           <h2 className="reg-section-subtitle">DATOS PERSONALES</h2>
 
           <form className="reg-form-stack" onSubmit={handleRegister}>
-            <input className="reg-input" type="text" placeholder="Introduzca su nombre" required />
-            <input className="reg-input" type="email" placeholder="Introduzca su E-mail" required />
-            <input className="reg-input" type="password" placeholder="Introduzca la contraseña" required />
-            <input className="reg-input" type="tel" placeholder="Introduzca el teléfono" />
+            <input 
+              className="reg-input" 
+              type="text" 
+              placeholder="Introduzca su nombre" 
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required 
+            />
+            <input 
+              className="reg-input" 
+              type="email" 
+              placeholder="Introduzca su E-mail" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required 
+            />
+            <input 
+              className="reg-input" 
+              type="password" 
+              placeholder="Introduzca la contraseña" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required 
+            />
+            <input 
+              className="reg-input" 
+              type="tel" 
+              placeholder="Introduzca el teléfono" 
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
+            />
             
-            <select className="reg-select" required>
+            <select 
+              className="reg-select" 
+              value={tipoUsuario}
+              onChange={(e) => setTipoUsuario(e.target.value)}
+              required
+            >
               <option value="">Seleccione el tipo de usuario</option>
-              <option value="client">Cliente</option>
-              <option value="owner">Propietario</option>
+              <option value="cliente">Cliente</option>
+              <option value="propietario">Propietario</option>
             </select>
             
             <button type="submit" className="reg-btn-primary">Registrarse</button>

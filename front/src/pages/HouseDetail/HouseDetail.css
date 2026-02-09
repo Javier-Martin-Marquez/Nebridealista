@@ -1,0 +1,159 @@
+.house-detail-page {
+  background-color: #f5f2eb;
+  width: 100%;
+  padding-bottom: 80px;
+}
+
+.detail-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* Fila Superior */
+.top-row-final {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 80px;
+  align-items: stretch;
+}
+
+.image-box img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.info-card-white {
+  background: white;
+  padding: 45px;
+  border-radius: 25px;
+  border: 1.5px solid #e4c4a1; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Bloque Descripción */
+.description-section-spaced {
+  margin-bottom: 80px;
+}
+
+.description-card-highlight {
+  background-color: white;
+  padding: 50px;
+  border-radius: 25px;
+  box-shadow: 5px 10px 30px rgba(0,0,0,0.5);
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* --- BLOQUE INFERIOR SIMÉTRICO (MAPA Y CONTACTO) --- */
+.bottom-row-equal {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Mismas medidas: 50/50 */
+  gap: 40px;
+  align-items: stretch; /* Ambos crecen igual */
+}
+
+.map-container-equal {
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  height: 500px; /* Misma altura que la imagen de arriba para coherencia */
+}
+
+.contact-card-premium-equal {
+  background: white;
+  padding: 45px;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  border: 1px solid rgba(228, 196, 161, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuye el contenido uniformemente */
+}
+
+.agent-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.agent-avatar {
+  width: 55px;
+  height: 55px;
+  background-color: #e4c4a1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.method {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.method .icon { font-size: 1.5rem; }
+.method-label { font-size: 0.85rem; color: #999; margin: 0; }
+.method-value { font-size: 1.1rem; font-weight: 600; color: #333; margin: 0; }
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.primary-btn {
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: #1a1a1a;
+  border: 2px solid #1a1a1a;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondary-btn:hover, .primary-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .top-row-final, .bottom-row-equal {
+    grid-template-columns: 1fr;
+  }
+  .map-container-equal { height: 350px; }
+}
