@@ -1,14 +1,16 @@
 // src/components/NewBox.jsx
-import React from 'react';
+import './NewBox.css'
 
-function NewBox({ title, image }) {
+function NewBox({ title, houseTitle, image }) {
   return (
     <div className="new-box">
       <p className="new-box-label">{title}</p>
       <div className="new-box-image-container">
-        {/* Asegúrate de que la ruta de la imagen sea correcta */}
-        <img src={image} alt={title} className="new-box-display-img" />
+        <img src={image} alt={houseTitle} className="new-box-display-img" />
       </div>
+
+      <h3 className="new-box-house-name">{houseTitle}</h3>
+
       <div className="new-box-footer">
         <button className="new-box-action">Ver</button>
       </div>
