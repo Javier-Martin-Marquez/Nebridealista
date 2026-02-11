@@ -206,3 +206,46 @@ exports.getViviendaAlquilerPorId = async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
+
+// controladores/viviendas-controlador.js
+
+exports.getViviendasDestacadas = async (req, res) => {
+  const tipo = req.query.tipo || 'venta'; 
+
+  try {
+    const [recientes] = await db.query(`
+      SELECT v.id_vivienda, v.titulo, f.url_imagen 
+      FROM Vivienda v 
+      LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1 
+      WHERE v.tipo_transaccion = ?
+      ORDER BY v.fecha_publicacion DESC LIMIT 2`, [tipo]);
+
+    const [masBuscada] = await db.query(`
+      SELECT v.id_vivienda, v.titulo, f.url_imagen, COUNT(b.id_vivienda) as total
+      FROM Vivienda v
+      JOIN Busquedas b ON v.id_vivienda = b.id_vivienda
+      LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1
+      WHERE v.tipo_transaccion = ?
+      GROUP BY v.id_vivienda 
+      ORDER BY total DESC LIMIT 1`, [tipo]);
+
+    const [masFavorita] = await db.query(`
+      SELECT v.id_vivienda, v.titulo, f.url_imagen, COUNT(fav.id_vivienda) as total
+      FROM Vivienda v
+      JOIN Favoritos fav ON v.id_vivienda = fav.id_vivienda
+      LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1
+      WHERE v.tipo_transaccion = ?
+      GROUP BY v.id_vivienda 
+      ORDER BY total DESC LIMIT 1`, [tipo]);
+
+    res.status(200).json({
+      recientes,
+      masBuscada: masBuscada[0] || null,
+      masFavorita: masFavorita[0] || null
+    });
+
+  } catch (error) {
+    console.error("Error en getViviendasDestacadas:", error);
+    res.status(500).json({ message: "Error al obtener las casas destacadas" });
+  }
+};

@@ -29,6 +29,8 @@ router.post('/login', authController.login);
 // 1. /viviendas
 router.get('/viviendas', viviendasController.getViviendasGeneral);
 
+router.get('/viviendas/destacadas', viviendasController.getViviendasDestacadas);
+
 // 2. /viviendas/alquiler
 router.get('/viviendas/alquiler', viviendasController.getViviendasAlquiler);
 
