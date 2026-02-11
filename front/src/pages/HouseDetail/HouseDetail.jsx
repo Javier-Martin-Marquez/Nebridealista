@@ -21,7 +21,7 @@ La zona de descanso se distribuye en 7 dormitorios polivalentes, ideales tanto p
 La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los servicios: colegios de prestigio, centros de salud, y una oferta gastronómica y cultural de primer nivel. Una oportunidad inmejorable para aquellos que buscan exclusividad y confort en el centro de Madrid.`
   };
 
-  const mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.9733!2d-3.7087!3d40.4316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42285e683707a5%3A0x86799b6ad9910161!2sC.%20de%20Rodr%C3%ADguez%20San%20Pedro%2C%2020%2C%20Chamber%C3%AD%2C%2028015%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000";
+  const mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.1326442654316!2d-3.7102636!3d40.4335891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42285ca421887d%3A0x6331908f51a7000c!2sCalle%20de%20Rodr%C3%ADguez%20San%20Pedro%2C%2020%2C%20Chamber%C3%AD%2C%2028015%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses";
 
   return (
     <>
@@ -29,7 +29,7 @@ La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los s
       <div className="house-detail-page">
         <div className="detail-content">
 
-          {/* BLOQUE SUPERIOR: 50/50 */}
+          {/* BLOQUE SUPERIOR: Foto e Información */}
           <div className="top-row-final">
             <div className="image-box">
               <img
@@ -50,6 +50,16 @@ La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los s
                 <p><strong>Número habitaciones:</strong> {casa.habitaciones}</p>
                 <p><strong>Número baños:</strong> {casa.banos}</p>
               </div>
+
+              {/* BOTONES DE GUARDADO */}
+              <div className="save-actions">
+                <button className="btn-favorite">
+                  <span className="icon">❤️</span> Favorito
+                </button>
+                <button className="btn-save-search">
+                  <span className="icon">🔔</span> Guardar búsqueda
+                </button>
+              </div>
             </div>
           </div>
 
@@ -62,7 +72,7 @@ La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los s
             </div>
           </div>
 
-          {/* BLOQUE INFERIOR: Mapa y Contacto con MISMAS MEDIDAS */}
+          {/* BLOQUE INFERIOR: Mapa y Contacto */}
           <div className="bottom-row-equal">
             <div className="map-container-equal">
               <iframe

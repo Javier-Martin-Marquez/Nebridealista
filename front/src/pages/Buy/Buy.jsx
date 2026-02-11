@@ -1,66 +1,41 @@
-import React, { useState } from 'react';
-import Header from '../../components/Header/Header'; 
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header';
 import NewBox from '../../components/NewBox/NewBox';
-import Footer from "../../components/Footer/Footer"
+import Footer from "../../components/Footer/Footer";
 import './Buy.css';
 
 function Buy() {
   const [busqueda, setBusqueda] = useState("");
-  const [ciudadMapa, setCiudadMapa] = useState("España");
-  const [barriosDisponibles, setBarriosDisponibles] = useState([]);
-  const [barrioSeleccionado, setBarrioSeleccionado] = useState("");
+  const [destacados, setDestacados] = useState([]);
+  const navigate = useNavigate();
 
-  const baseDeDatosBarrios = {
-    "madrid": ["Chamberí", "Retiro", "Salamanca", "Malasaña", "Chueca", "La Latina", "Usera", "Vallecas", "Fuencarral", "Tetuán", "Arganzuela", "Chamartín", "Moncloa", "Carabanchel", "Barajas"],
-    "barcelona": ["Eixample", "Gràcia", "Poblenou", "Sants", "Sarrià", "Gòtic", "El Raval", "Born", "Barceloneta", "Les Corts"],
-    "valencia": ["Ruzafa", "El Carmen", "Benimaclet", "Cabañal", "Extramurs", "Campanar", "Pobles de l'Oest", "Olivereta"],
-    "sevilla": ["Triana", "Nervión", "Los Remedios", "Santa Cruz", "Macarena", "Alfalfa", "San Bernardo", "Bellavista"],
-    "malaga": ["Teatinos", "El Palo", "Malagueta", "Huelin", "Centro Histórico", "Ciudad Jardín", "Puerto de la Torre"],
-    "zaragoza": ["Delicias", "El Gancho", "Actur", "Romareda", "Las Fuentes", "Casco Viejo", "Torrero"],
-    "bilbao": ["Abando", "Casco Viejo", "Deusto", "Indautxu", "Santutxu", "Uribarri", "Recalde"],
-    "alicante": ["Postiguet", "San Blas", "Albufereta", "Cabo de las Huertas", "Benalúa", "Carolinas"],
-    "murcia": ["Espinardo", "Vistabella", "Santa María de Gracia", "San Antón", "El Carmen", "La Flota"],
-    "palma": ["Santa Catalina", "Portixol", "Son Armadams", "Son Espanyolet", "Casco Antiguo", "Genoa"],
-    "las palmas": ["Vegueta", "Triana", "Las Canteras", "Alcaravaneras", "Siete Palmas", "La Isleta"],
-    "granada": ["Albaicín", "Realejo", "Sacromonte", "Zaidín", "Chana", "Centro-Sagrario"],
-    "valladolid": ["Parquesol", "Delicias", "Covaresa", "La Victoria", "Huerta del Rey", "Centro"],
-    "vigo": ["Casco Vello", "Bouzas", "Teis", "Coia", "O Berbés", "Travesía de Vigo"],
-    "coruna": ["Los Rosales", "Riazor", "Monte Alto", "Matogrande", "Eirís", "Zalaeta"]
-  };
+  useEffect(() => {
+    fetch("http://localhost:3000/viviendas/destacadas?tipo=venta")
+      .then(res => res.json())
+      .then(data => {
+        const listado = [
+          { id: data.recientes[0]?.id_vivienda, title: 'Ultima publicación', name: data.recientes[0]?.titulo, img: data.recientes[0]?.url_imagen },
+          { id: data.recientes[1]?.id_vivienda, title: 'Ultima publicación', name: data.recientes[1]?.titulo, img: data.recientes[1]?.url_imagen },
+          { id: data.masBuscada?.id_vivienda, title: 'Más guardada', name: data.masBuscada?.titulo, img: data.masBuscada?.url_imagen },
+          { id: data.masFavorita?.id_vivienda, title: 'Más favorita', name: data.masFavorita?.titulo, img: data.masFavorita?.url_imagen },
+        ];
+        // Solo mostramos los que tengan datos reales
+        setDestacados(listado.filter(item => item.id !== undefined));
+      })
+      .catch(err => console.error("Error cargando destacados:", err));
+  }, []);
 
   const manejarBusqueda = () => {
-    const ciudadNormalizada = busqueda
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-    if (ciudadNormalizada !== "") {
-      setCiudadMapa(busqueda);
-      const barrios = baseDeDatosBarrios[ciudadNormalizada] || [];
-      setBarriosDisponibles(barrios);
-      setBarrioSeleccionado("");
+    const ciudadLimpia = busqueda.trim().toLowerCase();
+    if (ciudadLimpia) {
+      // Redirigimos a la nueva ruta dinámica de Ciudad
+      navigate(`/comprar/${ciudadLimpia}`);
     }
   };
 
-  const manejarSeleccionBarrio = (e) => {
-    const barrio = e.target.value;
-    setBarrioSeleccionado(barrio);
-    if (barrio) {
-      setCiudadMapa(`${barrio}, ${busqueda}`);
-    } else {
-      setCiudadMapa(busqueda);
-    }
-  };
-
-  const data = [
-    { id: 1, title: 'Ultima publicación', img: '/images/casa1.png' },
-    { id: 2, title: 'Ultima publicación', img: '/images/casa1.png' },
-    { id: 3, title: 'Más buscada', img: '/images/casa1.png' },
-    { id: 4, title: 'Más favorita', img: '/images/casa1.png' },
-  ];
-
-  const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(ciudadMapa)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+  // Mapa general de España para la página de inicio de Comprar
+  const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3101564.843644415!2d-3.703790!3d40.416775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2ses!4v1700000000000`;
 
   return (
     <div className="buy-page">
@@ -69,9 +44,9 @@ function Buy() {
         
         <div className="search-section">
           <div className="search-input-wrapper">
-            <input 
-              type="text" 
-              placeholder="¿Dónde buscas para comprar? (ej: Madrid, Barcelona...)" 
+            <input
+              type="text"
+              placeholder="¿Dónde buscas para comprar? (ej: Madrid, Barcelona...)"
               className="search-input"
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
@@ -79,26 +54,6 @@ function Buy() {
             />
             <span className="search-icon" onClick={manejarBusqueda}>🔍</span>
           </div>
-
-          {barriosDisponibles.length > 0 && (
-            <div className="neighborhood-wrapper" style={{ marginTop: '15px' }}>
-              <select 
-                className="search-input" 
-                value={barrioSeleccionado} 
-                onChange={manejarSeleccionBarrio}
-                style={{ 
-                  cursor: 'pointer', 
-                  borderStyle: 'dashed', 
-                  backgroundColor: '#fffcf7' 
-                }}
-              >
-                <option value="">-- Selecciona un barrio en {busqueda} --</option>
-                {barriosDisponibles.map((barrio, index) => (
-                  <option key={index} value={barrio}>{barrio}</option>
-                ))}
-              </select>
-            </div>
-          )}
         </div>
 
         <div className="map-section">
@@ -110,14 +65,22 @@ function Buy() {
         </div>
 
         <div className="featured-section">
+          {/* TEXTO DE NOVEDADES */}
+          <h2 className="novedades-title">Novedades y viviendas destacadas en venta</h2>
+
           <div className="featured-capsule">
-            {data.map((item) => (
-              <NewBox key={item.id} title={item.title} image={item.img} />
+            {destacados.map((item, index) => (
+              <NewBox
+                key={index}
+                title={item.title}      
+                houseTitle={item.name}
+                image={item.img || "/images/home/comprar.png"}
+              />
             ))}
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
