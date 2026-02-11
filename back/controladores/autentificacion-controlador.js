@@ -5,17 +5,17 @@ const db = require('../config/database'); // Conexión a la BDD
 
 // Lógica de Registro
 exports.registro = async (req, res) => {
-  const { nombre, email, telefono, contraseña, tipo_usuario } = req.body;
+  const { nombre, email, telefono, contraseña } = req.body;
 
-  if (!email || !contraseña || !nombre || !tipo_usuario) {
+  if (!email || !contraseña || !nombre) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
   }
 
   try {
-    const sql = `INSERT INTO Usuarios (nombre, email, telefono, contraseña, tipo_usuario) 
-                     VALUES (?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO Usuarios (nombre, email, telefono, contraseña) 
+                     VALUES (?, ?, ?, ?)`;
 
-    await db.query(sql, [nombre, email, telefono, contraseña, tipo_usuario]);
+    await db.query(sql, [nombre, email, telefono, contraseña]);
 
     res.status(201).json({ message: 'Usuario registrado exitosamente.' });
 
@@ -32,7 +32,7 @@ exports.registro = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, contraseña } = req.body;
 
-  const sql = `SELECT id_usuario, nombre, tipo_usuario, contraseña 
+  const sql = `SELECT id_usuario, nombre, contraseña 
                  FROM Usuarios WHERE email = ?`;
 
   try {
@@ -50,8 +50,8 @@ exports.login = async (req, res) => {
     }
 
     res.json({
-      message: "Login exitoso (sin token de sesión)",
-      user: { id: user.id_usuario, nombre: user.nombre, rol: user.tipo_usuario }
+      message: "Login exitoso",
+      user: { id: user.id_usuario, nombre: user.nombre }
     });
 
   } catch (error) {

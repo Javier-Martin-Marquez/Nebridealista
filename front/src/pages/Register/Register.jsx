@@ -7,19 +7,20 @@ function Register () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [telefono, setTelefono] = useState('');
-  const [tipoUsuario, setTipoUsuario] = useState('');
   
+  const [feedback, setFeedback] = useState({ msg: '', type: '' });
+
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setFeedback({ msg: '', type: '' });
 
     const datosRegistro = {
       nombre: nombre,
       email: email,
       telefono: telefono,
       contraseña: password,
-      tipo_usuario: tipoUsuario
     };
 
     try {
@@ -32,14 +33,27 @@ function Register () {
       const data = await response.json();
 
       if (response.ok) {
-        alert("¡Usuario registrado con éxito! Ahora puedes iniciar sesión.");
-        navigate('/login');
+        setFeedback({ 
+          msg: "¡Usuario registrado con éxito! \n Ahora puedes iniciar sesión.", 
+          type: 'success' 
+        });
+        
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+
       } else {
-        alert(data.message || "Error al registrar usuario");
+        setFeedback({ 
+          msg: "No se ha podido crear la cuenta. \n Comprueba que el email no esté ya registrado.", 
+          type: 'error' 
+        });
       }
     } catch (error) {
       console.error("Error en la conexión:", error);
-      alert("No se pudo conectar con el servidor.");
+      setFeedback({ 
+        msg: "No se pudo conectar con el servidor", 
+        type: 'error' 
+      });
     }
   };
 
@@ -68,6 +82,12 @@ function Register () {
           </div>
 
           <h2 className="reg-section-subtitle">DATOS PERSONALES</h2>
+
+          {feedback.msg && (
+            <div className={`reg-feedback-tag ${feedback.type}`}>
+              {feedback.msg}
+            </div>
+          )}
 
           <form className="reg-form-stack" onSubmit={handleRegister}>
             <input 
@@ -102,16 +122,6 @@ function Register () {
               onChange={(e) => setTelefono(e.target.value)}
             />
             
-            <select 
-              className="reg-select" 
-              value={tipoUsuario}
-              onChange={(e) => setTipoUsuario(e.target.value)}
-              required
-            >
-              <option value="">Seleccione el tipo de usuario</option>
-              <option value="cliente">Cliente</option>
-              <option value="propietario">Propietario</option>
-            </select>
             
             <button type="submit" className="reg-btn-primary">Registrarse</button>
           </form>

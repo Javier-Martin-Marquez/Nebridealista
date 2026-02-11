@@ -6,12 +6,16 @@ import './Login.css';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [feedback, setFeedback] = useState({ msg: '', type: '' }); 
+  
   const navigate = useNavigate();
   
   const loginGlobal = useUserStore(state => state.login);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFeedback({ msg: '', type: '' });
+
     try {
       const response = await fetch("http://localhost:3000/login", {
         method: "POST",
@@ -24,12 +28,18 @@ function Login() {
       if (response.ok) {
         // Guardamos en Zustand
         loginGlobal(data.user.nombre, data.user.id);
-        alert(`¡Hola ${data.user.nombre}!`);
-        navigate('/'); 
+        
+        setFeedback({ msg: `¡Hola ${data.user.nombre}! Iniciando sesión...`, type: 'success' });
+        
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
+
       } else {
-        alert(data.message || "Error al entrar");
+        setFeedback({ msg: "Nombre de usuario o contraseña incorrectos. \n Vuelve a iniciar sesión o registrate", type: 'error' });
       }
     } catch (error) {
+      setFeedback({ msg: "Error al conectar con el servidor", type: 'error' });
       console.error("Error conectando:", error);
     }
   };
@@ -59,6 +69,12 @@ function Login() {
           </div>
 
           <h2 className="log-section-label">INICIAR SESIÓN</h2>
+
+          {feedback.msg && (
+            <div className={`log-feedback-tag ${feedback.type}`}>
+              {feedback.msg}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="log-fields-stack">
             
