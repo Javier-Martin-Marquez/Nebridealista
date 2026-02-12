@@ -1,5 +1,4 @@
-// src/components/NewBox.jsx
-import './NewBox.css'
+import './NewBox.css';
 
 function NewBox({ title, houseTitle, image }) {
   return (
@@ -8,11 +7,9 @@ function NewBox({ title, houseTitle, image }) {
       <div className="new-box-image-container">
         <img src={image} alt={houseTitle} className="new-box-display-img" />
       </div>
-
       <h3 className="new-box-house-name">{houseTitle}</h3>
-
       <div className="new-box-footer">
-        <button className="new-box-action">Ver</button>
+        <button className="new-box-action">Ver detalles</button>
       </div>
     </div>
   );

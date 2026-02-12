@@ -1,42 +1,62 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useHouseStore } from '../../stores/houseStore';
+import { useUserStore } from '../../stores/userStore';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './HouseDetail.css';
 
 function HouseDetail() {
+  // Extraemos todos los parámetros definidos en el AppRouter
+  const { tipo, ciudad, barrio, id } = useParams();
   const navigate = useNavigate();
+  
+  // Acceso a los datos de usuario y funciones de favoritos/guardado
+  const idUsuario = useUserStore(state => state.idUsuario);
+  const { toggleFavorite, toggleSave } = useHouseStore();
 
-  // Fotos de ejemplo para el carrusel (sin BDD)
-  const fotos = [
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80",
-    "https://images.unsplash.com/photo-1600607687940-4e2003e25489?auto=format&fit=crop&w=1000&q=80"
-  ];
-
+  const [vivienda, setVivienda] = useState(null);
   const [imagenActual, setImagenActual] = useState(0);
 
-  const siguiente = () => {
-    setImagenActual((prev) => (prev === fotos.length - 1 ? 0 : prev + 1));
-  };
+  useEffect(() => {
+    // Solo ejecutamos el fetch si los parámetros obligatorios existen en la URL
+    if (tipo && ciudad && barrio && id) {
+      const cargarDatos = async () => {
+        try {
+          // Petición al controlador que ya incluye vivienda + fotos en la respuesta
+          const res = await fetch(`http://localhost:3000/viviendas/${tipo}/${ciudad}/${barrio}/${id}`);
+          
+          if (!res.ok) throw new Error("No se ha podido obtener la información de la vivienda");
 
-  const anterior = () => {
-    setImagenActual((prev) => (prev === 0 ? fotos.length - 1 : prev - 1));
-  };
+          const data = await res.json();
+          setVivienda(data);
+        } catch (err) {
+          console.error("Error al conectar con la base de datos:", err);
+        }
+      };
 
-  const casa = {
-    ciudad: "Madrid",
-    provincia: "Madrid",
-    barrio: "Salamanca",
-    direccion: "Calle de Rodríguez San Pedro, 20",
-    precio: "1.500.000",
-    metros: "120",
-    habitaciones: "7",
-    banos: "3",
-    descripcion: `Espectacular vivienda de lujo ubicada en una de las zonas más codiciadas de la capital. Esta propiedad única destaca por su reciente reforma integral con materiales de primerísima calidad y un diseño arquitectónico vanguardista que aprovecha cada metro cuadrado.
+      cargarDatos();
+    }
+    // Aseguramos que el usuario aparezca al principio de la página al navegar
+    window.scrollTo(0, 0);
+  }, [tipo, ciudad, barrio, id]);
 
-Al entrar, nos recibe un imponente salón-comedor con amplios ventanales que garantizan una luminosidad excepcional durante todo el día. La cocina, de concepto semi-abierto, está equipada con electrodomésticos de alta gama y encimeras de piedra natural, combinando funcionalidad y estética a la perfección.`
-  };
+  // Mientras no haya datos, mostramos un mensaje de carga para evitar errores de renderizado
+  if (!vivienda) {
+    return (
+      <>
+        <Header />
+        <div className="cargando-vivienda">Cargando detalles de la vivienda...</div>
+        <Footer />
+      </>
+    );
+  }
+
+  // Las fotos vienen del controlador como un array llamado 'fotos'
+  const fotos = vivienda.fotos || [];
+
+  const siguiente = () => setImagenActual((prev) => (prev === fotos.length - 1 ? 0 : prev + 1));
+  const anterior = () => setImagenActual((prev) => (prev === 0 ? fotos.length - 1 : prev - 1));
 
   return (
     <>
@@ -44,49 +64,81 @@ Al entrar, nos recibe un imponente salón-comedor con amplios ventanales que gar
       <div className="pagina-detalle">
         <div className="contenido">
 
-          {/* FILA SUPERIOR: Carrusel + Tarjeta Info */}
+          {/* FILA SUPERIOR: Carrusel Dinámico + Tarjeta de Información */}
           <div className="fila-superior">
             
-            {/* CARRUSEL */}
+            {/* CONTENEDOR DEL CARRUSEL */}
             <div className="caja-foto">
-              <img src={fotos[imagenActual]} alt="Vivienda" />
-              <button className="flecha izq" onClick={anterior}>❮</button>
-              <button className="flecha der" onClick={siguiente}>❯</button>
-              <div className="contador">{imagenActual + 1} / {fotos.length}</div>
+              {fotos.length > 0 ? (
+                <>
+                  <img src={fotos[imagenActual]} alt={vivienda.titulo} />
+                  <button className="flecha izq" onClick={anterior}>❮</button>
+                  <button className="flecha der" onClick={siguiente}>❯</button>
+                  <div className="contador">{imagenActual + 1} / {fotos.length}</div>
+                </>
+              ) : (
+                <div className="sin-foto">No hay fotos disponibles para esta vivienda</div>
+              )}
             </div>
 
-            {/* INFO VIVIENDA */}
+            {/* TARJETA DE DATOS (Columnas de tu BDD) */}
             <div className="tarjeta-info">
-              <h2>Datos de la vivienda</h2>
+              <h2>{vivienda.titulo || "Datos de la vivienda"}</h2>
               <div className="lista-datos">
-                <p><strong>Ciudad:</strong> {casa.ciudad}</p>
-                <p><strong>Provincia:</strong> {casa.provincia}</p>
-                <p><strong>Barrio:</strong> {casa.barrio}</p>
-                <p><strong>Dirección:</strong> {casa.direccion}</p>
-                <p><strong>Precio:</strong> {casa.precio} $</p>
-                <p><strong>Metros:</strong> {casa.metros} m2</p>
-                <p><strong>Habitaciones:</strong> {casa.habitaciones}</p>
-                <p><strong>Baños:</strong> {casa.banos}</p>
+                <p><strong>Ciudad:</strong> {vivienda.ciudad}</p>
+                <p><strong>Provincia:</strong> {vivienda.provincia}</p>
+                <p><strong>Barrio:</strong> {vivienda.barrio}</p>
+                <p><strong>Dirección:</strong> {vivienda.direccion || "Consultar con el agente"}</p>
+                <p><strong>Precio:</strong> {Number(vivienda.precio).toLocaleString()} €</p>
+                <p><strong>Metros:</strong> {vivienda.metros_cuadrados} m²</p>
+                <p><strong>Habitaciones:</strong> {vivienda.num_habitaciones}</p>
+                <p><strong>Baños:</strong> {vivienda.num_baños}</p>
               </div>
 
+              {/* Conexión con useHouseStore */}
               <div className="botones-guardar">
-                <button className="boton-favorito" onClick={() => navigate('/favoritos')}>❤️ Favorito</button>
-                <button className="boton-guardar" onClick={() => navigate('/busquedas')}>🔔 Guardar</button>
+                <button 
+                  className="boton-favorito" 
+                  onClick={() => toggleFavorite(vivienda.id_vivienda, idUsuario)}
+                >
+                  ❤️ Favorito
+                </button>
+                <button 
+                  className="boton-guardar" 
+                  onClick={() => toggleSave(vivienda.id_vivienda, idUsuario)}
+                >
+                  🔔 Guardar
+                </button>
               </div>
             </div>
           </div>
 
-          {/* DESCRIPCION */}
+          {/* SECCIÓN DE DESCRIPCIÓN */}
           <div className="seccion-texto">
             <div className="tarjeta-texto">
-              {casa.descripcion.split('\n').map((p, i) => <p key={i}>{p}</p>)}
+              <h3>Descripción</h3>
+              {vivienda.descripcion ? (
+                vivienda.descripcion.split('\n').map((parrafo, i) => (
+                  <p key={i}>{parrafo}</p>
+                ))
+              ) : (
+                <p>Esta vivienda no dispone de descripción detallada.</p>
+              )}
             </div>
           </div>
 
-          {/* FILA INFERIOR: Mapa + Contacto */}
+          {/* FILA INFERIOR: Mapa Dinámico + Contacto */}
           <div className="fila-inferior">
             <div className="caja-mapa">
-              <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.946768783478!2d-3.7088461!3d40.43217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42286064f27d8f%3A0x6b63d67f998394e2!2sCalle%20de%20Rodr%C3%ADguez%20San%20Pedro%2C%2020%2C%20Chamber%C3%AD%2C%2028015%20Madrid!5e0!3m2!1ses!2ses!4v1707654000000!5m2!1ses!2ses" width="100%" height="100%" style={{ border: 0 }} allowFullScreen="" loading="lazy"></iframe>
+              <iframe 
+                title="mapa-ubicacion" 
+                src={`https://maps.google.com/maps?q=${vivienda.direccion || vivienda.barrio},${vivienda.ciudad}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen="" 
+                loading="lazy">
+              </iframe>
             </div>
 
             <div className="tarjeta-contacto">
@@ -119,14 +171,14 @@ Al entrar, nos recibe un imponente salón-comedor con amplios ventanales que gar
                   <span className="icono">📍</span>
                   <div className="textos">
                     <p className="etiqueta">Ubicación</p>
-                    <p className="valor">{casa.direccion}</p>
+                    <p className="valor">{vivienda.direccion || vivienda.barrio}</p>
                   </div>
                 </div>
               </div>
 
               <div className="botones-contacto">
                 <button className="boton-negro">Enviar mensaje</button>
-                <button className="boton-borde">Llamar ahora</button>
+                <button className="boton-borde" onClick={() => window.print()}>Llamar ahora</button>
               </div>
             </div>
           </div>
