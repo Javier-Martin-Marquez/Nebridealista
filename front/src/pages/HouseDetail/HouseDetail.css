@@ -1,140 +1,152 @@
-.house-detail-page {
+.pagina-detalle {
   background-color: #f5f2eb;
-  width: 100%;
   padding-bottom: 80px;
 }
 
-.detail-content {
+.contenido {
   max-width: 1200px;
   margin: 0 auto;
   padding: 60px 20px;
 }
 
-/* Fila Superior */
-.top-row-final {
+/* FILA SUPERIOR */
+.fila-superior {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 80px;
-  align-items: stretch;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 30px;
+  margin-bottom: 60px;
 }
 
-.image-box img {
+.caja-foto {
+  position: relative;
   width: 100%;
   height: 500px;
-  object-fit: cover;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  overflow: hidden;
+  background-color: #000;
 }
 
-.info-card-white {
+.caja-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: white;
+  border: none;
+  padding: 15px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.flecha:hover { background: rgba(0,0,0,0.7); }
+.izq { left: 15px; }
+.der { right: 15px; }
+
+.contador {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.tarjeta-info {
   background: white;
-  padding: 45px;
+  padding: 30px;
   border-radius: 25px;
   border: 1.5px solid #e4c4a1; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  height: 500px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
-.data-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-/* --- NUEVOS BOTONES DE GUARDADO --- */
-.save-actions {
+.lista-datos {
   display: flex;
-  gap: 15px;
-  margin-top: 20px;
-  padding-top: 25px;
-  border-top: 1px solid #f0f0f0;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
 }
 
-.btn-favorite, .btn-save-search {
+.lista-datos p {
+  margin: 0;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f8f8f8;
+  padding-bottom: 4px;
+}
+
+.botones-guardar {
+  display: flex;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.boton-favorito, .boton-guardar {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   padding: 12px;
   border-radius: 10px;
   border: 1px solid #e4c4a1;
-  background-color: white;
-  color: #1a1a1a;
+  background: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.btn-favorite:hover {
-  background-color: #fff5f5;
-  border-color: #ff4d4d;
-  color: #ff4d4d;
-}
+/* DESCRIPCION */
+.seccion-texto { margin-bottom: 60px; }
 
-.btn-save-search:hover {
-  background-color: #f0f7ff;
-  border-color: #1a1a1a;
-  background-color: #1a1a1a;
-  color: white;
-}
-
-/* Bloque Descripción */
-.description-section-spaced {
-  margin-bottom: 80px;
-}
-
-.description-card-highlight {
-  background-color: white;
-  padding: 50px;
+.tarjeta-texto {
+  background: white;
+  padding: 40px;
   border-radius: 25px;
-  box-shadow: 5px 10px 30px rgba(0,0,0,0.05); /* Suavizado el shadow para coherencia */
-  font-size: 1.15rem;
-  line-height: 1.8;
-  color: #333;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Sombra 0.5 negra */
 }
 
-/* --- BLOQUE INFERIOR SIMÉTRICO --- */
-.bottom-row-equal {
+/* FILA INFERIOR */
+.fila-inferior {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  align-items: stretch;
 }
 
-.map-container-equal {
+.caja-mapa {
+  height: 500px;
   border-radius: 25px;
   overflow: hidden;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-  height: 500px;
 }
 
-.contact-card-premium-equal {
+.tarjeta-contacto {
   background: white;
-  padding: 45px;
+  padding: 35px;
   border-radius: 25px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-  border: 1px solid rgba(228, 196, 161, 0.3);
+  height: 500px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
-.agent-info {
+.perfil-agente {
   display: flex;
   align-items: center;
   gap: 15px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 15px;
 }
 
-.agent-avatar {
-  width: 55px;
-  height: 55px;
+.avatar {
+  width: 50px;
+  height: 50px;
   background-color: #e4c4a1;
   color: white;
   display: flex;
@@ -145,61 +157,59 @@
   font-weight: bold;
 }
 
-.contact-methods {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  margin: 30px 0;
+.info-agente h4 { margin: 0; font-size: 1.1rem; }
+.info-agente p { margin: 0; font-size: 0.85rem; color: #888; }
+
+.linea-fina {
+  width: 100%;
+  height: 1px;
+  background-color: #f0f0f0;
+  margin-bottom: 25px;
 }
 
-.method {
+.metodos-contacto {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.item-contacto {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.method .icon { font-size: 1.5rem; }
-.method-label { font-size: 0.85rem; color: #999; margin: 0; }
-.method-value { font-size: 1.1rem; font-weight: 600; color: #333; margin: 0; }
+.etiqueta { font-size: 0.75rem; color: #999; margin: 0; }
+.valor { font-size: 0.95rem; font-weight: 600; margin: 0; }
 
-.contact-actions {
+.botones-contacto {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
-.primary-btn {
-  background-color: #1a1a1a;
+.boton-negro {
+  background: #1a1a1a;
   color: white;
   border: none;
   padding: 16px;
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.secondary-btn {
-  background-color: transparent;
+.boton-borde {
+  background: transparent;
   color: #1a1a1a;
-  border: 2px solid #1a1a1a;
+  border: 2.3px solid #1a1a1a;
   padding: 14px;
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.secondary-btn:hover, .primary-btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-/* Responsive */
 @media (max-width: 900px) {
-  .top-row-final, .bottom-row-equal {
-    grid-template-columns: 1fr;
-  }
-  .map-container-equal { height: 350px; }
-  .save-actions { flex-direction: column; }
+  .fila-superior, .fila-inferior { grid-template-columns: 1fr; }
+  .tarjeta-info, .tarjeta-contacto { height: auto; }
 }
