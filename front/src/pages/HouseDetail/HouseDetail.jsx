@@ -1,8 +1,29 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './HouseDetail.css';
 
 function HouseDetail() {
+  const navigate = useNavigate();
+
+  // Fotos de ejemplo para el carrusel (sin BDD)
+  const fotos = [
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
+    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80",
+    "https://images.unsplash.com/photo-1600607687940-4e2003e25489?auto=format&fit=crop&w=1000&q=80"
+  ];
+
+  const [imagenActual, setImagenActual] = useState(0);
+
+  const siguiente = () => {
+    setImagenActual((prev) => (prev === fotos.length - 1 ? 0 : prev + 1));
+  };
+
+  const anterior = () => {
+    setImagenActual((prev) => (prev === 0 ? fotos.length - 1 : prev - 1));
+  };
+
   const casa = {
     ciudad: "Madrid",
     provincia: "Madrid",
@@ -14,111 +35,102 @@ function HouseDetail() {
     banos: "3",
     descripcion: `Espectacular vivienda de lujo ubicada en una de las zonas más codiciadas de la capital. Esta propiedad única destaca por su reciente reforma integral con materiales de primerísima calidad y un diseño arquitectónico vanguardista que aprovecha cada metro cuadrado.
 
-Al entrar, nos recibe un imponente salón-comedor con amplios ventanales que garantizan una luminosidad excepcional durante todo el día. La cocina, de concepto semi-abierto, está equipada con electrodomésticos de alta gama y encimeras de piedra natural, combinando funcionalidad y estética a la perfección.
-
-La zona de descanso se distribuye en 7 dormitorios polivalentes, ideales tanto para familias numerosas como para configurar despachos profesionales o salas de ocio. La suite principal cuenta con baño privado y acabados de lujo. Los 3 cuartos de baño han sido reformados con un gusto exquisito, empleando grifería de diseño y platos de ducha a ras de suelo.
-
-La ubicación es inmejorable, en una calle tranquila pero rodeada de todos los servicios: colegios de prestigio, centros de salud, y una oferta gastronómica y cultural de primer nivel. Una oportunidad inmejorable para aquellos que buscan exclusividad y confort en el centro de Madrid.`
+Al entrar, nos recibe un imponente salón-comedor con amplios ventanales que garantizan una luminosidad excepcional durante todo el día. La cocina, de concepto semi-abierto, está equipada con electrodomésticos de alta gama y encimeras de piedra natural, combinando funcionalidad y estética a la perfección.`
   };
-
-  const mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.1326442654316!2d-3.7102636!3d40.4335891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42285ca421887d%3A0x6331908f51a7000c!2sCalle%20de%20Rodr%C3%ADguez%20San%20Pedro%2C%2020%2C%20Chamber%C3%AD%2C%2028015%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses";
 
   return (
     <>
       <Header />
-      <div className="house-detail-page">
-        <div className="detail-content">
+      <div className="pagina-detalle">
+        <div className="contenido">
 
-          {/* BLOQUE SUPERIOR: Foto e Información */}
-          <div className="top-row-final">
-            <div className="image-box">
-              <img
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80"
-                alt="Vivienda Nebridealista"
-              />
+          {/* FILA SUPERIOR: Carrusel + Tarjeta Info */}
+          <div className="fila-superior">
+            
+            {/* CARRUSEL */}
+            <div className="caja-foto">
+              <img src={fotos[imagenActual]} alt="Vivienda" />
+              <button className="flecha izq" onClick={anterior}>❮</button>
+              <button className="flecha der" onClick={siguiente}>❯</button>
+              <div className="contador">{imagenActual + 1} / {fotos.length}</div>
             </div>
 
-            <div className="info-card-white">
+            {/* INFO VIVIENDA */}
+            <div className="tarjeta-info">
               <h2>Datos de la vivienda</h2>
-              <div className="data-grid">
+              <div className="lista-datos">
                 <p><strong>Ciudad:</strong> {casa.ciudad}</p>
                 <p><strong>Provincia:</strong> {casa.provincia}</p>
                 <p><strong>Barrio:</strong> {casa.barrio}</p>
                 <p><strong>Dirección:</strong> {casa.direccion}</p>
                 <p><strong>Precio:</strong> {casa.precio} $</p>
-                <p><strong>Metros cuadrados:</strong> {casa.metros} m2</p>
-                <p><strong>Número habitaciones:</strong> {casa.habitaciones}</p>
-                <p><strong>Número baños:</strong> {casa.banos}</p>
+                <p><strong>Metros:</strong> {casa.metros} m2</p>
+                <p><strong>Habitaciones:</strong> {casa.habitaciones}</p>
+                <p><strong>Baños:</strong> {casa.banos}</p>
               </div>
 
-              {/* BOTONES DE GUARDADO */}
-              <div className="save-actions">
-                <button className="btn-favorite">
-                  <span className="icon">❤️</span> Favorito
-                </button>
-                <button className="btn-save-search">
-                  <span className="icon">🔔</span> Guardar búsqueda
-                </button>
+              <div className="botones-guardar">
+                <button className="boton-favorito" onClick={() => navigate('/favoritos')}>❤️ Favorito</button>
+                <button className="boton-guardar" onClick={() => navigate('/busquedas')}>🔔 Guardar</button>
               </div>
             </div>
           </div>
 
-          {/* BLOQUE CENTRAL: Descripción */}
-          <div className="description-section-spaced">
-            <div className="description-card-highlight">
-              {casa.descripcion.split('\n').map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
+          {/* DESCRIPCION */}
+          <div className="seccion-texto">
+            <div className="tarjeta-texto">
+              {casa.descripcion.split('\n').map((p, i) => <p key={i}>{p}</p>)}
             </div>
           </div>
 
-          {/* BLOQUE INFERIOR: Mapa y Contacto */}
-          <div className="bottom-row-equal">
-            <div className="map-container-equal">
-              <iframe
-                title="Mapa de ubicación"
-                src={mapSrc}
-                width="100%"
-                height="100%" 
-                style={{ border: 0, display: 'block' }}
-                allowFullScreen=""
-                loading="lazy"
-              ></iframe>
+          {/* FILA INFERIOR: Mapa + Contacto */}
+          <div className="fila-inferior">
+            <div className="caja-mapa">
+              <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.946768783478!2d-3.7088461!3d40.43217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42286064f27d8f%3A0x6b63d67f998394e2!2sCalle%20de%20Rodr%C3%ADguez%20San%20Pedro%2C%2020%2C%20Chamber%C3%AD%2C%2028015%20Madrid!5e0!3m2!1ses!2ses!4v1707654000000!5m2!1ses!2ses" width="100%" height="100%" style={{ border: 0 }} allowFullScreen="" loading="lazy"></iframe>
             </div>
 
-            <div className="contact-card-premium-equal">
-              <div className="agent-info">
-                <div className="agent-avatar">N</div>
-                <div>
+            <div className="tarjeta-contacto">
+              <div className="perfil-agente">
+                <div className="avatar">N</div>
+                <div className="info-agente">
                   <h4>Nebridealista Real Estate</h4>
-                  <p className="agent-subtitle">Agente especializado</p>
+                  <p>Agente especializado</p>
                 </div>
               </div>
-              
-              <div className="contact-methods">
-                <div className="method">
-                  <span className="icon">📞</span>
-                  <div>
-                    <p className="method-label">Teléfono gratuito</p>
-                    <p className="method-value">980 987 987</p>
+
+              <div className="linea-fina"></div>
+
+              <div className="metodos-contacto">
+                <div className="item-contacto">
+                  <span className="icono">📞</span>
+                  <div className="textos">
+                    <p className="etiqueta">Teléfono gratuito</p>
+                    <p className="valor">980 987 987</p>
                   </div>
                 </div>
-                
-                <div className="method">
-                  <span className="icon">✉️</span>
-                  <div>
-                    <p className="method-label">Email de contacto</p>
-                    <p className="method-value">info@nebridealista.com</p>
+                <div className="item-contacto">
+                  <span className="icono">✉️</span>
+                  <div className="textos">
+                    <p className="etiqueta">Email de contacto</p>
+                    <p className="valor">info@nebridealista.com</p>
+                  </div>
+                </div>
+                <div className="item-contacto">
+                  <span className="icono">📍</span>
+                  <div className="textos">
+                    <p className="etiqueta">Ubicación</p>
+                    <p className="valor">{casa.direccion}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="contact-actions">
-                <button className="primary-btn">Enviar mensaje</button>
-                <button className="secondary-btn">Llamar ahora</button>
+              <div className="botones-contacto">
+                <button className="boton-negro">Enviar mensaje</button>
+                <button className="boton-borde">Llamar ahora</button>
               </div>
             </div>
           </div>
+
         </div>
       </div>
       <Footer />
