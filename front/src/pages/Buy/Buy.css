@@ -1,28 +1,29 @@
-.buy-page, .buy-page * {
-  box-sizing: border-box;
-}
+/* Buy.css */
 
 .buy-page {
   background-color: #f7f3ee;
   min-height: 100vh;
   width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .buy-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 0;
-  gap: 25px;
+  padding: 40px 0;
+  gap: 30px;
 }
 
+/* MARCO UNIFICADO */
 .buy-page .search-section, 
 .buy-page .map-section, 
 .buy-page .featured-section {
-  width: 80%;
+  width: 85%;
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
+/* BUSCADOR */
 .buy-page .search-input-wrapper {
   position: relative;
   width: 100%;
@@ -30,11 +31,14 @@
 
 .buy-page .search-input {
   width: 100%;
-  padding: 15px 50px 15px 15px;
+  padding: 15px 55px 15px 15px; 
   border: 1.5px solid #d4a373;
-  border-radius: 4px;
+  border-radius: 0;
   font-size: 1.1rem;
   outline: none;
+  background-color: #fff;
+  color: #666;
+  box-sizing: border-box;
 }
 
 .buy-page .search-icon {
@@ -42,67 +46,35 @@
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.3rem;
   cursor: pointer;
-  color: #777;
+  font-size: 1.4rem;
+  color: #d4a373;
 }
 
+/* MAPA */
 .buy-page .map-iframe {
   width: 100%;
   height: 450px;
   border: 1.5px solid #d4a373;
-  border-radius: 4px;
-}
-
-.buy-page .featured-capsule {
-  background-color: rgba(226, 190, 156, 0.47);
-  border-radius: 40px;
-  padding: 40px 20px;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  gap: 15px;
-}
-
-.buy-page .new-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.buy-page .new-box-label {
-  font-size: 14px;
-  color: #333;
-  margin-bottom: 15px;
-  font-weight: 500;
-}
-
-.buy-page .new-box-image-container {
-  width: 100%;
-  max-width: 220px;
-  aspect-ratio: 4 / 3;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  background-color: #fff;
-}
-
-.buy-page .new-box-display-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  border-radius: 0;
   display: block;
 }
 
-.buy-page .new-box-action {
-  background: none;
-  border: none;
-  font-size: 14px;
+/* --- TÍTULO CENTRADO Y CON ESPACIO (IGUAL QUE RENT) --- */
+.novedades-title {
+  width: 100%;
+  text-align: center; /* Centrado */
+  font-size: 1.8rem;
+  font-weight: 700;
   color: #333;
-  text-decoration: underline;
-  cursor: pointer;
-  margin-top: 15px;
-  font-weight: 600;
+  margin-top: 60px;
+  margin-bottom: 40px; /* Espacio antes de las cajas */
+}
+
+/* CAJAS DE VIVIENDAS */
+.buy-page .featured-capsule {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
 }

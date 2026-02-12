@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import { useUserStore } from '../../stores/userStore';
 import './Sell.css';
 
@@ -96,6 +97,8 @@ function Sell() {
                 <option value="">Categoría del inmueble</option>
                 <option value="piso">Piso / Apartamento</option>
                 <option value="casa">Casa / Chalet</option>
+                <option value="garaje">Garaje</option>
+                <option value="local">Local comercial</option>
               </select>
 
               <button type="submit" className="auth-btn-primary">Publicar propiedad</button>
@@ -103,6 +106,7 @@ function Sell() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

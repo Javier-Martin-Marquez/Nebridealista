@@ -15,12 +15,11 @@ function Buy() {
       .then(res => res.json())
       .then(data => {
         const listado = [
-          { id: data.recientes[0]?.id_vivienda, title: 'Ultima publicación', name: data.recientes[0]?.titulo, img: data.recientes[0]?.url_imagen },
-          { id: data.recientes[1]?.id_vivienda, title: 'Ultima publicación', name: data.recientes[1]?.titulo, img: data.recientes[1]?.url_imagen },
+          { id: data.recientes[0]?.id_vivienda, title: 'Última publicación', name: data.recientes[0]?.titulo, img: data.recientes[0]?.url_imagen },
+          { id: data.recientes[1]?.id_vivienda, title: 'Última publicación', name: data.recientes[1]?.titulo, img: data.recientes[1]?.url_imagen },
           { id: data.masBuscada?.id_vivienda, title: 'Más guardada', name: data.masBuscada?.titulo, img: data.masBuscada?.url_imagen },
           { id: data.masFavorita?.id_vivienda, title: 'Más favorita', name: data.masFavorita?.titulo, img: data.masFavorita?.url_imagen },
         ];
-        // Solo mostramos los que tengan datos reales
         setDestacados(listado.filter(item => item.id !== undefined));
       })
       .catch(err => console.error("Error cargando destacados:", err));
@@ -28,14 +27,8 @@ function Buy() {
 
   const manejarBusqueda = () => {
     const ciudadLimpia = busqueda.trim().toLowerCase();
-    if (ciudadLimpia) {
-      // Redirigimos a la nueva ruta dinámica de Ciudad
-      navigate(`/comprar/${ciudadLimpia}`);
-    }
+    if (ciudadLimpia) navigate(`/comprar/${ciudadLimpia}`);
   };
-
-  // Mapa general de España para la página de inicio de Comprar
-  const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3101564.843644415!2d-3.703790!3d40.416775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2ses!4v1700000000000`;
 
   return (
     <div className="buy-page">
@@ -52,33 +45,24 @@ function Buy() {
               onChange={(e) => setBusqueda(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && manejarBusqueda()}
             />
+            {/* La lupa ahora se posicionará al final por el CSS */}
             <span className="search-icon" onClick={manejarBusqueda}>🔍</span>
           </div>
         </div>
 
         <div className="map-section">
-          <iframe
-            title="mapa-interactivo-buy"
-            src={mapUrl}
-            className="map-iframe"
-          ></iframe>
+          <iframe title="map-buy" src="https://maps.google.com/maps?q=españa&t=&z=6&ie=UTF8&iwloc=&output=embed" className="map-iframe"></iframe>
         </div>
 
         <div className="featured-section">
-          {/* TEXTO DE NOVEDADES */}
           <h2 className="novedades-title">Novedades y viviendas destacadas en venta</h2>
-
           <div className="featured-capsule">
             {destacados.map((item, index) => (
-              <NewBox
-                key={index}
-                title={item.title}      
-                houseTitle={item.name}
-                image={item.img || "/images/home/comprar.png"}
-              />
+              <NewBox key={index} title={item.title} houseTitle={item.name} image={item.img || "/images/home/comprar.png"} />
             ))}
           </div>
         </div>
+
       </div>
       <Footer />
     </div>
