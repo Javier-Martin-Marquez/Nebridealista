@@ -1,3 +1,5 @@
+/* Rent.css */
+
 .rent-page {
   background-color: #f7f3ee;
   min-height: 100vh;
@@ -12,55 +14,44 @@
   gap: 30px;
 }
 
-/* MARCO COMÚN: Ajuste idéntico al de Buy */
+/* MARCO COMÚN */
 .rent-page .search-section, 
 .rent-page .map-section, 
 .rent-page .featured-section {
   width: 85%;
   max-width: 1200px;
+  box-sizing: border-box;
 }
 
-/* ALINEACIÓN: Ajustado al inicio del mapa */
-.rent-page .search-section {
-  display: flex;
-  justify-content: flex-start;
-  max-width: 100000px;
-}
-
+/* BUSCADOR */
 .rent-page .search-input-wrapper {
   position: relative;
   width: 100%;
-  max-width: 1085px;
 }
 
 .rent-page .search-input {
   width: 100%;
-  padding: 15px 50px 15px 15px;
+  padding: 15px 55px 15px 15px;
   border: 1.5px solid #d4a373;
   border-radius: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   outline: none;
   background-color: #fff;
+  color: #666;
+  box-sizing: border-box;
 }
 
 .rent-page .search-icon {
   position: absolute;
-  right: -50px;
+  right: 15px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+  font-size: 1.4rem;
   color: #d4a373;
 }
-.novedades-title {
-  width: 100%;
-  text-align: center; 
-  font-size: 1.8rem; 
-  font-weight: 700;
-  color: #333;
-  margin: 60px 0 40px 0;    
-  letter-spacing: 0.5px;
-}
 
+/* MAPA */
 .rent-page .map-iframe {
   width: 100%;
   height: 450px;
@@ -69,9 +60,21 @@
   display: block;
 }
 
+/* --- TÍTULO CENTRADO Y CON ESPACIO --- */
+.novedades-title {
+  width: 100%;
+  text-align: center; /* Centra el texto */
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-top: 60px;   /* Espacio respecto al mapa */
+  margin-bottom: 40px; /* Espacio de separación con las cajas (viviendas) */
+}
+
+/* CAJAS DE VIVIENDAS */
 .rent-page .featured-capsule {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   width: 100%;
 }
