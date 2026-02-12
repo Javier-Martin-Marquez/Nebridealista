@@ -13,6 +13,8 @@ import HouseDetail from "../pages/HouseDetail/HouseDetail";
 
 
 import NotFound from "../pages/NotFound/NotFound";
+import CityResults from "../pages/CityResults/CityResults";
+import NeighborhoodResults from "../pages/NeighborhoodResults/NeighborhoodResults";
 
 function AppRouter() {
   return (
@@ -24,6 +26,10 @@ function AppRouter() {
         <Route path='/registro' element={<Register/>}/>
         <Route path="/comprar" element={<Buy/>}/>
         <Route path="/alquilar" element={<Rent/>}/>
+
+        <Route path="/:tipo/:ciudad" element={<CityResults/>}/>
+        <Route path="/:tipo/:ciudad/:barrio" element={<NeighborhoodResults/>}/>
+
         <Route path="/busquedas" element={<SaveSearch/>}/>
         <Route path="/favoritos" element={<Favourite/>}/>
         <Route path="/vender" element={<Sell/>}/>
