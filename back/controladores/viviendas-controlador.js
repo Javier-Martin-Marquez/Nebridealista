@@ -96,11 +96,11 @@ exports.getViviendasAlquilerPorCiudad = async (req, res) => {
   }
 };
 
-  // --- LISTADO: Comprar (Venta) por Ciudad y Barrio ---
-  exports.getViviendasCompraPorBarrio = async (req, res) => {
-    const { ciudad, barrio } = req.params; 
+// --- LISTADO: Comprar (Venta) por Ciudad y Barrio ---
+exports.getViviendasCompraPorBarrio = async (req, res) => {
+  const { ciudad, barrio } = req.params;
 
-    const sql = `
+  const sql = `
           SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
                 metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
           FROM Vivienda
@@ -109,25 +109,25 @@ exports.getViviendasAlquilerPorCiudad = async (req, res) => {
             AND barrio = ?
           ORDER BY fecha_publicacion DESC`;
 
-    try {
-      const [viviendas] = await db.query(sql, [ciudad, barrio]);
-      
-      if (viviendas.length === 0) {
-          return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
-      }
+  try {
+    const [viviendas] = await db.query(sql, [ciudad, barrio]);
 
-      res.status(200).json(viviendas);
-    } catch (error) {
-      console.error("Error al obtener listado de compra por barrio:", error);
-      res.status(500).json({ message: "Error interno del servidor." });
+    if (viviendas.length === 0) {
+      return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
     }
-  };
 
-  // --- LISTADO: Alquiler por Ciudad y Barrio ---
-  exports.getViviendasAlquilerPorBarrio = async (req, res) => {
-    const { ciudad, barrio } = req.params;
+    res.status(200).json(viviendas);
+  } catch (error) {
+    console.error("Error al obtener listado de compra por barrio:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
 
-    const sql = `
+// --- LISTADO: Alquiler por Ciudad y Barrio ---
+exports.getViviendasAlquilerPorBarrio = async (req, res) => {
+  const { ciudad, barrio } = req.params;
+
+  const sql = `
           SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
                 metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
           FROM Vivienda
@@ -136,26 +136,26 @@ exports.getViviendasAlquilerPorCiudad = async (req, res) => {
             AND barrio = ?
           ORDER BY fecha_publicacion DESC`;
 
-    try {
-      const [viviendas] = await db.query(sql, [ciudad, barrio]);
+  try {
+    const [viviendas] = await db.query(sql, [ciudad, barrio]);
 
-      if (viviendas.length === 0) {
-          return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
-      }
-
-      res.status(200).json(viviendas);
-    } catch (error) {
-      console.error("Error al obtener listado de alquiler por barrio:", error);
-      res.status(500).json({ message: "Error interno del servidor." });
+    if (viviendas.length === 0) {
+      return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
     }
-  };
+
+    res.status(200).json(viviendas);
+  } catch (error) {
+    console.error("Error al obtener listado de alquiler por barrio:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
 
 
-  // --- DETALLE: Ver vivienda en VENTA por ID (con ciudad y barrio) ---
+// --- DETALLE: Ver vivienda en VENTA por ID (con ciudad y barrio) ---
 exports.getViviendaCompraPorId = async (req, res) => {
-  const { ciudad, barrio, id } = req.params; 
+  const { ciudad, barrio, id } = req.params;
 
-  const sql = `
+  const sqlVivienda = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
                metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda, descripcion
         FROM Vivienda
@@ -165,15 +165,24 @@ exports.getViviendaCompraPorId = async (req, res) => {
           AND tipo_transaccion = 'venta'`;
 
   try {
-    // El orden de los interrogantes (?) importa: id, ciudad, barrio
-    const [result] = await db.query(sql, [id, ciudad, barrio]);
-    
+    const [result] = await db.query(sqlVivienda, [id, ciudad, barrio]);
+
     if (result.length === 0) {
-        return res.status(404).json({ message: "No se encontró esta vivienda en venta." });
+      return res.status(404).json({ message: "No se encontró esta vivienda en venta." });
     }
 
-    // Devolvemos solo el primer elemento porque el ID es único
-    res.status(200).json(result[0]);
+    const vivienda = result[0];
+
+    // SEGUNDA CONSULTA: Obtener todas las fotos de esta vivienda
+    const [fotos] = await db.query(
+      'SELECT url_imagen FROM fotos WHERE id_vivienda = ? ORDER BY orden ASC',
+      [id]
+    );
+
+    // Mapeamos para enviar solo un array de strings (las URLs)
+    vivienda.fotos = fotos.map(f => f.url_imagen);
+
+    res.status(200).json(vivienda);
   } catch (error) {
     console.error("Error al obtener el detalle de venta:", error);
     res.status(500).json({ message: "Error interno del servidor." });
@@ -184,7 +193,7 @@ exports.getViviendaCompraPorId = async (req, res) => {
 exports.getViviendaAlquilerPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
-  const sql = `
+  const sqlVivienda = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
                metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda, descripcion
         FROM Vivienda
@@ -194,13 +203,23 @@ exports.getViviendaAlquilerPorId = async (req, res) => {
           AND tipo_transaccion = 'alquiler'`;
 
   try {
-    const [result] = await db.query(sql, [id, ciudad, barrio]);
-    
+    const [result] = await db.query(sqlVivienda, [id, ciudad, barrio]);
+
     if (result.length === 0) {
-        return res.status(404).json({ message: "No se encontró esta vivienda en alquiler." });
+      return res.status(404).json({ message: "No se encontró esta vivienda en alquiler." });
     }
 
-    res.status(200).json(result[0]);
+    const vivienda = result[0];
+
+    // SEGUNDA CONSULTA: Obtener todas las fotos
+    const [fotos] = await db.query(
+      'SELECT url_imagen FROM fotos WHERE id_vivienda = ? ORDER BY orden ASC',
+      [id]
+    );
+
+    vivienda.fotos = fotos.map(f => f.url_imagen);
+
+    res.status(200).json(vivienda);
   } catch (error) {
     console.error("Error al obtener el detalle de alquiler:", error);
     res.status(500).json({ message: "Error interno del servidor." });
