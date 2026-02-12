@@ -1,0 +1,72 @@
+.city-results-viewport {
+    background-color: #fdfaf5; 
+    min-height: 100vh;
+}
+
+.city-results-main {
+    max-width: 900px; /* Ajustamos para que coincida con el ancho de tus HouseCards */
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Todo centrado */
+}
+
+/* Layout Superior */
+.city-header-layout {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.city-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.city-title-display, .city-filter-display {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.city-filter-display {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.city-dropdown {
+    width: 90%;
+    margin: 10px auto 0;
+    padding: 8px;
+    border: 1px solid #DA8E35;
+}
+
+.city-map-container {
+    flex: 1;
+    height: 250px;
+    border: 1px solid #ccc;
+    background: white;
+}
+
+.city-map-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Stack de tarjetas */
+.city-cards-stack {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
