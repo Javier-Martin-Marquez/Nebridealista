@@ -24,14 +24,14 @@ router.get('/viviendas/alquilar', viviendasController.getViviendasAlquiler);
 router.get('/viviendas/comprar', viviendasController.getViviendasCompra);
 
 // 3. FILTROS POR ZONA
-router.get('/viviendas/alquilar/:ciudad', viviendasController.getViviendasAlquilerPorCiudad); 
+router.get('/viviendas/alquiler/:ciudad', viviendasController.getViviendasAlquilerPorCiudad); 
 router.get('/viviendas/comprar/:ciudad', viviendasController.getViviendasCompraPorCiudad);
 router.get('/viviendas/comprar/:ciudad/:barrio', viviendasController.getViviendasCompraPorBarrio);
-router.get('/viviendas/alquilar/:ciudad/:barrio', viviendasController.getViviendasAlquilerPorBarrio);
+router.get('/viviendas/alquiler/:ciudad/:barrio', viviendasController.getViviendasAlquilerPorBarrio);
 
 // 4. DETALLES (RUTAS EN ESPAÑOL COMO HAS PEDIDO)
 router.get('/viviendas/comprar/:ciudad/:barrio/:id', viviendasController.getViviendaCompraPorId);
-router.get('/viviendas/alquilar/:ciudad/:barrio/:id', viviendasController.getViviendaAlquilerPorId);
+router.get('/viviendas/alquiler/:ciudad/:barrio/:id', viviendasController.getViviendaAlquilerPorId);
 
 // 5. OTROS
 router.post('/vender/anuncio', anunciosController.iniciarPublicacion);

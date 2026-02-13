@@ -6,7 +6,7 @@ function HouseCard({ vivienda, isFavouritePage = false, isSavedPage = false, onF
   const navigate = useNavigate();
 
   const irADetalle = () => {
-    const tipoRuta = vivienda.tipo_transaccion === 'venta' ? 'comprar' : 'alquilar';
+    const tipoRuta = vivienda.tipo_transaccion === 'venta' ? 'comprar' : 'alquiler';
     
     navigate(`/vivienda/${tipoRuta}/${vivienda.ciudad}/${vivienda.barrio}/${vivienda.id_vivienda}`);
   };
