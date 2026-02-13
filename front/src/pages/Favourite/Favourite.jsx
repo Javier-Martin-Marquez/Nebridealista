@@ -11,9 +11,9 @@ function Favourite() {
   const [cargando, setCargando] = useState(true);
 
   const idUsuario = useUserStore(state => state.idUsuario);
-
-  const toggleFavorite = useHouseStore(state => state.toggleFavorite);
-  const toggleSave = useHouseStore(state => state.toggleSave);
+  
+  // Extraemos estados y acciones de la store
+  const { toggleFavorite, toggleSave, favorites, saved } = useHouseStore();
 
   useEffect(() => {
     if (!idUsuario) {
@@ -23,24 +23,23 @@ function Favourite() {
 
     fetch("http://localhost:3000/favoritos/lista", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id_usuario: idUsuario }),
     })
       .then((res) => res.json())
       .then((data) => {
-        // Asignamos el array de casas que nos devuelve el back
         setCasasFavoritas(data);
+        // Sincronizamos los IDs con la store para que se coloreen los iconos
+        const ids = data.map(casa => casa.id_vivienda);
+        useHouseStore.setState({ favorites: ids });
         setCargando(false);
       })
       .catch((err) => {
         console.error("Error al cargar favoritos:", err);
         setCargando(false);
       });
-  }, [idUsuario]); // Se ejecuta al cargar o si el usuario cambia (login/logout)
+  }, [idUsuario]);
 
-  // Manejador para el corazón
   const handleFavoriteClick = async (id_vivienda) => {
     const result = await toggleFavorite(id_vivienda, idUsuario);
     if (result.action === 'deleted') {
@@ -48,7 +47,6 @@ function Favourite() {
     }
   };
 
-  // Manejador para el marcador
   const handleSaveClick = async (id_vivienda) => {
     await toggleSave(id_vivienda, idUsuario);
   };
@@ -60,7 +58,6 @@ function Favourite() {
       <div className="favourite-container">
         <h1 className="favourite-title">Mis Favoritos</h1>
 
-        {/* 1. Verificamos si hay usuario */}
         {!idUsuario ? (
           <p className="empty-text">Inicia sesión para ver tus favoritos.</p>
         ) : cargando ? (
@@ -71,7 +68,9 @@ function Favourite() {
               <HouseCard
                 key={casa.id_vivienda}
                 vivienda={casa}
-                isFavouritePage={true}
+                // Dinámico: se colorea si el ID está en la store
+                isFavouritePage={favorites.includes(casa.id_vivienda)}
+                isSavedPage={saved.includes(casa.id_vivienda)}
                 onFavoriteClick={handleFavoriteClick}
                 onSaveClick={handleSaveClick} 
               />
