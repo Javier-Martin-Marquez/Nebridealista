@@ -17,7 +17,7 @@ function NeighborhoodResults() {
   const [viviendas, setViviendas] = useState([]);
 
   useEffect(() => {
-    const tipoQuery = tipo === 'comprar' ? 'compra' : 'alquiler';
+    const tipoQuery = tipo === 'comprar' ? 'comprar' : 'alquiler';
     
     fetch(`http://localhost:3000/viviendas/${tipoQuery}/${ciudad}/${barrio}`)
       .then(res => {
