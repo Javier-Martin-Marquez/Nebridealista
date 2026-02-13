@@ -1,9 +1,7 @@
-// Archivo que controla las queries relacionadas con las viviendas, los filtrados y todo eso
-
 // controladores/viviendas-controlador.js
 const db = require('../config/database');
 
-// LISTADO GENERAL (Sin filtros) 
+// 1. LISTADO GENERAL
 exports.getViviendasGeneral = async (req, res) => {
   const sql = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
@@ -20,7 +18,7 @@ exports.getViviendasGeneral = async (req, res) => {
   }
 };
 
-// LISTADO: SOLO ALQUILER 
+// 2. LISTADO: SOLO ALQUILAR
 exports.getViviendasAlquiler = async (req, res) => {
   const sql = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
@@ -33,12 +31,11 @@ exports.getViviendasAlquiler = async (req, res) => {
     const [viviendas] = await db.query(sql);
     res.status(200).json(viviendas);
   } catch (error) {
-    console.error("Error al obtener listado de alquiler:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ message: "Error al obtener listado de alquiler." });
   }
 };
 
-// LISTADO: SOLO COMPRA (Venta) 
+// 3. LISTADO: SOLO COMPRAR (Venta)
 exports.getViviendasCompra = async (req, res) => {
   const sql = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
@@ -51,117 +48,67 @@ exports.getViviendasCompra = async (req, res) => {
     const [viviendas] = await db.query(sql);
     res.status(200).json(viviendas);
   } catch (error) {
-    console.error("Error al obtener listado de compra:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ message: "Error al obtener listado de compra." });
   }
 };
 
-// LISTADO: Comprar (Venta) por Ciudad 
+// 4. FILTRO: COMPRAR POR CIUDAD
 exports.getViviendasCompraPorCiudad = async (req, res) => {
   const { ciudad } = req.params;
-
-  const sql = `
-        SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
-               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
-        FROM Vivienda
-        WHERE tipo_transaccion = 'venta' AND ciudad = ? 
-        ORDER BY fecha_publicacion DESC`;
-
+  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'venta' AND LOWER(ciudad) = LOWER(?)`;
   try {
     const [viviendas] = await db.query(sql, [ciudad]);
     res.status(200).json(viviendas);
   } catch (error) {
-    console.error("Error al obtener listado de compra por ciudad:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ message: "Error por ciudad." });
   }
 };
 
-// --- LISTADO: Alquiler por Ciudad ---
+// 5. FILTRO: ALQUILAR POR CIUDAD
 exports.getViviendasAlquilerPorCiudad = async (req, res) => {
   const { ciudad } = req.params;
-
-  const sql = `
-        SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
-               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
-        FROM Vivienda
-        WHERE tipo_transaccion = 'alquiler' AND ciudad = ? 
-        ORDER BY fecha_publicacion DESC`;
-
+  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'alquiler' AND LOWER(ciudad) = LOWER(?)`;
   try {
     const [viviendas] = await db.query(sql, [ciudad]);
     res.status(200).json(viviendas);
   } catch (error) {
-    console.error("Error al obtener listado de alquiler por ciudad:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ message: "Error por ciudad." });
   }
 };
 
-// --- LISTADO: Comprar (Venta) por Ciudad y Barrio ---
+// 6. FILTRO: COMPRAR POR BARRIO
 exports.getViviendasCompraPorBarrio = async (req, res) => {
   const { ciudad, barrio } = req.params;
-
-  const sql = `
-          SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
-                metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
-          FROM Vivienda
-          WHERE tipo_transaccion = 'venta' 
-            AND ciudad = ? 
-            AND barrio = ?
-          ORDER BY fecha_publicacion DESC`;
-
+  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'venta' AND LOWER(ciudad) = LOWER(?) AND LOWER(barrio) = LOWER(?)`;
   try {
     const [viviendas] = await db.query(sql, [ciudad, barrio]);
-
-    if (viviendas.length === 0) {
-      return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
-    }
-
     res.status(200).json(viviendas);
   } catch (error) {
-    console.error("Error al obtener listado de compra por barrio:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ message: "Error por barrio." });
   }
 };
 
-// --- LISTADO: Alquiler por Ciudad y Barrio ---
+// 7. FILTRO: ALQUILAR POR BARRIO
 exports.getViviendasAlquilerPorBarrio = async (req, res) => {
   const { ciudad, barrio } = req.params;
-
-  const sql = `
-          SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
-                metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
-          FROM Vivienda
-          WHERE tipo_transaccion = 'alquiler' 
-            AND ciudad = ? 
-            AND barrio = ?
-          ORDER BY fecha_publicacion DESC`;
-
+  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'alquiler' AND LOWER(ciudad) = LOWER(?) AND LOWER(barrio) = LOWER(?)`;
   try {
     const [viviendas] = await db.query(sql, [ciudad, barrio]);
-
-    if (viviendas.length === 0) {
-      return res.status(404).json({ message: "No se encontraron viviendas en este barrio." });
-    }
-
     res.status(200).json(viviendas);
   } catch (error) {
-    console.error("Error al obtener listado de alquiler por barrio:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    res.status(500).json({ message: "Error por barrio." });
   }
 };
 
-
-// --- DETALLE: Ver vivienda en VENTA por ID (con ciudad y barrio) ---
+// 8. DETALLE: VER VIVIENDA EN COMPRAR (Venta) POR ID
 exports.getViviendaCompraPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
   const sqlVivienda = `
-        SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
-               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda, descripcion
-        FROM Vivienda
+        SELECT * FROM Vivienda
         WHERE id_vivienda = ? 
-          AND ciudad = ? 
-          AND barrio = ?
+          AND LOWER(ciudad) = LOWER(?) 
+          AND LOWER(barrio) = LOWER(?)
           AND tipo_transaccion = 'venta'`;
 
   try {
@@ -173,33 +120,29 @@ exports.getViviendaCompraPorId = async (req, res) => {
 
     const vivienda = result[0];
 
-    // SEGUNDA CONSULTA: Obtener todas las fotos de esta vivienda
+    // Consulta de fotos: Usamos url_imagen que es el nombre correcto
     const [fotos] = await db.query(
       'SELECT url_imagen FROM fotos WHERE id_vivienda = ? ORDER BY orden ASC',
       [id]
     );
 
-    // Mapeamos para enviar solo un array de strings (las URLs)
     vivienda.fotos = fotos.map(f => f.url_imagen);
-
     res.status(200).json(vivienda);
   } catch (error) {
-    console.error("Error al obtener el detalle de venta:", error);
+    console.error("Error en detalle compra:", error);
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-// --- DETALLE: Ver vivienda en ALQUILER por ID (con ciudad y barrio) ---
+// 9. DETALLE: VER VIVIENDA EN ALQUILAR POR ID
 exports.getViviendaAlquilerPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
   const sqlVivienda = `
-        SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
-               metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda, descripcion
-        FROM Vivienda
+        SELECT * FROM Vivienda
         WHERE id_vivienda = ? 
-          AND ciudad = ? 
-          AND barrio = ?
+          AND LOWER(ciudad) = LOWER(?) 
+          AND LOWER(barrio) = LOWER(?)
           AND tipo_transaccion = 'alquiler'`;
 
   try {
@@ -211,22 +154,19 @@ exports.getViviendaAlquilerPorId = async (req, res) => {
 
     const vivienda = result[0];
 
-    // SEGUNDA CONSULTA: Obtener todas las fotos
     const [fotos] = await db.query(
       'SELECT url_imagen FROM fotos WHERE id_vivienda = ? ORDER BY orden ASC',
       [id]
     );
 
     vivienda.fotos = fotos.map(f => f.url_imagen);
-
     res.status(200).json(vivienda);
   } catch (error) {
-    console.error("Error al obtener el detalle de alquiler:", error);
+    console.error("Error en detalle alquiler:", error);
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-// controladores/viviendas-controlador.js
 
 exports.getViviendasDestacadas = async (req, res) => {
   const tipo = req.query.tipo || 'venta'; 

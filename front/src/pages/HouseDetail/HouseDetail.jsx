@@ -7,11 +7,8 @@ import Footer from '../../components/Footer/Footer';
 import './HouseDetail.css';
 
 function HouseDetail() {
-  // Extraemos todos los parámetros definidos en el AppRouter
   const { tipo, ciudad, barrio, id } = useParams();
   const navigate = useNavigate();
-  
-  // Acceso a los datos de usuario y funciones de favoritos/guardado
   const idUsuario = useUserStore(state => state.idUsuario);
   const { toggleFavorite, toggleSave } = useHouseStore();
 
@@ -19,44 +16,31 @@ function HouseDetail() {
   const [imagenActual, setImagenActual] = useState(0);
 
   useEffect(() => {
-    // Solo ejecutamos el fetch si los parámetros obligatorios existen en la URL
     if (tipo && ciudad && barrio && id) {
       const cargarDatos = async () => {
         try {
-          // Petición al controlador que ya incluye vivienda + fotos en la respuesta
           const res = await fetch(`http://localhost:3000/viviendas/${tipo}/${ciudad}/${barrio}/${id}`);
-          
-          if (!res.ok) throw new Error("No se ha podido obtener la información de la vivienda");
-
+          if (!res.ok) throw new Error("Vivienda no encontrada");
           const data = await res.json();
           setVivienda(data);
         } catch (err) {
-          console.error("Error al conectar con la base de datos:", err);
+          console.error("Error al conectar:", err);
         }
       };
-
       cargarDatos();
     }
-    // Aseguramos que el usuario aparezca al principio de la página al navegar
     window.scrollTo(0, 0);
   }, [tipo, ciudad, barrio, id]);
 
-  // Mientras no haya datos, mostramos un mensaje de carga para evitar errores de renderizado
-  if (!vivienda) {
-    return (
-      <>
-        <Header />
-        <div className="cargando-vivienda">Cargando detalles de la vivienda...</div>
-        <Footer />
-      </>
-    );
-  }
+  if (!vivienda) return (
+    <>
+      <Header />
+      <div style={{padding: "100px", textAlign: "center"}}>Cargando detalles de la vivienda...</div>
+      <Footer />
+    </>
+  );
 
-  // Las fotos vienen del controlador como un array llamado 'fotos'
   const fotos = vivienda.fotos || [];
-
-  const siguiente = () => setImagenActual((prev) => (prev === fotos.length - 1 ? 0 : prev + 1));
-  const anterior = () => setImagenActual((prev) => (prev === 0 ? fotos.length - 1 : prev - 1));
 
   return (
     <>
@@ -64,26 +48,21 @@ function HouseDetail() {
       <div className="pagina-detalle">
         <div className="contenido">
 
-          {/* FILA SUPERIOR: Carrusel Dinámico + Tarjeta de Información */}
+          {/* FILA SUPERIOR: Carrusel + Tarjeta Info */}
           <div className="fila-superior">
-            
-            {/* CONTENEDOR DEL CARRUSEL */}
             <div className="caja-foto">
               {fotos.length > 0 ? (
                 <>
                   <img src={fotos[imagenActual]} alt={vivienda.titulo} />
-                  <button className="flecha izq" onClick={anterior}>❮</button>
-                  <button className="flecha der" onClick={siguiente}>❯</button>
+                  <button className="flecha izq" onClick={() => setImagenActual(p => p === 0 ? fotos.length - 1 : p - 1)}>❮</button>
+                  <button className="flecha der" onClick={() => setImagenActual(p => p === fotos.length - 1 ? 0 : p + 1)}>❯</button>
                   <div className="contador">{imagenActual + 1} / {fotos.length}</div>
                 </>
-              ) : (
-                <div className="sin-foto">No hay fotos disponibles para esta vivienda</div>
-              )}
+              ) : <div className="sin-foto">No hay fotos disponibles</div>}
             </div>
 
-            {/* TARJETA DE DATOS (Columnas de tu BDD) */}
             <div className="tarjeta-info">
-              <h2>{vivienda.titulo || "Datos de la vivienda"}</h2>
+              <h2>Datos de la vivienda</h2>
               <div className="lista-datos">
                 <p><strong>Ciudad:</strong> {vivienda.ciudad}</p>
                 <p><strong>Provincia:</strong> {vivienda.provincia}</p>
@@ -95,52 +74,34 @@ function HouseDetail() {
                 <p><strong>Baños:</strong> {vivienda.num_baños}</p>
               </div>
 
-              {/* Conexión con useHouseStore */}
               <div className="botones-guardar">
-                <button 
-                  className="boton-favorito" 
-                  onClick={() => toggleFavorite(vivienda.id_vivienda, idUsuario)}
-                >
-                  ❤️ Favorito
-                </button>
-                <button 
-                  className="boton-guardar" 
-                  onClick={() => toggleSave(vivienda.id_vivienda, idUsuario)}
-                >
-                  🔔 Guardar
-                </button>
+                <button className="boton-favorito" onClick={() => toggleFavorite(vivienda.id_vivienda, idUsuario)}>❤️ Favorito</button>
+                <button className="boton-guardar" onClick={() => toggleSave(vivienda.id_vivienda, idUsuario)}>🔔 Guardar</button>
               </div>
             </div>
           </div>
 
-          {/* SECCIÓN DE DESCRIPCIÓN */}
+          {/* DESCRIPCIÓN */}
           <div className="seccion-texto">
             <div className="tarjeta-texto">
               <h3>Descripción</h3>
-              {vivienda.descripcion ? (
-                vivienda.descripcion.split('\n').map((parrafo, i) => (
-                  <p key={i}>{parrafo}</p>
-                ))
-              ) : (
-                <p>Esta vivienda no dispone de descripción detallada.</p>
-              )}
+              {vivienda.descripcion_detallada?.split('\n').map((p, i) => <p key={i}>{p}</p>) || <p>Sin descripción disponible.</p>}
             </div>
           </div>
 
-          {/* FILA INFERIOR: Mapa Dinámico + Contacto */}
+          {/* FILA INFERIOR: Mapa + Contacto */}
           <div className="fila-inferior">
+            {/* MAPA DINÁMICO */}
             <div className="caja-mapa">
               <iframe 
-                title="mapa-ubicacion" 
-                src={`https://maps.google.com/maps?q=${vivienda.direccion || vivienda.barrio},${vivienda.ciudad}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen="" 
-                loading="lazy">
+                title="map" 
+                src={`https://maps.google.com/maps?q=${vivienda.direccion || vivienda.barrio},${vivienda.ciudad}&output=embed`} 
+                width="100%" height="100%" style={{ border: 0 }} 
+                allowFullScreen="" loading="lazy">
               </iframe>
             </div>
 
+            {/* CAJITA DE CONTACTO */}
             <div className="tarjeta-contacto">
               <div className="perfil-agente">
                 <div className="avatar">N</div>
@@ -149,9 +110,7 @@ function HouseDetail() {
                   <p>Agente especializado</p>
                 </div>
               </div>
-
               <div className="linea-fina"></div>
-
               <div className="metodos-contacto">
                 <div className="item-contacto">
                   <span className="icono">📞</span>
@@ -175,10 +134,9 @@ function HouseDetail() {
                   </div>
                 </div>
               </div>
-
               <div className="botones-contacto">
                 <button className="boton-negro">Enviar mensaje</button>
-                <button className="boton-borde" onClick={() => window.print()}>Llamar ahora</button>
+                <button className="boton-borde">Llamar ahora</button>
               </div>
             </div>
           </div>
