@@ -1,0 +1,32 @@
+.neighborhood-results-viewport {
+    background-color: #fdfaf5; /* Fondo beige claro */
+    min-height: 100vh;
+}
+
+.neighborhood-main {
+    max-width: 900px; /* Alineado al ancho de las HouseCards */
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.neighborhood-header {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.neighborhood-label {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.neighborhood-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Espacio entre las tarjetas según prototipo */
+    width: 100%;
+}
