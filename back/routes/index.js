@@ -35,7 +35,12 @@ router.get('/viviendas/alquilar/:ciudad/:barrio/:id', viviendasController.getViv
 
 // 5. OTROS
 router.post('/vender/anuncio', anunciosController.iniciarPublicacion);
+
+router.delete('/anuncios/:id', anunciosController.borrarAnuncio); 
+router.get('/vendedor/:id/lista-anuncios', anunciosController.listarAnunciosVendedor);
+
 router.post('/historial/busqueda', historialController.guardarBusqueda);
+router.post('/historial/lista', historialController.getHistorial);
 router.post('/favoritos', favoritosController.addFavorite);
 router.post('/favoritos/lista', favoritosController.getFavorites);
 
