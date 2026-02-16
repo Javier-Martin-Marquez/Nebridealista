@@ -13,27 +13,27 @@ router.get('/', (req, res) => {
     res.json({ message: "API NEBRIDEALISTA funcionando." });
 });
 
-// 1. AUTENTICACIÓN
+// AUTENTICACIÓN
 router.post('/registro', authController.registro);
 router.post('/login', authController.login);
 
-// 2. VIVIENDAS (LISTADOS)
+// VIVIENDAS
 router.get('/viviendas', viviendasController.getViviendasGeneral);
 router.get('/viviendas/destacadas', viviendasController.getViviendasDestacadas);
 router.get('/viviendas/alquilar', viviendasController.getViviendasAlquiler);
 router.get('/viviendas/comprar', viviendasController.getViviendasCompra);
 
-// 3. FILTROS POR ZONA
+// FILTROS POR ZONA
 router.get('/viviendas/alquiler/:ciudad', viviendasController.getViviendasAlquilerPorCiudad); 
 router.get('/viviendas/comprar/:ciudad', viviendasController.getViviendasCompraPorCiudad);
 router.get('/viviendas/comprar/:ciudad/:barrio', viviendasController.getViviendasCompraPorBarrio);
 router.get('/viviendas/alquiler/:ciudad/:barrio', viviendasController.getViviendasAlquilerPorBarrio);
 
-// 4. DETALLES (RUTAS EN ESPAÑOL COMO HAS PEDIDO)
+// DETALLES
 router.get('/viviendas/comprar/:ciudad/:barrio/:id', viviendasController.getViviendaCompraPorId);
 router.get('/viviendas/alquiler/:ciudad/:barrio/:id', viviendasController.getViviendaAlquilerPorId);
 
-// 5. OTROS
+// OTROS
 router.post('/vender/anuncio', anunciosController.iniciarPublicacion);
 
 router.delete('/anuncios/:id', anunciosController.borrarAnuncio); 
