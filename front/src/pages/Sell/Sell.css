@@ -73,3 +73,92 @@
     background-color: #DA8E35;
     color: white;
 }
+
+/* --- ESTILOS ADAPTADOS PARA LA SUBIDA DE FOTOS --- */
+
+.upload-box-container {
+    width: 100%;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.upload-label-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4a3a2a;
+    margin-left: 20px; /* Alineado con el texto de los inputs */
+    text-transform: uppercase;
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: #fdfaf5; /* Tu color crema */
+    border: 2px dashed #DA8E35; /* Tu naranja */
+    border-radius: 40px; /* Bordes redondeados como tu card */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.upload-placeholder:hover {
+    background-color: #DA8E35;
+    color: white;
+}
+
+.upload-placeholder:hover .upload-formats {
+    color: white;
+}
+
+.upload-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.upload-formats {
+    font-size: 0.8rem;
+    color: #DA8E35;
+    margin-top: 5px;
+}
+
+/* Contenedor de la vista previa */
+.preview-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 40px;
+    overflow: hidden;
+    border: 4px solid #DA8E35;
+    height: 300px; /* Altura fija para que no sea gigante */
+}
+
+.upload-img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.upload-remove-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #fdfaf5;
+    color: #DA8E35;
+    border: 2px solid #DA8E35;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-remove-btn:hover {
+    background-color: #ff4d4d;
+    color: white;
+    border-color: #ff4d4d;
+}
