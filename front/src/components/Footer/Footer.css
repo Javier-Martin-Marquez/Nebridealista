@@ -79,3 +79,33 @@
   text-align: center;
   font-size: 0.85rem;
 }
+
+/* --- Responsive Design --- */
+
+/* Tablets y pantallas medianas (menos de 992px) */
+@media (max-width: 992px) {
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr); /* Pasa a 2 columnas */
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-footer {
+    padding: 40px 15px 20px 15px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center; 
+    gap: 30px;
+  }
+
+  .footer-logo, .footer-socials {
+    justify-content: center; 
+  }
+
+  .footer-bottom {
+    margin-top: 30px;
+  }
+}
