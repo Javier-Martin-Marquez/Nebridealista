@@ -1,7 +1,7 @@
 // controladores/viviendas-controlador.js
 const db = require('../config/database');
 
-// 1. LISTADO GENERAL
+// LISTADO GENERAL
 exports.getViviendasGeneral = async (req, res) => {
   const sql = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
@@ -18,7 +18,7 @@ exports.getViviendasGeneral = async (req, res) => {
   }
 };
 
-// 2. LISTADO: SOLO ALQUILAR
+// LISTADO: SOLO ALQUILAR
 exports.getViviendasAlquiler = async (req, res) => {
   const sql = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
@@ -35,7 +35,7 @@ exports.getViviendasAlquiler = async (req, res) => {
   }
 };
 
-// 3. LISTADO: SOLO COMPRAR (Venta)
+// LISTADO: SOLO COMPRAR (Venta)
 exports.getViviendasCompra = async (req, res) => {
   const sql = `
         SELECT id_vivienda, titulo, ciudad, provincia, barrio, precio, tipo_transaccion, 
@@ -52,55 +52,79 @@ exports.getViviendasCompra = async (req, res) => {
   }
 };
 
-// 4. FILTRO: COMPRAR POR CIUDAD
+// FILTRO: COMPRAR POR CIUDAD
 exports.getViviendasCompraPorCiudad = async (req, res) => {
   const { ciudad } = req.params;
-  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'venta' AND LOWER(ciudad) = LOWER(?)`;
+  const sql = `
+    SELECT v.*, f.url_imagen 
+    FROM Vivienda v 
+    LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1 
+    WHERE v.tipo_transaccion = 'venta' AND LOWER(v.ciudad) = LOWER(?)`;
+  
   try {
     const [viviendas] = await db.query(sql, [ciudad]);
     res.status(200).json(viviendas);
   } catch (error) {
+    console.error("Error en getViviendasCompraPorCiudad:", error);
     res.status(500).json({ message: "Error por ciudad." });
   }
 };
 
-// 5. FILTRO: ALQUILAR POR CIUDAD
+// FILTRO: ALQUILAR POR CIUDAD
 exports.getViviendasAlquilerPorCiudad = async (req, res) => {
   const { ciudad } = req.params;
-  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'alquiler' AND LOWER(ciudad) = LOWER(?)`;
+  const sql = `
+    SELECT v.*, f.url_imagen 
+    FROM Vivienda v 
+    LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1 
+    WHERE v.tipo_transaccion = 'alquiler' AND LOWER(v.ciudad) = LOWER(?)`;
+  
   try {
     const [viviendas] = await db.query(sql, [ciudad]);
     res.status(200).json(viviendas);
   } catch (error) {
+    console.error("Error en getViviendasAlquilerPorCiudad:", error);
     res.status(500).json({ message: "Error por ciudad." });
   }
 };
 
-// 6. FILTRO: COMPRAR POR BARRIO
+// FILTRO: COMPRAR POR BARRIO
 exports.getViviendasCompraPorBarrio = async (req, res) => {
   const { ciudad, barrio } = req.params;
-  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'venta' AND LOWER(ciudad) = LOWER(?) AND LOWER(barrio) = LOWER(?)`;
+  const sql = `
+    SELECT v.*, f.url_imagen 
+    FROM Vivienda v 
+    LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1 
+    WHERE v.tipo_transaccion = 'venta' AND LOWER(v.ciudad) = LOWER(?) AND LOWER(v.barrio) = LOWER(?)`;
+  
   try {
     const [viviendas] = await db.query(sql, [ciudad, barrio]);
     res.status(200).json(viviendas);
   } catch (error) {
+    console.error("Error en getViviendasCompraPorBarrio:", error);
     res.status(500).json({ message: "Error por barrio." });
   }
 };
 
-// 7. FILTRO: ALQUILAR POR BARRIO
+// FILTRO: ALQUILAR POR BARRIO
 exports.getViviendasAlquilerPorBarrio = async (req, res) => {
   const { ciudad, barrio } = req.params;
-  const sql = `SELECT * FROM Vivienda WHERE tipo_transaccion = 'alquiler' AND LOWER(ciudad) = LOWER(?) AND LOWER(barrio) = LOWER(?)`;
+  const sql = `
+    SELECT v.*, f.url_imagen 
+    FROM Vivienda v 
+    LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1 
+    WHERE v.tipo_transaccion = 'alquiler' AND LOWER(v.ciudad) = LOWER(?) AND LOWER(v.barrio) = LOWER(?)`;
+  
   try {
     const [viviendas] = await db.query(sql, [ciudad, barrio]);
     res.status(200).json(viviendas);
   } catch (error) {
+    console.error("Error en getViviendasAlquilerPorBarrio:", error);
     res.status(500).json({ message: "Error por barrio." });
   }
 };
 
-// 8. DETALLE: VER VIVIENDA EN COMPRAR (Venta) POR ID
+// DETALLE: VER VIVIENDA EN COMPRAR (Venta) POR ID
 exports.getViviendaCompraPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
@@ -134,7 +158,7 @@ exports.getViviendaCompraPorId = async (req, res) => {
   }
 };
 
-// 9. DETALLE: VER VIVIENDA EN ALQUILAR POR ID
+// DETALLE: VER VIVIENDA EN ALQUILAR POR ID
 exports.getViviendaAlquilerPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
