@@ -1,10 +1,18 @@
-import { Heart, Bookmark } from 'lucide-react'; // Importamos los iconos
+import { useNavigate } from 'react-router-dom';
+import { Heart, Bookmark } from 'lucide-react';
 import './HouseCard.css';
 
 function HouseCard({ vivienda, isFavouritePage = false, isSavedPage = false, onFavoriteClick, onSaveClick }) {
+  const navigate = useNavigate();
+
+  const irADetalle = () => {
+    const tipoRuta = vivienda.tipo_transaccion === 'venta' ? 'comprar' : 'alquiler';
+    
+    navigate(`/vivienda/${tipoRuta}/${vivienda.ciudad}/${vivienda.barrio}/${vivienda.id_vivienda}`);
+  };
 
   return (
-    <div className="house-card">
+    <div className="house-card" onClick={irADetalle}>
       <div className="house-card-img">
         <img 
           src={vivienda.url_imagen || "/images/home/comprar.png"} 
@@ -33,10 +41,12 @@ function HouseCard({ vivienda, isFavouritePage = false, isSavedPage = false, onF
         </div>
 
         <div className="house-actions">
-          {/* BOTÓN GUARDAR BÚSQUEDA */}
           <button 
             className="action-btn" 
-            onClick={() => onSaveClick(vivienda.id_vivienda)}
+            onClick={(e) => {
+              e.stopPropagation(); // Evita que al dar al icono se abra el detalle
+              onSaveClick(vivienda.id_vivienda);
+            }}
           >
             <Bookmark 
               size={24} 
@@ -45,10 +55,12 @@ function HouseCard({ vivienda, isFavouritePage = false, isSavedPage = false, onF
             />
           </button>
 
-          {/* BOTÓN FAVORITOS */}
           <button 
             className="action-btn" 
-            onClick={() => onFavoriteClick(vivienda.id_vivienda)}
+            onClick={(e) => {
+              e.stopPropagation(); // Evita que al dar al icono se abra el detalle
+              onFavoriteClick(vivienda.id_vivienda);
+            }}
           >
             <Heart 
               size={24} 

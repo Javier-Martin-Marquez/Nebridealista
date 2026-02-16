@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../stores/userStore'; 
+import { useHouseStore } from '../../stores/houseStore';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import HouseCard from '../../components/HouseCard/HouseCard';
@@ -10,55 +11,48 @@ function CityResults() {
   const { tipo, ciudad } = useParams(); 
   const navigate = useNavigate();
   
-  // Obtenemos el ID del usuario de Zustand para las acciones
+  // Zustand: Datos del usuario y acciones/estados de casas
   const userId = useUserStore(state => state.idUsuario); 
+  const { toggleFavorite, toggleSave, favorites, saved } = useHouseStore();
 
   const [viviendas, setViviendas] = useState([]);
   const [barrios, setBarrios] = useState([]);
 
   useEffect(() => {
-    // Mapeo: 'comprar' -> 'compra' / 'alquilar' -> 'alquiler'
-    const tipoQuery = tipo === 'comprar' ? 'compra' : 'alquiler';
+    const tipoQuery = tipo === 'comprar' ? 'comprar' : 'alquiler';
     
     fetch(`http://localhost:3000/viviendas/${tipoQuery}/${ciudad}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Error en la carga");
+        return res.json();
+      })
       .then(data => {
+        if (data.length === 0) {
+          navigate('/not-found');
+          return;
+        }
+        
         setViviendas(data);
         const listaBarrios = [...new Set(data.map(v => v.barrio))];
         setBarrios(listaBarrios);
       })
-      .catch(err => console.error("Error al cargar viviendas:", err));
-  }, [tipo, ciudad]);
-
-  // Lógica real para Favoritos
-  const manejarFavorito = async (idVivienda) => {
-    if (!userId) return alert("Inicia sesión para guardar favoritos");
-    
-    try {
-      const response = await fetch("http://localhost:3000/favoritos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_usuario: userId, id_vivienda: idVivienda }),
+      .catch(err => {
+        console.error("Error al cargar viviendas:", err);
+        navigate('/not-found');
       });
-      if (response.ok) console.log("Añadido a favoritos");
-    } catch (error) {
-      console.error("Error en favoritos:", error);
+  }, [tipo, ciudad, navigate]);
+
+  const manejarFavorito = async (idVivienda) => {
+    const result = await toggleFavorite(idVivienda, userId);
+    if (result.action === 'error' && result.message) {
+      alert(result.message);
     }
   };
 
-  // Lógica real para Guardar Búsqueda
   const manejarGuardar = async (idVivienda) => {
-    if (!userId) return alert("Inicia sesión para guardar");
-    
-    try {
-      await fetch("http://localhost:3000/historial/busqueda", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_usuario: userId, id_vivienda: idVivienda }),
-      });
-      console.log("Búsqueda guardada");
-    } catch (error) {
-      console.error("Error al guardar búsqueda:", error);
+    const result = await toggleSave(idVivienda, userId);
+    if (result.action === 'error' && result.message) {
+      alert(result.message);
     }
   };
 
@@ -72,7 +66,6 @@ function CityResults() {
       <Header />
       
       <main className="city-results-main">
-        {/* BLOQUE SUPERIOR CENTRADO */}
         <section className="city-header-layout">
           <div className="city-controls">
             <div className="city-title-display">
@@ -93,26 +86,23 @@ function CityResults() {
           <div className="city-map-container">
             <iframe
               title="mapa-centrado"
-              src={`https://maps.google.com/maps?q=$${ciudad}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+              src={`https://www.google.com/maps?q=${ciudad}&output=embed`}
               className="city-map-iframe"
             ></iframe>
           </div>
         </section>
 
-        {/* LISTADO DE TARJETAS (Sin cambiar tamaño) */}
         <section className="city-cards-stack">
-          {viviendas.length > 0 ? (
-            viviendas.map((casa) => (
-              <HouseCard 
-                key={casa.id_vivienda}
-                vivienda={casa}
-                onFavoriteClick={manejarFavorito}
-                onSaveClick={manejarGuardar}
-              />
-            ))
-          ) : (
-            <div className="no-results">No hay viviendas disponibles en esta ciudad.</div>
-          )}
+          {viviendas.map((vivienda) => (
+            <HouseCard 
+              key={vivienda.id_vivienda}
+              vivienda={vivienda}
+              isFavouritePage={favorites.includes(vivienda.id_vivienda)}
+              isSavedPage={saved.includes(vivienda.id_vivienda)}
+              onFavoriteClick={() => manejarFavorito(vivienda.id_vivienda)}
+              onSaveClick={() => manejarGuardar(vivienda.id_vivienda)}
+            />
+          ))}
         </section>
       </main>
 
