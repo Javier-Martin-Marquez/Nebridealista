@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Home, Search } from 'lucide-react'; // Usamos iconos para darle vida
+import { Home, Search } from 'lucide-react';
 import './NotFound.css';
 
 function NotFound() {
@@ -31,7 +31,7 @@ function NotFound() {
           
           <button 
             className="btn-secondary-nf" 
-            onClick={() => navigate(-1)} // Función para ir a la página anterior
+            onClick={() => navigate(-1)}
           >
             Regresar atrás
           </button>
