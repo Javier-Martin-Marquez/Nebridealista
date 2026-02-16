@@ -37,7 +37,6 @@
   object-fit: contain;
 }
 
-/* --- NAVEGACIÓN CENTRAL --- */
 .header-nav {
   display: flex;
   gap: 30px;
@@ -55,7 +54,6 @@
   opacity: 0.7;
 }
 
-/* --- SECCIÓN DE USUARIO Y DESPLEGABLE --- */
 .header-user {
   display: flex;
   align-items: center;
@@ -63,16 +61,15 @@
 }
 
 .user-menu-container {
-  position: relative; /* Base para que el menú flote correctamente */
+  position: relative; 
   display: flex;
   align-items: center;
 }
 
-/* El bloque que contiene icono + nombre */
 .user-trigger {
   display: flex;
   align-items: center;
-  gap: 8px; /* Espacio entre muñequito y nombre */
+  gap: 8px; 
   text-decoration: none;
   padding: 5px 10px;
   border-radius: 8px;
@@ -96,10 +93,9 @@
   white-space: nowrap;
 }
 
-/* CAJA DEL MENÚ (DROPDOWN) */
 .user-dropdown {
   position: absolute;
-  top: 140%; /* Un poco más abajo del header */
+  top: 140%;
   right: 0;
   background-color: #fdfaf5;
   border: 2px solid #E09135;
@@ -147,9 +143,68 @@
   color: #000;
 }
 
-/* Estilo específico para Salir */
 .dropdown-logout {
   border-top: 1px solid rgba(224, 145, 53, 0.3) !important;
   font-weight: 700;
   color: #4a3a2a !important;
+}
+
+/* --- RESPONSIVE: NAVEGACIÓN SIEMPRE VISIBLE --- */
+
+@media (max-width: 850px) {
+  .header-container {
+    flex-wrap: wrap; 
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .header-nav {
+    order: 3; 
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    overflow-x: auto; 
+    white-space: nowrap;
+    padding-bottom: 5px;
+  }
+
+  .nav-link {
+    font-size: 15px; 
+    padding: 5px 2px;
+  }
+
+  .header-logo {
+    order: 1;
+  }
+
+  .brand-name-home {
+    font-size: 18px;
+  }
+
+  .logo-icon img {
+    width: 50px;
+  }
+
+  .header-user {
+    order: 2;
+  }
+
+  .access-text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .brand-name-home {
+    display: none; 
+  }
+  
+  .header-nav {
+    gap: 10px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
 }
