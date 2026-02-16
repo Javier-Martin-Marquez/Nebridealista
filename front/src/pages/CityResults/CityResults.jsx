@@ -28,7 +28,7 @@ function CityResults() {
       })
       .then(data => {
         if (data.length === 0) {
-          navigate('/not-found');
+          navigate('/not-found', { replace: true });
           return;
         }
         
@@ -38,7 +38,7 @@ function CityResults() {
       })
       .catch(err => {
         console.error("Error al cargar viviendas:", err);
-        navigate('/not-found');
+        navigate('/not-found', { replace: true });
       });
   }, [tipo, ciudad, navigate]);
 
