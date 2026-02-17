@@ -11,16 +11,39 @@ function Rent() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Pedimos destacados de alquiler al backend
     fetch("http://localhost:3000/viviendas/destacadas?tipo=alquiler")
       .then(res => res.json())
       .then(data => {
+        // Mantenemos tu estructura original pero inyectamos 'viviendaCompleta'
         const listado = [
-          { id: data.recientes[0]?.id_vivienda, title: 'Última publicación', name: data.recientes[0]?.titulo, img: data.recientes[0]?.url_imagen },
-          { id: data.recientes[1]?.id_vivienda, title: 'Última publicación', name: data.recientes[1]?.titulo, img: data.recientes[1]?.url_imagen },
-          { id: data.masBuscada?.id_vivienda, title: 'Más guardada', name: data.masBuscada?.titulo, img: data.masBuscada?.url_imagen },
-          { id: data.masFavorita?.id_vivienda, title: 'Más favorita', name: data.masFavorita?.titulo, img: data.masFavorita?.url_imagen },
+          { 
+            title: 'Última publicación', 
+            name: data.recientes?.[0]?.titulo, 
+            img: data.recientes?.[0]?.url_imagen,
+            viviendaCompleta: data.recientes?.[0] 
+          },
+          { 
+            title: 'Última publicación', 
+            name: data.recientes?.[1]?.titulo, 
+            img: data.recientes?.[1]?.url_imagen,
+            viviendaCompleta: data.recientes?.[1]
+          },
+          { 
+            title: 'Más guardada', 
+            name: data.masBuscada?.titulo, 
+            img: data.masBuscada?.url_imagen,
+            viviendaCompleta: data.masBuscada
+          },
+          { 
+            title: 'Más favorita', 
+            name: data.masFavorita?.titulo, 
+            img: data.masFavorita?.url_imagen,
+            viviendaCompleta: data.masFavorita
+          },
         ];
-        setDestacados(listado.filter(item => item.id !== undefined));
+        // Seteamos el listado filtrando solo los que realmente existen
+        setDestacados(listado.filter(item => item.viviendaCompleta !== undefined && item.viviendaCompleta !== null));
       })
       .catch(err => console.error("Error cargando destacados:", err));
   }, []);
@@ -56,7 +79,14 @@ function Rent() {
           <h2 className="novedades-title">Novedades y viviendas destacadas en alquiler</h2>
           <div className="featured-capsule">
             {destacados.map((item, index) => (
-              <NewBox key={index} title={item.title} houseTitle={item.name} image={item.img || "/images/home/alquilar.png"} />
+              /* Pasamos la prop vivienda necesaria para que el botón funcione */
+              <NewBox 
+                key={index} 
+                title={item.title} 
+                houseTitle={item.name} 
+                image={item.img || "/images/home/alquilar.png"} 
+                vivienda={item.viviendaCompleta} 
+              />
             ))}
           </div>
         </div>

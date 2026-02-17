@@ -14,13 +14,35 @@ function Buy() {
     fetch("http://localhost:3000/viviendas/destacadas?tipo=venta")
       .then(res => res.json())
       .then(data => {
+        // Restauramos tu lógica original de construcción del array
         const listado = [
-          { id: data.recientes[0]?.id_vivienda, title: 'Última publicación', name: data.recientes[0]?.titulo, img: data.recientes[0]?.url_imagen },
-          { id: data.recientes[1]?.id_vivienda, title: 'Última publicación', name: data.recientes[1]?.titulo, img: data.recientes[1]?.url_imagen },
-          { id: data.masBuscada?.id_vivienda, title: 'Más guardada', name: data.masBuscada?.titulo, img: data.masBuscada?.url_imagen },
-          { id: data.masFavorita?.id_vivienda, title: 'Más favorita', name: data.masFavorita?.titulo, img: data.masFavorita?.url_imagen },
+          { 
+            title: 'Última publicación', 
+            name: data.recientes?.[0]?.titulo, 
+            img: data.recientes?.[0]?.url_imagen,
+            viviendaCompleta: data.recientes?.[0] 
+          },
+          { 
+            title: 'Última publicación', 
+            name: data.recientes?.[1]?.titulo, 
+            img: data.recientes?.[1]?.url_imagen,
+            viviendaCompleta: data.recientes?.[1]
+          },
+          { 
+            title: 'Más guardada', 
+            name: data.masBuscada?.titulo, 
+            img: data.masBuscada?.url_imagen,
+            viviendaCompleta: data.masBuscada
+          },
+          { 
+            title: 'Más favorita', 
+            name: data.masFavorita?.titulo, 
+            img: data.masFavorita?.url_imagen,
+            viviendaCompleta: data.masFavorita
+          },
         ];
-        setDestacados(listado.filter(item => item.id !== undefined));
+        // Eliminamos el filtro agresivo para que las cajas SALGAN SIEMPRE
+        setDestacados(listado);
       })
       .catch(err => console.error("Error cargando destacados:", err));
   }, []);
@@ -45,7 +67,6 @@ function Buy() {
               onChange={(e) => setBusqueda(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && manejarBusqueda()}
             />
-            {/* La lupa ahora se posicionará al final por el CSS */}
             <span className="search-icon" onClick={manejarBusqueda}>🔍</span>
           </div>
         </div>
@@ -58,7 +79,16 @@ function Buy() {
           <h2 className="novedades-title">Novedades y viviendas destacadas en venta</h2>
           <div className="featured-capsule">
             {destacados.map((item, index) => (
-              <NewBox key={index} title={item.title} houseTitle={item.name} image={item.img || "/images/home/comprar.png"} />
+              /* Solo renderizamos si el item tiene nombre (evita cajas vacías) */
+              item.name && (
+                <NewBox 
+                  key={index} 
+                  title={item.title} 
+                  houseTitle={item.name} 
+                  image={item.img || "/images/home/comprar.png"} 
+                  vivienda={item.viviendaCompleta} 
+                />
+              )
             ))}
           </div>
         </div>
