@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../stores/userStore';
-import { useHouseStore } from '../../stores/houseStore'; // 1. IMPORTA LA STORE DE CASAS
+import { useHouseStore } from '../../stores/houseStore';
 import './Header.css';
 
 function Header() {
@@ -11,7 +11,6 @@ function Header() {
   const userName = useUserStore(state => state.userName);
   const logout = useUserStore(state => state.logout);
   
-  // 2. EXTRAE LA FUNCIÓN DE LIMPIEZA
   const clearHouseData = useHouseStore(state => state.clearHouseData); 
 
   const handleLogout = () => {
@@ -25,7 +24,7 @@ function Header() {
     <header className="main-header">
       <div className="header-container">
 
-        {/* Logo y Nombre de marca */}
+        {/* Logo y Nombre */}
         <Link to="/" className="header-logo">
           <div className="logo-icon">
             <img src="/images/logo/imgLogo.png" alt="Logo Nebridealista" />

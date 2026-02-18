@@ -58,7 +58,7 @@
   }
 
   .action-box {
-    width: 45%; /* Se ponen de 2 en 2 */
+    width: 45%;
   }
 
   .action-title {
@@ -75,12 +75,12 @@
   }
 
   .action-box {
-    width: 100%; /* Una caja debajo de otra */
-    max-width: 350px; /* Evita que la caja sea gigante en móviles anchos */
+    width: 100%;
+    max-width: 350px;
   }
 
   .action-image-container {
-    height: 180px; /* Reducimos un poco la altura de la imagen */
+    height: 180px;
   }
 
   .action-title {
