@@ -1,10 +1,10 @@
 .neighborhood-results-viewport {
-    background-color: #fdfaf5; /* Fondo beige claro */
+    background-color: #fdfaf5;
     min-height: 100vh;
 }
 
 .neighborhood-main {
-    max-width: 900px; /* Alineado al ancho de las HouseCards */
+    max-width: 900px;
     margin: 0 auto;
     padding: 30px 20px;
 }
@@ -27,6 +27,6 @@
 .neighborhood-list {
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Espacio entre las tarjetas según prototipo */
+    gap: 25px;
     width: 100%;
 }

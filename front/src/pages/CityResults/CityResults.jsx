@@ -65,7 +65,7 @@ function CityResults() {
     <div className="city-results-viewport">
       <Header />
       
-      <main className="city-results-main">
+      <div className="city-results-main">
         <section className="city-header-layout">
           <div className="city-controls">
             <div className="city-title-display">
@@ -104,7 +104,7 @@ function CityResults() {
             />
           ))}
         </section>
-      </main>
+      </div>
 
       <Footer />
     </div>

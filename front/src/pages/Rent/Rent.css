@@ -63,12 +63,12 @@
 /* --- TÍTULO CENTRADO Y CON ESPACIO --- */
 .novedades-title {
   width: 100%;
-  text-align: center; /* Centra el texto */
+  text-align: center;
   font-size: 1.8rem;
   font-weight: 700;
   color: #333;
-  margin-top: 60px;   /* Espacio respecto al mapa */
-  margin-bottom: 40px; /* Espacio de separación con las cajas (viviendas) */
+  margin-top: 60px;
+  margin-bottom: 40px;
 }
 
 /* CAJAS DE VIVIENDAS */
