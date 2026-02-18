@@ -26,7 +26,7 @@
 }
 
 .footer-logo-img {
-  width: 80px;  /* Ajusta el tamaño a tu gusto */
+  width: 80px;
   height: auto;
   object-fit: contain;
 }
@@ -85,7 +85,7 @@
 /* Tablets y pantallas medianas (menos de 992px) */
 @media (max-width: 992px) {
   .footer-container {
-    grid-template-columns: repeat(2, 1fr); /* Pasa a 2 columnas */
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
   }
 }
