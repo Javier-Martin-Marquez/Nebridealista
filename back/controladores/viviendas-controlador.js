@@ -1,4 +1,3 @@
-// controladores/viviendas-controlador.js
 const db = require('../config/database');
 
 // LISTADO GENERAL
@@ -144,7 +143,6 @@ exports.getViviendaCompraPorId = async (req, res) => {
 
     const vivienda = result[0];
 
-    // Consulta de fotos: Usamos url_imagen que es el nombre correcto
     const [fotos] = await db.query(
       'SELECT url_imagen FROM fotos WHERE id_vivienda = ? ORDER BY orden ASC',
       [id]
@@ -162,6 +160,7 @@ exports.getViviendaCompraPorId = async (req, res) => {
 exports.getViviendaAlquilerPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
+  // Ajuste para que busque 'alquiler' aunque la ruta sea 'alquilar'
   const sqlVivienda = `
         SELECT * FROM Vivienda
         WHERE id_vivienda = ? 
@@ -191,20 +190,24 @@ exports.getViviendaAlquilerPorId = async (req, res) => {
   }
 };
 
-
+// 10. DESTACADAS
 exports.getViviendasDestacadas = async (req, res) => {
-  const tipo = req.query.tipo || 'venta'; 
+  let tipo = req.query.tipo || 'venta'; 
+
+  // Normalizamos el tipo para que coincida con la base de datos
+  if (tipo === 'comprar') tipo = 'venta';
+  if (tipo === 'alquilar') tipo = 'alquiler';
 
   try {
     const [recientes] = await db.query(`
-      SELECT v.id_vivienda, v.titulo, f.url_imagen 
+      SELECT v.id_vivienda, v.titulo, v.ciudad, v.barrio, v.tipo_transaccion, f.url_imagen 
       FROM Vivienda v 
       LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1 
       WHERE v.tipo_transaccion = ?
       ORDER BY v.fecha_publicacion DESC LIMIT 2`, [tipo]);
 
     const [masBuscada] = await db.query(`
-      SELECT v.id_vivienda, v.titulo, f.url_imagen, COUNT(b.id_vivienda) as total
+      SELECT v.id_vivienda, v.titulo, v.ciudad, v.barrio, v.tipo_transaccion, f.url_imagen, COUNT(b.id_vivienda) as total
       FROM Vivienda v
       JOIN Busquedas b ON v.id_vivienda = b.id_vivienda
       LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1
@@ -213,7 +216,7 @@ exports.getViviendasDestacadas = async (req, res) => {
       ORDER BY total DESC LIMIT 1`, [tipo]);
 
     const [masFavorita] = await db.query(`
-      SELECT v.id_vivienda, v.titulo, f.url_imagen, COUNT(fav.id_vivienda) as total
+      SELECT v.id_vivienda, v.titulo, v.ciudad, v.barrio, v.tipo_transaccion, f.url_imagen, COUNT(fav.id_vivienda) as total
       FROM Vivienda v
       JOIN Favoritos fav ON v.id_vivienda = fav.id_vivienda
       LEFT JOIN fotos f ON v.id_vivienda = f.id_vivienda AND f.orden = 1
