@@ -60,15 +60,14 @@
   display: block;
 }
 
-/* --- TÍTULO CENTRADO Y CON ESPACIO (IGUAL QUE RENT) --- */
 .novedades-title {
   width: 100%;
-  text-align: center; /* Centrado */
+  text-align: center;
   font-size: 1.8rem;
   font-weight: 700;
   color: #333;
   margin-top: 60px;
-  margin-bottom: 40px; /* Espacio antes de las cajas */
+  margin-bottom: 40px;
 }
 
 /* CAJAS DE VIVIENDAS */

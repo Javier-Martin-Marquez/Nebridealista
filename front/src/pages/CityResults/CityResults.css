@@ -4,12 +4,12 @@
 }
 
 .city-results-main {
-    max-width: 900px; /* Ajustamos para que coincida con el ancho de tus HouseCards */
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Todo centrado */
+    align-items: center;
 }
 
 /* Layout Superior */

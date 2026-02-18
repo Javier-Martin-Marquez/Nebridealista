@@ -13,8 +13,8 @@ function Sell() {
 
   const [viviendaData, setViviendaData] = useState({
     titulo: '', 
-    descripcion: '',        // Descripción corta (resumen)
-    descripcion_detallada: '', // Descripción larga
+    descripcion: '',
+    descripcion_detallada: '', 
     direccion: '', 
     barrio: '', 
     ciudad: '',
