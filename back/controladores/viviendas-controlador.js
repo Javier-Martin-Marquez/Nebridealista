@@ -190,7 +190,7 @@ exports.getViviendaAlquilerPorId = async (req, res) => {
   }
 };
 
-// 10. DESTACADAS
+// DESTACADAS
 exports.getViviendasDestacadas = async (req, res) => {
   let tipo = req.query.tipo || 'venta'; 
 

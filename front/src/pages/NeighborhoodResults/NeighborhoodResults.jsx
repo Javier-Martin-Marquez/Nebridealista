@@ -41,14 +41,14 @@ function NeighborhoodResults() {
   const manejarFavorito = async (idVivienda) => {
     const result = await toggleFavorite(idVivienda, idUsuario);
     if (result.action === 'error' && result.message) {
-      alert(result.message); // Aquí es donde sale el "Debes estar logueado"
+      alert(result.message);
     }
   };
 
   const manejarGuardar = async (idVivienda) => {
     const result = await toggleSave(idVivienda, idUsuario);
     if (result.action === 'error' && result.message) {
-      alert(result.message); // Aquí es donde sale el "Debes estar logueado"
+      alert(result.message);
     }
   };
 

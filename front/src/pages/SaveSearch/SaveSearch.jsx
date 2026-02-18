@@ -66,7 +66,6 @@ function SaveSearch() {
               <HouseCard
                 key={casa.id_vivienda}
                 vivienda={casa}
-                // Dinámico: se colorea según la store
                 isSavedPage={saved.includes(casa.id_vivienda)}
                 isFavouritePage={favorites.includes(casa.id_vivienda)}
                 onSaveClick={handleSaveClick}

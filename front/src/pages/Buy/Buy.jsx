@@ -14,7 +14,6 @@ function Buy() {
     fetch("http://localhost:3000/viviendas/destacadas?tipo=venta")
       .then(res => res.json())
       .then(data => {
-        // Restauramos tu lógica original de construcción del array
         const listado = [
           { 
             title: 'Última publicación', 
@@ -41,7 +40,6 @@ function Buy() {
             viviendaCompleta: data.masFavorita
           },
         ];
-        // Eliminamos el filtro agresivo para que las cajas SALGAN SIEMPRE
         setDestacados(listado);
       })
       .catch(err => console.error("Error cargando destacados:", err));

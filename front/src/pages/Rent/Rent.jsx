@@ -15,7 +15,6 @@ function Rent() {
     fetch("http://localhost:3000/viviendas/destacadas?tipo=alquiler")
       .then(res => res.json())
       .then(data => {
-        // Mantenemos tu estructura original pero inyectamos 'viviendaCompleta'
         const listado = [
           { 
             title: 'Última publicación', 
@@ -42,7 +41,6 @@ function Rent() {
             viviendaCompleta: data.masFavorita
           },
         ];
-        // Seteamos el listado filtrando solo los que realmente existen
         setDestacados(listado.filter(item => item.viviendaCompleta !== undefined && item.viviendaCompleta !== null));
       })
       .catch(err => console.error("Error cargando destacados:", err));
@@ -79,7 +77,6 @@ function Rent() {
           <h2 className="novedades-title">Novedades y viviendas destacadas en alquiler</h2>
           <div className="featured-capsule">
             {destacados.map((item, index) => (
-              /* Pasamos la prop vivienda necesaria para que el botón funcione */
               <NewBox 
                 key={index} 
                 title={item.title} 
