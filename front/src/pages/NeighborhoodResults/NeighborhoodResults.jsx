@@ -37,19 +37,12 @@ function NeighborhoodResults() {
       });
   }, [tipo, ciudad, barrio, navigate]);
 
-  // MANEJADORES CON ALERTA
   const manejarFavorito = async (idVivienda) => {
-    const result = await toggleFavorite(idVivienda, idUsuario);
-    if (result.action === 'error' && result.message) {
-      alert(result.message);
-    }
+    return await toggleFavorite(idVivienda, idUsuario);
   };
 
   const manejarGuardar = async (idVivienda) => {
-    const result = await toggleSave(idVivienda, idUsuario);
-    if (result.action === 'error' && result.message) {
-      alert(result.message);
-    }
+    return await toggleSave(idVivienda, idUsuario);
   };
 
   return (
