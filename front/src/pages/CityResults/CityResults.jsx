@@ -11,7 +11,6 @@ function CityResults() {
   const { tipo, ciudad } = useParams(); 
   const navigate = useNavigate();
   
-  // Zustand: Datos del usuario y acciones/estados de casas
   const userId = useUserStore(state => state.idUsuario); 
   const { toggleFavorite, toggleSave, favorites, saved } = useHouseStore();
 
@@ -43,17 +42,11 @@ function CityResults() {
   }, [tipo, ciudad, navigate]);
 
   const manejarFavorito = async (idVivienda) => {
-    const result = await toggleFavorite(idVivienda, userId);
-    if (result.action === 'error' && result.message) {
-      alert(result.message);
-    }
+    return await toggleFavorite(idVivienda, userId);
   };
 
   const manejarGuardar = async (idVivienda) => {
-    const result = await toggleSave(idVivienda, userId);
-    if (result.action === 'error' && result.message) {
-      alert(result.message);
-    }
+    return await toggleSave(idVivienda, userId);
   };
 
   const manejarBarrio = (e) => {
