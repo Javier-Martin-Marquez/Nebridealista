@@ -10,10 +10,11 @@ function HouseDetail() {
   const { tipo, ciudad, barrio, id } = useParams();
   const navigate = useNavigate();
   const idUsuario = useUserStore(state => state.idUsuario);
-  const { toggleFavorite, toggleSave } = useHouseStore();
+  const { toggleFavorite, toggleSave, favorites, saved } = useHouseStore();
 
   const [vivienda, setVivienda] = useState(null);
   const [imagenActual, setImagenActual] = useState(0);
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     if (tipo && ciudad && barrio && id) {
@@ -40,6 +41,16 @@ function HouseDetail() {
     </>
   );
 
+  const manejarAccion = async (actionFn) => {
+    const result = await actionFn(vivienda.id_vivienda, idUsuario);
+    if (result && result.action === 'error') {
+      setFeedback("Necesitas estar logueado para realizar esta acción");
+      setTimeout(() => setFeedback(""), 3000);
+    }
+  };
+
+  const esFavorito = favorites.includes(vivienda.id_vivienda);
+  const esGuardado = saved.includes(vivienda.id_vivienda);
   const fotos = vivienda.fotos || [];
 
   return (
@@ -47,8 +58,6 @@ function HouseDetail() {
       <Header />
       <div className="pagina-detalle">
         <div className="contenido">
-
-          {/* FILA SUPERIOR: Carrusel + Tarjeta Info */}
           <div className="fila-superior">
             <div className="caja-foto">
               {fotos.length > 0 ? (
@@ -74,14 +83,29 @@ function HouseDetail() {
                 <p><strong>Baños:</strong> {vivienda.num_baños}</p>
               </div>
 
+              {feedback && (
+                <div className="log-feedback-tag error">
+                  {feedback}
+                </div>
+              )}
+
               <div className="botones-guardar">
-                <button className="boton-favorito" onClick={() => toggleFavorite(vivienda.id_vivienda, idUsuario)}>❤️ Favorito</button>
-                <button className="boton-guardar" onClick={() => toggleSave(vivienda.id_vivienda, idUsuario)}>🔔 Guardar</button>
+                <button 
+                  className={`boton-favorito ${esFavorito ? 'activo' : ''}`} 
+                  onClick={() => manejarAccion(toggleFavorite)}
+                >
+                  {esFavorito ? '❤️ En favorito' : '🤍 Añadir favorito'}
+                </button>
+                <button 
+                  className={`boton-guardar ${esGuardado ? 'activo' : ''}`} 
+                  onClick={() => manejarAccion(toggleSave)}
+                >
+                  {esGuardado ? '🔔 Guardado' : '🔕 Guardar búsqueda'}
+                </button>
               </div>
             </div>
           </div>
 
-          {/* DESCRIPCIÓN */}
           <div className="seccion-texto">
             <div className="tarjeta-texto">
               <h3>Descripción</h3>
@@ -89,9 +113,7 @@ function HouseDetail() {
             </div>
           </div>
 
-          {/* FILA INFERIOR: Mapa + Contacto */}
           <div className="fila-inferior">
-            {/* MAPA DINÁMICO */}
             <div className="caja-mapa">
               <iframe 
                 title="map" 
@@ -101,7 +123,6 @@ function HouseDetail() {
               </iframe>
             </div>
 
-            {/* CAJITA DE CONTACTO */}
             <div className="tarjeta-contacto">
               <div className="perfil-agente">
                 <div className="avatar">N</div>
@@ -140,7 +161,6 @@ function HouseDetail() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
       <Footer />
