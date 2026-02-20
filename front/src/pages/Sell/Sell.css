@@ -1,3 +1,4 @@
+/* --- ESTRUCTURA GENERAL DE LA PÁGINA --- */
 .auth-viewport {
     display: flex;
     flex-direction: column;
@@ -35,6 +36,7 @@
     text-align: left;
 }
 
+/* --- FORMULARIO E INPUTS --- */
 .auth-form-stack {
     display: flex;
     flex-direction: column;
@@ -53,6 +55,14 @@
     box-sizing: border-box;   
     font-size: 1.1rem;
     outline: none;
+    font-family: inherit;
+}
+
+/* Clase específica para el área de texto detallada */
+.auth-textarea {
+    border-radius: 25px;
+    resize: none;
+    min-height: 120px;
 }
 
 .auth-btn-primary {
@@ -67,6 +77,7 @@
     cursor: pointer;
     margin-top: 10px;
     transition: all 0.3s ease;
+    font-size: 1.1rem;
 }
 
 .auth-btn-primary:hover {
@@ -74,14 +85,13 @@
     color: white;
 }
 
-/* --- ESTILOS ADAPTADOS PARA LA SUBIDA DE FOTOS --- */
-
+/* --- SECCIÓN DE SUBIDA DE IMÁGENES --- */
 .upload-box-container {
     width: 100%;
     margin-bottom: 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
 }
 
 .upload-label-text {
@@ -104,6 +114,8 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: center;
+    color: #DA8E35;
+    font-weight: bold;
 }
 
 .upload-placeholder:hover {
@@ -111,54 +123,51 @@
     color: white;
 }
 
-.upload-placeholder:hover .upload-formats {
-    color: white;
-}
-
 .upload-icon {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 10px;
 }
 
-.upload-formats {
-    font-size: 0.8rem;
-    color: #DA8E35;
-    margin-top: 5px;
+/* --- GRID DE PREVISUALIZACIÓN --- */
+.previews-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    padding: 0 10px;
 }
 
-/* Contenedor de la vista previa */
-.preview-wrapper {
-    position: relative;
-    width: 100%;
-    border-radius: 40px;
-    overflow: hidden;
-    border: 4px solid #DA8E35;
-    height: 300px;
-}
-
-.upload-img-preview {
-    width: 100%;
-    height: 100%;
+.mini-preview-img {
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    display: block;
+    border-radius: 15px;
+    border: 3px solid #DA8E35;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
 }
 
-.upload-remove-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #fdfaf5;
-    color: #DA8E35;
-    border: 2px solid #DA8E35;
-    padding: 10px 20px;
-    border-radius: 50px;
+.mini-preview-img:hover {
+    transform: scale(1.05);
+}
+
+/* --- FEEDBACK (MENSAJES DE ERROR/ÉXITO) --- */
+.log-feedback-tag {
+    padding: 15px;
+    border-radius: 20px;
+    text-align: center;
     font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    margin: 10px 0;
 }
 
-.upload-remove-btn:hover {
-    background-color: #ff4d4d;
-    color: white;
-    border-color: #ff4d4d;
+.log-feedback-tag.error {
+    background-color: #ffe6e6;
+    color: #d93025;
+    border: 1px solid #d93025;
+}
+
+.log-feedback-tag.success {
+    background-color: #e6ffed;
+    color: #28a745;
+    border: 1px solid #28a745;
 }
