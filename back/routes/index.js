@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // Importar Controladores 
 const authController = require('../controladores/autentificacion-controlador');
@@ -34,7 +38,7 @@ router.get('/viviendas/comprar/:ciudad/:barrio/:id', viviendasController.getVivi
 router.get('/viviendas/alquiler/:ciudad/:barrio/:id', viviendasController.getViviendaAlquilerPorId);
 
 // OTROS
-router.post('/vender/anuncio', anunciosController.iniciarPublicacion);
+router.post('/vender/anuncio', upload.array('foto', 5), anunciosController.iniciarPublicacion);
 
 router.delete('/anuncios/:id', anunciosController.borrarAnuncio); 
 router.get('/vendedor/:id/lista-anuncios', anunciosController.listarAnunciosVendedor);

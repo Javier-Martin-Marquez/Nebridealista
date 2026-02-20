@@ -1,45 +1,64 @@
-// Este archivo sirve para las queries de la parte de subir una vivienda, subir un anuncio a la pagina
-
-// controladores/anuncios-controlador.js
 const db = require('../config/database');
+const cloudinary = require('cloudinary').v2;
 
-// POST /vender/anuncio - Versión Unificada (Un solo paso)
+// CONFIGURACIÓN DE CLOUDINARY (Añadido para que no de error de api_key)
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// POST /vender/anuncio
 exports.iniciarPublicacion = async (req, res) => {
     const { 
-        id_anunciante, titulo, descripcion, direccion, barrio, 
+        id_anunciante, titulo, descripcion, descripcion_detallada, direccion, barrio, 
         ciudad, provincia, precio, tipo_transaccion, 
         metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda 
     } = req.body;
 
-    // Validación de campos obligatorios según tu SQL
-    if (!id_anunciante || !titulo || !direccion || !precio || !tipo_transaccion || !tipo_vivienda) {
-        return res.status(400).json({ message: 'Faltan campos obligatorios para publicar el anuncio.' });
-    }
+    const fotos = req.files;
 
     try {
-        const sql = `
+        const sqlVivienda = `
             INSERT INTO Vivienda (
-                id_anunciante, titulo, descripcion, direccion, barrio, 
+                id_anunciante, titulo, descripcion, descripcion_detallada, direccion, barrio, 
                 ciudad, provincia, precio, tipo_transaccion, 
                 metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
-        const [result] = await db.query(sql, [
-            id_anunciante, titulo, descripcion, direccion, barrio, 
+        const [result] = await db.query(sqlVivienda, [
+            id_anunciante, titulo, descripcion, descripcion_detallada, direccion, barrio, 
             ciudad, provincia, precio, tipo_transaccion, 
             metros_cuadrados, num_habitaciones, num_baños, tipo_vivienda
         ]);
 
+        const id_vivienda = result.insertId;
+
+        if (fotos && fotos.length > 0) {
+            for (let i = 0; i < fotos.length; i++) {
+                const file = fotos[i];
+                const b64 = Buffer.from(file.buffer).toString("base64");
+                const dataURI = "data:" + file.mimetype + ";base64," + b64;
+
+                const uploadRes = await cloudinary.uploader.upload(dataURI, {
+                    folder: `idealista/vivienda_${id_vivienda}`,
+                });
+
+                const sqlFoto = `INSERT INTO fotos (id_vivienda, url_imagen, orden) VALUES (?, ?, ?)`;
+                await db.query(sqlFoto, [id_vivienda, uploadRes.secure_url, i + 1]);
+            }
+        }
+
         res.status(201).json({
-            message: '¡Anuncio publicado con éxito!',
-            id_vivienda: result.insertId
+            message: '¡Propiedad y fotos publicadas con éxito!',
+            id_vivienda: id_vivienda
         });
 
     } catch (error) {
-        console.error("Error al publicar vivienda:", error);
-        res.status(500).json({ message: 'Error interno del servidor al guardar la vivienda.' });
+        console.error("Error al publicar:", error);
+        res.status(500).json({ message: 'Error interno al guardar el anuncio.' });
     }
 };
 
@@ -57,8 +76,8 @@ exports.borrarAnuncio = async (req, res) => {
     }
     res.status(200).json({ message: 'Anuncio eliminado con éxito.' });
   } catch (error) {
-    console.error("Error al borrar anuncio (Query #11):", error);
-    res.status(500).json({ message: 'Error interno del servidor al eliminar.' });
+    console.error("Error al borrar anuncio:", error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
   }
 };
 
