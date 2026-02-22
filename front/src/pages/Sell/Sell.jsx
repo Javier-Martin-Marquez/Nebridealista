@@ -12,30 +12,21 @@ function Sell() {
   const [feedback, setFeedback] = useState({ msg: '', type: '' });
 
   const [viviendaData, setViviendaData] = useState({
-    titulo: '', 
-    descripcion: '',
-    descripcion_detallada: '', 
-    direccion: '', 
-    barrio: '', 
-    ciudad: '',
-    provincia: '', 
-    precio: '', 
-    tipo_transaccion: '', 
-    metros_cuadrados: '',
-    num_habitaciones: '', 
-    num_baños: '', 
-    tipo_vivienda: ''
+    titulo: '', descripcion: '', descripcion_detallada: '', 
+    direccion: '', barrio: '', ciudad: '', provincia: '', 
+    precio: '', tipo_transaccion: '', metros_cuadrados: '',
+    num_habitaciones: '', num_baños: '', tipo_vivienda: ''
   });
 
-  const [foto, setFoto] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [fotos, setFotos] = useState([]);
+  const [previews, setPreviews] = useState([]);
 
   useEffect(() => {
-    if (!foto) { setPreview(null); return; }
-    const objectUrl = URL.createObjectURL(foto);
-    setPreview(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [foto]);
+    if (fotos.length === 0) { setPreviews([]); return; }
+    const objectUrls = fotos.map(f => URL.createObjectURL(f));
+    setPreviews(objectUrls);
+    return () => objectUrls.forEach(url => URL.revokeObjectURL(url));
+  }, [fotos]);
 
   const gestionarCambio = (e) => {
     const { name, value } = e.target;
@@ -47,20 +38,13 @@ function Sell() {
     setFeedback({ msg: '', type: '' });
 
     if (!idUsuario) {
-      setFeedback({ msg: "No puedes publicar si no has iniciado sesión.", type: 'error' });
-      return;
-    }
-
-    // Validar que no falten campos
-    const faltanCampos = Object.values(viviendaData).some(v => v === '') || !foto;
-    if (faltanCampos) {
-      setFeedback({ msg: "Por favor, completa todos los campos y sube una foto.", type: 'error' });
+      setFeedback({ msg: "Inicia sesión para publicar.", type: 'error' });
       return;
     }
 
     const formData = new FormData();
     formData.append('id_anunciante', idUsuario);
-    formData.append('foto', foto);
+    fotos.forEach(f => formData.append('foto', f));
     Object.keys(viviendaData).forEach(key => formData.append(key, viviendaData[key]));
 
     try {
@@ -72,13 +56,13 @@ function Sell() {
       const data = await response.json();
 
       if (response.ok) {
-        setFeedback({ msg: "¡Propiedad publicada con éxito!", type: 'success' });
-        setTimeout(() => navigate('/'), 1500);
+        setFeedback({ msg: "¡Publicado con éxito!", type: 'success' });
+        setTimeout(() => navigate('/'), 1000);
       } else {
         setFeedback({ msg: data.message || "Error al publicar", type: 'error' });
       }
     } catch (error) {
-      setFeedback({ msg: "Error de conexión con el servidor", type: 'error' });
+      setFeedback({ msg: "Error de conexión", type: 'error' });
     }
   };
 
@@ -91,72 +75,55 @@ function Sell() {
             <h2 className="auth-section-subtitle">PUBLICAR NUEVO ANUNCIO</h2>
 
             <form className="auth-form-stack" onSubmit={enviarPublicacion}>
-              {/* Título */}
-              <input className="auth-input" name="titulo" placeholder="Título del anuncio" onChange={gestionarCambio} />
+              <input className="auth-input" name="titulo" placeholder="Título" onChange={gestionarCambio} required />
+              <input className="auth-input" name="descripcion" placeholder="Descripción breve" onChange={gestionarCambio} required />
               
-              {/* Descripción CORTA (la que ya tenías) */}
-              <input className="auth-input" name="descripcion" placeholder="Descripcion breve" onChange={gestionarCambio} />
-
-              {/* DESCRIPCIÓN DETALLADA (Nueva abajo) */}
               <textarea 
-                className="auth-input" 
+                className="auth-input auth-textarea" 
                 name="descripcion_detallada" 
-                placeholder="Descripción completa y detallada (características, estado, equipamiento...)" 
+                placeholder="Descripción completa..." 
                 onChange={gestionarCambio}
-                rows="5"
-                style={{ borderRadius: '25px', resize: 'none', padding: '18px 25px' }} 
+                rows="5" 
+                required
               />
 
-              {/* Resto de campos */}
-              <input className="auth-input" name="direccion" placeholder="Calle y número" onChange={gestionarCambio} />
-              <input className="auth-input" name="barrio" placeholder="Barrio o zona" onChange={gestionarCambio} />
-              <input className="auth-input" name="ciudad" placeholder="Municipio / Ciudad" onChange={gestionarCambio} />
-              <input className="auth-input" name="provincia" placeholder="Provincia" onChange={gestionarCambio} />
-              <input className="auth-input" name="precio" placeholder="Precio (€)" type="number" onChange={gestionarCambio} />
+              <input className="auth-input" name="direccion" placeholder="Dirección" onChange={gestionarCambio} required />
+              <input className="auth-input" name="barrio" placeholder="Barrio" onChange={gestionarCambio} required />
+              <input className="auth-input" name="ciudad" placeholder="Ciudad" onChange={gestionarCambio} required />
+              <input className="auth-input" name="provincia" placeholder="Provincia" onChange={gestionarCambio} required />
+              <input className="auth-input" name="precio" placeholder="Precio" type="number" onChange={gestionarCambio} required />
 
-              <select className="auth-select" name="tipo_transaccion" onChange={gestionarCambio}>
-                <option value="">Selecciona modalidad: Venta o Alquiler</option>
+              <select className="auth-select" name="tipo_transaccion" onChange={gestionarCambio} required>
+                <option value="">Modalidad</option>
                 <option value="venta">Venta</option>
                 <option value="alquiler">Alquiler</option>
               </select>
 
-              <input className="auth-input" name="metros_cuadrados" placeholder="Superficie (m²)" type="number" onChange={gestionarCambio} />
-              <input className="auth-input" name="num_habitaciones" placeholder="Hab." type="number" onChange={gestionarCambio} />
-              <input className="auth-input" name="num_baños" placeholder="Baños" type="number" onChange={gestionarCambio} />
+              <input className="auth-input" name="metros_cuadrados" placeholder="m²" type="number" onChange={gestionarCambio} required />
+              <input className="auth-input" name="num_habitaciones" placeholder="Hab." type="number" onChange={gestionarCambio} required />
+              <input className="auth-input" name="num_baños" placeholder="Baños" type="number" onChange={gestionarCambio} required />
 
-              <select className="auth-select" name="tipo_vivienda" onChange={gestionarCambio}>
-                <option value="">Categoría del inmueble</option>
-                <option value="piso">Piso / Apartamento</option>
-                <option value="casa">Casa / Chalet</option>
+              <select className="auth-select" name="tipo_vivienda" onChange={gestionarCambio} required>
+                <option value="">Categoría</option>
+                <option value="piso">Piso</option>
+                <option value="casa">Casa</option>
                 <option value="garaje">Garaje</option>
-                <option value="local">Local comercial</option>
+                <option value="local">Local</option>
               </select>
 
               <div className="upload-box-container">
-                <p className="upload-label-text">Imagen de la propiedad</p>
-                {!preview ? (
-                  <label htmlFor="foto-upload" className="upload-placeholder">
-                    <div className="upload-icon">📸</div>
-                    <span>Haga clic para seleccionar una foto</span>
-                  </label>
-                ) : (
-                  <div className="preview-wrapper">
-                    <img src={preview} alt="Vista previa" className="upload-img-preview" />
-                    <button type="button" className="upload-remove-btn" onClick={() => setFoto(null)}>✕ Quitar</button>
-                  </div>
-                )}
-                <input id="foto-upload" type="file" accept="image/*" onChange={(e) => setFoto(e.target.files[0])} hidden />
+                <p className="upload-label-text">Imágenes (mínimo 1)</p>
+                <label htmlFor="foto-upload" className="upload-placeholder">📸 Subir fotos</label>
+                <input id="foto-upload" type="file" accept="image/*" multiple onChange={(e) => setFotos(Array.from(e.target.files))} hidden />
+                
+                <div className="previews-grid">
+                  {previews.map((url, i) => (
+                    <img key={i} src={url} alt="preview" className="mini-preview-img" />
+                  ))}
+                </div>
               </div>
               
-              {feedback.msg && (
-                <div 
-                  className={`log-feedback-tag ${feedback.type}`} 
-                  style={{ margin: '10px 0', textAlign: 'center', display: 'block' }}
-                >
-                  {feedback.msg}
-                </div>
-              )}
-
+              {feedback.msg && <div className={`log-feedback-tag ${feedback.type}`}>{feedback.msg}</div>}
               <button type="submit" className="auth-btn-primary">Publicar propiedad</button>
             </form>
           </div>
