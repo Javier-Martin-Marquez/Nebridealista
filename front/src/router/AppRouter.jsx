@@ -11,6 +11,8 @@ import HouseDetail from "../pages/HouseDetail/HouseDetail";
 import NotFound from "../pages/NotFound/NotFound";
 import CityResults from "../pages/CityResults/CityResults";
 import NeighborhoodResults from "../pages/NeighborhoodResults/NeighborhoodResults";
+import Chat from "../pages/Chat/Chat";
+import Messages from "../pages/Messages/Messages";
 
 function AppRouter() {
   return (
@@ -29,6 +31,8 @@ function AppRouter() {
         <Route path="/busquedas" element={<SaveSearch />} />
         <Route path="/favoritos" element={<Favourite />} />
         <Route path="/vender" element={<Sell />} />
+        <Route path="/chat/:idVivienda/:idVendedor" element={<Chat />} />
+        <Route path="/mensajes" element={<Messages />} />
 
         <Route path='*' element={<NotFound />} />
       </Routes>

@@ -1,0 +1,145 @@
+.filter-container {
+  position: relative;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #000;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.filter-count {
+  background: #E09135;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+/* Panel */
+.filter-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #fdfaf5;
+  border: 1.5px solid #E09135;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  padding: 16px;
+  width: 260px;
+  z-index: 1001;
+}
+
+.filter-section {
+  margin-bottom: 14px;
+}
+
+.filter-section-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a3a2a;
+  margin-bottom: 6px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-row span {
+  color: #999;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+}
+
+.filter-input::-webkit-outer-spin-button,
+.filter-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: #E09135;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #E09135;
+}
+
+/* Botones */
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.filter-clear {
+  padding: 7px 14px;
+  border: none;
+  background: none;
+  color: #E09135;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.filter-clear:hover {
+  text-decoration: underline;
+}
+
+.filter-apply {
+  padding: 7px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #E09135;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.filter-apply:hover {
+  background: #cc7e28;
+}

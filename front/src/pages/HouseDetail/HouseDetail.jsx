@@ -125,10 +125,10 @@ function HouseDetail() {
 
             <div className="tarjeta-contacto">
               <div className="perfil-agente">
-                <div className="avatar">N</div>
+                <div className="avatar">{vivienda.nombre_vendedor?.charAt(0).toUpperCase() || 'V'}</div>
                 <div className="info-agente">
-                  <h4>Nebridealista Real Estate</h4>
-                  <p>Agente especializado</p>
+                  <h4>{vivienda.nombre_vendedor || 'Propietario'}</h4>
+                  <p>Propietario</p>
                 </div>
               </div>
               <div className="linea-fina"></div>
@@ -136,15 +136,15 @@ function HouseDetail() {
                 <div className="item-contacto">
                   <span className="icono">📞</span>
                   <div className="textos">
-                    <p className="etiqueta">Teléfono gratuito</p>
-                    <p className="valor">980 987 987</p>
+                    <p className="etiqueta">Teléfono</p>
+                    <p className="valor">{vivienda.telefono_vendedor || 'No disponible'}</p>
                   </div>
                 </div>
                 <div className="item-contacto">
                   <span className="icono">✉️</span>
                   <div className="textos">
                     <p className="etiqueta">Email de contacto</p>
-                    <p className="valor">info@nebridealista.com</p>
+                    <p className="valor">{vivienda.email_vendedor || 'No disponible'}</p>
                   </div>
                 </div>
                 <div className="item-contacto">
@@ -156,7 +156,19 @@ function HouseDetail() {
                 </div>
               </div>
               <div className="botones-contacto">
-                <button className="boton-negro">Enviar mensaje</button>
+                <button 
+                  className="boton-negro" 
+                  onClick={() => {
+                    if (!idUsuario) {
+                      setFeedback("Necesitas estar logueado para chatear");
+                      setTimeout(() => setFeedback(""), 3000);
+                      return;
+                    }
+                    navigate(`/chat/${vivienda.id_vivienda}/${vivienda.id_anunciante}`);
+                  }}
+                >
+                  Chatear con {vivienda.nombre_vendedor || 'el propietario'}
+                </button>
                 <button className="boton-borde">Llamar ahora</button>
               </div>
             </div>

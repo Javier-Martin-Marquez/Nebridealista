@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../stores/userStore';
 import { useHouseStore } from '../../stores/houseStore';
+import Filter from '../Filter/Filter';
 import './Header.css';
 
 function Header() {
@@ -36,7 +37,9 @@ function Header() {
         <nav className="header-nav">
           <Link to="/favoritos" className="nav-link">Favoritos</Link>
           <Link to="/busquedas" className="nav-link">Búsquedas</Link>
+          <Link to="/mensajes" className="nav-link">Mensajes</Link>
           <Link to="/vender" className="nav-link">Tu anuncio</Link>
+          <Filter />
         </nav>
 
         {/* Sección de Usuario */}

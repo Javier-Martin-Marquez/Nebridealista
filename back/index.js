@@ -2,6 +2,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
+const { Server } = require('socket.io');
 
 // Inicializaciones 
 const app = express();
@@ -17,7 +19,16 @@ app.use(express.json());
 const routes = require('./routes/index');
 app.use(routes);
 
+// Crear servidor HTTP y configurar Socket.io
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: '*' }
+});
+
+// Configurar la lógica del chat
+require('./config/socket')(io);
+
 // Iniciar Servidor
-app.listen(app.get('port'), () => {
+server.listen(app.get('port'), () => {
     console.log('>>> Servidor corriendo en puerto', app.get('port'));
 });
