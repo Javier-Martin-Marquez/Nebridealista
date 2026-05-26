@@ -1,3 +1,15 @@
 *{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* Mensaje cuando los filtros no devuelven resultados */
+.no-results-filter {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b5a4a;
+  font-size: 16px;
+  background: rgba(224, 145, 53, 0.06);
+  border: 2px dashed rgba(224, 145, 53, 0.3);
+  border-radius: 12px;
+  margin: 20px 0;
+}

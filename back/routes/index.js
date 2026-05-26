@@ -11,6 +11,7 @@ const viviendasController = require('../controladores/viviendas-controlador');
 const favoritosController = require('../controladores/favoritos-controlador');
 const anunciosController = require('../controladores/anuncios-controlador');
 const historialController = require('../controladores/historial-controlador');
+const chatController = require('../controladores/chat-controlador');
 
 // RUTAS PÚBLICAS 
 router.get('/', (req, res) => {
@@ -47,5 +48,9 @@ router.post('/historial/busqueda', historialController.guardarBusqueda);
 router.post('/historial/lista', historialController.getHistorial);
 router.post('/favoritos', favoritosController.addFavorite);
 router.post('/favoritos/lista', favoritosController.getFavorites);
+
+// CHAT
+router.post('/chat/mensajes', chatController.getMensajes);
+router.post('/chat/conversaciones', chatController.getConversaciones);
 
 module.exports = router;

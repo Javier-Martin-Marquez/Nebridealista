@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../stores/userStore'; 
 import { useHouseStore } from '../../stores/houseStore';
+import { useFilterStore } from '../../stores/filterStore';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import HouseCard from '../../components/HouseCard/HouseCard';
@@ -54,6 +55,20 @@ function CityResults() {
     if (barrio) navigate(`/${tipo}/${ciudad}/${barrio.toLowerCase()}`);
   };
 
+  // Aplicar filtros del header
+  const metrosMin = useFilterStore(state => state.metrosMin);
+  const metrosMax = useFilterStore(state => state.metrosMax);
+  const habitacionesMin = useFilterStore(state => state.habitacionesMin);
+
+  const viviendasFiltradas = useMemo(() => {
+    return viviendas.filter((v) => {
+      if (metrosMin && v.metros_cuadrados < Number(metrosMin)) return false;
+      if (metrosMax && v.metros_cuadrados > Number(metrosMax)) return false;
+      if (habitacionesMin && v.num_habitaciones < Number(habitacionesMin)) return false;
+      return true;
+    });
+  }, [viviendas, metrosMin, metrosMax, habitacionesMin]);
+
   return (
     <div className="city-results-viewport">
       <Header />
@@ -86,16 +101,22 @@ function CityResults() {
         </section>
 
         <section className="city-cards-stack">
-          {viviendas.map((vivienda) => (
-            <HouseCard 
-              key={vivienda.id_vivienda}
-              vivienda={vivienda}
-              isFavouritePage={favorites.includes(vivienda.id_vivienda)}
-              isSavedPage={saved.includes(vivienda.id_vivienda)}
-              onFavoriteClick={() => manejarFavorito(vivienda.id_vivienda)}
-              onSaveClick={() => manejarGuardar(vivienda.id_vivienda)}
-            />
-          ))}
+          {viviendasFiltradas.length === 0 ? (
+            <div className="no-results-filter">
+              <p>No se encontraron viviendas con los filtros seleccionados.</p>
+            </div>
+          ) : (
+            viviendasFiltradas.map((vivienda) => (
+              <HouseCard 
+                key={vivienda.id_vivienda}
+                vivienda={vivienda}
+                isFavouritePage={favorites.includes(vivienda.id_vivienda)}
+                isSavedPage={saved.includes(vivienda.id_vivienda)}
+                onFavoriteClick={() => manejarFavorito(vivienda.id_vivienda)}
+                onSaveClick={() => manejarGuardar(vivienda.id_vivienda)}
+              />
+            ))
+          )}
         </section>
       </div>
 

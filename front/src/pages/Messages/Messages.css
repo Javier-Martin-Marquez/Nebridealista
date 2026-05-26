@@ -1,0 +1,103 @@
+.mensajes-pagina {
+  background-color: #f5f2eb;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.mensajes-contenedor {
+  width: 100%;
+  max-width: 700px;
+}
+
+.mensajes-titulo {
+  font-size: 1.4rem;
+  color: #2a1f14;
+  margin-bottom: 20px;
+}
+
+.mensajes-vacio {
+  background: white;
+  border-radius: 15px;
+  border: 1.5px solid #e4c4a1;
+  padding: 60px 20px;
+  text-align: center;
+  color: #999;
+}
+
+.mensajes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mensajes-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  border-radius: 15px;
+  border: 1.5px solid #e4c4a1;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mensajes-item:hover {
+  border-color: #E09135;
+  box-shadow: 0 2px 8px rgba(224, 145, 53, 0.15);
+}
+
+.mensajes-avatar {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  background-color: #e4c4a1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.mensajes-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mensajes-cabecera-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.mensajes-nombre {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #2a1f14;
+}
+
+.mensajes-fecha {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.mensajes-vivienda {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #E09135;
+  font-weight: 500;
+}
+
+.mensajes-ultimo {
+  margin: 3px 0 0;
+  font-size: 0.85rem;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

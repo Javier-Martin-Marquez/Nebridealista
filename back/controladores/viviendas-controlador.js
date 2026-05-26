@@ -128,11 +128,13 @@ exports.getViviendaCompraPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
   const sqlVivienda = `
-        SELECT * FROM Vivienda
-        WHERE id_vivienda = ? 
-          AND LOWER(ciudad) = LOWER(?) 
-          AND LOWER(barrio) = LOWER(?)
-          AND tipo_transaccion = 'venta'`;
+        SELECT v.*, u.nombre AS nombre_vendedor, u.email AS email_vendedor, u.telefono AS telefono_vendedor
+        FROM Vivienda v
+        INNER JOIN Usuarios u ON v.id_anunciante = u.id_usuario
+        WHERE v.id_vivienda = ? 
+          AND LOWER(v.ciudad) = LOWER(?) 
+          AND LOWER(v.barrio) = LOWER(?)
+          AND v.tipo_transaccion = 'venta'`;
 
   try {
     const [result] = await db.query(sqlVivienda, [id, ciudad, barrio]);
@@ -160,13 +162,14 @@ exports.getViviendaCompraPorId = async (req, res) => {
 exports.getViviendaAlquilerPorId = async (req, res) => {
   const { ciudad, barrio, id } = req.params;
 
-  // Ajuste para que busque 'alquiler' aunque la ruta sea 'alquilar'
   const sqlVivienda = `
-        SELECT * FROM Vivienda
-        WHERE id_vivienda = ? 
-          AND LOWER(ciudad) = LOWER(?) 
-          AND LOWER(barrio) = LOWER(?)
-          AND tipo_transaccion = 'alquiler'`;
+        SELECT v.*, u.nombre AS nombre_vendedor, u.email AS email_vendedor, u.telefono AS telefono_vendedor
+        FROM Vivienda v
+        INNER JOIN Usuarios u ON v.id_anunciante = u.id_usuario
+        WHERE v.id_vivienda = ? 
+          AND LOWER(v.ciudad) = LOWER(?) 
+          AND LOWER(v.barrio) = LOWER(?)
+          AND v.tipo_transaccion = 'alquiler'`;
 
   try {
     const [result] = await db.query(sqlVivienda, [id, ciudad, barrio]);
